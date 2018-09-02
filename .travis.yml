@@ -1,0 +1,24 @@
+language: r
+sudo: false
+cache: packages
+  
+matrix:
+    include:
+        - os: linux
+          sudo: required
+          r: release
+        - os: linux
+          sudo: required
+          r: oldrel
+        - os: osx
+          r: release
+
+r_github_packages:
+    - r-lib/covr
+
+script:
+    - R CMD build .
+    - R CMD check *tar.gz
+    
+after_success:
+  - Rscript -e 'R.Version();covr::codecov()'
