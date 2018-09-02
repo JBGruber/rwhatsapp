@@ -7,7 +7,8 @@
 rwa_read(txt, tz = NULL, ...)
 }
 \arguments{
-\item{txt}{A txt file of a whatsapp history.}
+\item{txt}{Path to a txt file of a whatsapp history or the history itself as
+character object.}
 
 \item{tz}{A time zone for date conversion. Set NULL or "" for the default
 time zone or a single string with a timezone identifier, see
@@ -23,5 +24,6 @@ The history can be obtained going to the menu in a chat on the whatsapp app,
 choosing "more", then "Export chat".
 }
 \examples{
-df <- rwa_read(system.file("extdata", "sample.txt", package = "rwhatsapp"))
+history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
+df <- rwa_read(history)
 }

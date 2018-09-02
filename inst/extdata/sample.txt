@@ -3,4 +3,5 @@
 12/07/2017, 22:35 - Johannes Gruber: <Media omitted>
 12/07/2017, 22:35 - Johannes Gruber: Fruit bread with cheddar ☺👌🏻
 13/07/2017, 09:12 - Test: It's fun doing text analysis with R
+isn't it?
 13/07/2017, 09:16 - Johannes Gruber: Haha it sure is 😅

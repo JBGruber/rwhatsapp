@@ -16,18 +16,28 @@
 #'   stri_datetime_parse stri_replace_first_fixed stri_replace_last_fixed
 #'   stri_trim_both
 #' @importFrom tibble data_frame
+#' @importFrom utils head
 #'
 #' @examples
 #' history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
 #' df <- rwa_read(history)
 rwa_read <- function(txt, tz = NULL, ...) {
-  if (any(file.exists(txt))) {
-    chat_raw <- stringi::stri_read_lines(txt, ...)
+  if (isTRUE(any(
+    tryCatch(file.exists(txt),
+             error = function(e) {})
+  ))) {
+    if (length(txt) == 1) {
+      chat_raw <- stringi::stri_read_lines(txt, ...)
+    } else {
+      chat_raw <- unlist(lapply(txt, function(t) {
+        stringi::stri_read_lines(t)
+      }))
+    }
   } else if (is.character(txt)) {
     chat_raw <- txt
   } else {
-    stop("Provide either a path to a txt file of a whatsapp history or",
-         "the history itself as character object.")
+    stop("Provide either a path to one or multiple txt files of a whatsapp ",
+         "history or the history itself as character object.")
   }
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stringi::stri_extract_first_regex(str = chat_raw,
@@ -65,6 +75,7 @@ rwa_read <- function(txt, tz = NULL, ...) {
   test <- sapply(formats, function(f) {
     test <- stringi::stri_datetime_parse(str = head(time, n = 1000),
                                          format = f,
+                                         lenient = TRUE,
                                          tz = tz)
     sum(is.na(test))
   })

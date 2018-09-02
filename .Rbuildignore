@@ -1,3 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 Update package.R
+^codecov\.yml$
+.travis.yml

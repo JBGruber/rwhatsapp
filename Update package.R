@@ -58,6 +58,7 @@ system("R CMD Rd2pdf rwhatsapp")
 library("rwhatsapp")
 ?lnt_diff
 
+covr::package_coverage("/home/johannes/Documents/Github/rwhatsapp")
 
 setwd("/home/johannes/Documents/Github/rwhatsapp")
 roxygen2::roxygenise(clean = TRUE)
