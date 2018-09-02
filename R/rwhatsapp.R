@@ -70,7 +70,9 @@ rwa_read <- function(txt, tz = NULL, ...) {
     "dd/MM/yyyy, HH:mm:ss",
     "dd/MM/yyyy, HH:mm",
     "dd-MM-yyyy, HH:mm:ss",
-    "dd-MM-yyyy, HH:mm"
+    "dd-MM-yyyy, HH:mm",
+    "HH:mm:ssa, MM dd",
+    "HH:mma, MM dd"
   )
   test <- sapply(formats, function(f) {
     test <- stringi::stri_datetime_parse(str = head(time, n = 1000),
