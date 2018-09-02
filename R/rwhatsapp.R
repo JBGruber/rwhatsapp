@@ -65,14 +65,20 @@ rwa_read <- function(txt, tz = NULL, ...) {
                                           replacement = c("", ""),
                                           vectorize_all = FALSE)
   formats <- c(
+    "dd.MM.yyyy, hh:mm:ss a",
+    "dd.MM.yyyy, hh:mm a",
+    "dd/MM/yyyy, hh:mm:ss a",
+    "dd/MM/yyyy, hh:mm a",
+    "dd-MM-yyyy, hh:mm:ss a",
+    "dd-MM-yyyy, hh:mm a",
+    "hh:mm:ssa, MM dd",
     "dd.MM.yy, HH:mm:ss",
     "dd.MM.yy, HH:mm",
     "dd/MM/yyyy, HH:mm:ss",
     "dd/MM/yyyy, HH:mm",
     "dd-MM-yyyy, HH:mm:ss",
     "dd-MM-yyyy, HH:mm",
-    "HH:mm:ssa, MM dd",
-    "HH:mma, MM dd"
+    "hh:mma, MM dd"
   )
   test <- sapply(formats, function(f) {
     test <- stringi::stri_datetime_parse(str = head(time, n = 1000),

@@ -28,7 +28,7 @@ test_that("time is converted correctly", {
       "12.07.17, 10:35 PM - Johannes Gruber: Was it good?",
       "13.07.17, 10:36 PM  - R: Yes, it was"
     ), tz = "GMT")$time,
-    structure(c(1499855744.229, 1499942204.229),
+    structure(c(-61614177899.875, -61614091439.875),
               tzone = "GMT",
               class = c("POSIXct", "POSIXt")),
     tolerance = 60 # 60 seconds tolerance
