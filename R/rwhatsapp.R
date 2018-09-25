@@ -30,7 +30,7 @@ rwa_read <- function(txt, tz = NULL, ...) {
       chat_raw <- stringi::stri_read_lines(txt, ...)
     } else {
       chat_raw <- unlist(lapply(txt, function(t) {
-        stringi::stri_read_lines(t)
+        stringi::stri_read_lines(t, ...)
       }))
     }
   } else if (is.character(txt)) {
@@ -42,7 +42,7 @@ rwa_read <- function(txt, tz = NULL, ...) {
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stringi::stri_extract_first_regex(str = chat_raw,
                                             pattern = "[^-]+ - ")
-  if (sum(is.na(time)) == length(time)) {
+  if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stringi::stri_extract_first_regex(str = chat_raw,
                                               pattern = "[^]]+] ")
   }
