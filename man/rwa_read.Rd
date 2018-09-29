@@ -4,7 +4,7 @@
 \alias{rwa_read}
 \title{Read whatsapp history into R}
 \usage{
-rwa_read(txt, tz = NULL, ...)
+rwa_read(txt, tz = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{txt}{Path to a txt file of a whatsapp history or the history itself as
@@ -13,6 +13,9 @@ character object.}
 \item{tz}{A time zone for date conversion. Set NULL or "" for the default
 time zone or a single string with a timezone identifier, see
 \link[stringi]{stri_timezone_list}.}
+
+\item{verbose}{A logical flag indicating whether information should be
+printed to the screen.}
 
 \item{...}{Further arguments passed to \link[stringi]{stri_read_lines}.}
 }

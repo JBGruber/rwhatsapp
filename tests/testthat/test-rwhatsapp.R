@@ -83,13 +83,18 @@ test_that("See if author is converted correctly", {
 
 test_that("reading from file", {
   expect_equal({
-    rwa_read(txt = history, tz = "GMT")
-    }, readRDS("../files/rwa_read.RDS"),
-    tolerance = 60 # 60 seconds tolerance
+    out <- rwa_read(txt = history, tz = "GMT")
+    # weird behaviour of tibble for comparison
+    as.data.frame(out)
+  }, {
+    out <- readRDS("../files/rwa_read.RDS")
+    as.data.frame(out)
+  },
+  tolerance = 60 # 60 seconds tolerance
   )
   expect_equal({
-    rwa_read(txt = c(history, history), tz = "GMT")
-  }, rbind(readRDS("../files/rwa_read.RDS"), readRDS("../files/rwa_read.RDS")),
+    as.data.frame(rwa_read(txt = c(history, history), tz = "GMT"))
+  }, as.data.frame(rbind(readRDS("../files/rwa_read.RDS"), readRDS("../files/rwa_read.RDS"))),
   tolerance = 60 # 60 seconds tolerance
   )
 })

@@ -1,3 +1,9 @@
+# some settings which quiet concerns of R CMD check about ggplot and dplyr pipelines
+if (getRversion() >= "2.15.1")utils::globalVariables(c("emoji",
+                                                       "name",
+                                                       "emoji_name"))
+
+
 #' Read whatsapp history into R
 #'
 #' The history can be obtained going to the menu in a chat on the whatsapp app,
@@ -8,6 +14,8 @@
 #' @param tz A time zone for date conversion. Set NULL or "" for the default
 #'   time zone or a single string with a timezone identifier, see
 #'   \link[stringi]{stri_timezone_list}.
+#' @param verbose A logical flag indicating whether information should be
+#'   printed to the screen.
 #' @param ... Further arguments passed to \link[stringi]{stri_read_lines}.
 #'
 #' @return a tibble
@@ -21,20 +29,30 @@
 #' @examples
 #' history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
 #' df <- rwa_read(history)
-rwa_read <- function(txt, tz = NULL, ...) {
+rwa_read <- function(txt, tz = NULL, verbose = TRUE, ...) {
+  if (verbose) start_time <- Sys.time(); cat("Reading chat history from ")
   if (isTRUE(any(
     tryCatch(file.exists(txt),
              error = function(e) {})
   ))) {
     if (length(txt) == 1) {
       chat_raw <- stringi::stri_read_lines(txt, ...)
+      if (verbose) cat("one log file...\n\t...one log file loaded [",
+                       format( (Sys.time() - start_time), digits = 2, nsmall = 2),
+                       "]\n", sep = "")
     } else {
       chat_raw <- unlist(lapply(txt, function(t) {
         stringi::stri_read_lines(t, ...)
       }))
+      if (verbose) cat(length(txt), " log files...\n\t...files loaded [",
+                       format( (Sys.time() - start_time), digits = 2, nsmall = 2),
+                       "]\n", sep = "")
     }
   } else if (is.character(txt)) {
     chat_raw <- txt
+    if (verbose) cat("character object...\n\t...object loaded [",
+                     format( (Sys.time() - start_time), digits = 2, nsmall = 2),
+                     "]\n", sep = "")
   } else {
     stop("Provide either a path to one or multiple txt files of a whatsapp ",
          "history or the history itself as character object.")
@@ -56,6 +74,11 @@ rwa_read <- function(txt, tz = NULL, ...) {
   }
   chat_raw <- chat_raw[!is.na(time)]
   time <- time[!is.na(time)]
+  if (verbose) cat("\t...timestamps extracted [",
+                   format( (Sys.time() - start_time),
+                           digits = 2, nsmall = 2),
+                   "]\n", sep = "")
+
   chat_raw <- stringi::stri_replace_first_fixed(str = chat_raw,
                                                 pattern = time,
                                                 replacement = "")
@@ -91,6 +114,10 @@ rwa_read <- function(txt, tz = NULL, ...) {
   time <- stringi::stri_datetime_parse(str = time,
                                        format = format,
                                        tz = tz)
+  if (verbose) cat("\t...timestamps converted [",
+                   format( (Sys.time() - start_time),
+                           digits = 2, nsmall = 2),
+                   "]\n", sep = "")
   author <- stringi::stri_extract_first_regex(str = chat_raw,
                                               pattern = "[^:]+: ")
   chat_raw[!is.na(author)] <- stringi::stri_replace_first_fixed(
@@ -101,11 +128,79 @@ rwa_read <- function(txt, tz = NULL, ...) {
   author <- stringi::stri_replace_last_fixed(str = author,
                                              pattern = ": ",
                                              replacement = "")
+  if (verbose) cat("\t...author extracted [",
+                   format( (Sys.time() - start_time),
+                           digits = 2, nsmall = 2),
+                   "]\n", sep = "")
+  tbl <- tibble::data_frame(
+    time = time,
+    author = as.factor(stringi::stri_trim_both(author)),
+    text = chat_raw
+  )
+
+  tbl <- dplyr::bind_cols(tbl, rwa_add_emoji(tbl))
+  if (verbose) cat("\t...emoji extracted [",
+                   format( (Sys.time() - start_time),
+                           digits = 2, nsmall = 2),
+                   "]\n", sep = "")
+
+  if (verbose) cat(
+    nrow(tbl),
+    " messages from ",
+    length(unique(tbl$author)),
+    " authors extracted. ",
+    "Elapsed time: ", format((Sys.time() - start_time), digits = 2, nsmall = 2), "\n", sep = ""
+  )
+
   return(
-    tibble::data_frame(
-      time = time,
-      author = as.factor(stringi::stri_trim_both(author)),
-      text = chat_raw
-    )
+    tbl
   )
 }
+
+
+#' @noRd
+#' @importFrom tidytext unnest_tokens
+#' @importFrom stringi stri_replace_all_regex
+#' @importFrom dplyr left_join group_by summarise select
+rwa_add_emoji <- function(x) {
+  x$id <- seq_along(x$text)
+  x$text <- stringi::stri_replace_all_regex(
+    x$text,
+    "[[:alnum:]]",
+    "x"
+  )
+  out <- tidytext::unnest_tokens(
+    x,
+    output = "emoji",
+    input = "text",
+    token = "characters",
+    format = "text",
+    to_lower = FALSE,
+    drop = FALSE,
+    collapse = FALSE,
+    strip_non_alphanum = FALSE
+  )
+  out <- dplyr::left_join(out, rwhatsapp::emojis, by = "emoji")
+  out$emoji[is.na(out$name)] <- NA
+  out <- dplyr::group_by_(out, "id")
+  out <- dplyr::summarise(
+    out,
+    emoji = list(emoji[!is.na(emoji)]),
+    emoji_name = list(name[!is.na(name)])
+  )
+  out$emoji_count <- sapply(out$emoji, length)
+  return(dplyr::select(out, emoji, emoji_name))
+}
+
+
+#' List of emojis and corresponding descriptions.
+#'
+#' A dataset containing emojis and corresponding descriptions. This is a subset
+#' of the emojis provided by the emo package.
+#'
+#' @format A tibble with 3570 rows and 2 columns
+#' - emoji: character representation of the emoji
+#' - name: name of the emoji
+#' @source \url{https://github.com/hadley/emo/}
+"emojis"
+
