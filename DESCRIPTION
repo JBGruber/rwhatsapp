@@ -10,7 +10,6 @@ Depends:
 License: GPL-3
 Imports:
     dplyr (>= 0.7.6),
-    stats (>= 3.4.0),
     stringi (>= 1.1.7),
     tibble (>= 1.4.0),
     tidytext (>= 0.1.9)
