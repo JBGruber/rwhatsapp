@@ -4,3 +4,5 @@
 Update package.R
 ^codecov\.yml$
 .travis.yml
+README.Rmd
+^\.httr-oauth$

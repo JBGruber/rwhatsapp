@@ -4,7 +4,7 @@
 \alias{rwa_read}
 \title{Read whatsapp history into R}
 \usage{
-rwa_read(txt, tz = NULL, verbose = TRUE, ...)
+rwa_read(txt, tz = NULL, verbose = FALSE, ...)
 }
 \arguments{
 \item{txt}{Path to a txt file of a whatsapp history or the history itself as

@@ -2,3 +2,5 @@
 .RData
 .Rproj.user
 Update package.R
+.httr-oauth
+imgur.key

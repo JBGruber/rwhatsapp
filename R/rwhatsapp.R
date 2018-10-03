@@ -29,8 +29,14 @@ if (getRversion() >= "2.15.1")utils::globalVariables(c("emoji",
 #' @examples
 #' history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
 #' df <- rwa_read(history)
-rwa_read <- function(txt, tz = NULL, verbose = TRUE, ...) {
-  if (verbose) start_time <- Sys.time(); cat("Reading chat history from ")
+rwa_read <- function(txt,
+                     tz = NULL,
+                     verbose = FALSE,
+                     ...) {
+  if (verbose) {
+    start_time <- Sys.time()
+    cat("Reading chat history from ")
+  }
   if (isTRUE(any(
     tryCatch(file.exists(txt),
              error = function(e) {})
@@ -161,7 +167,7 @@ rwa_read <- function(txt, tz = NULL, verbose = TRUE, ...) {
 #' @noRd
 #' @importFrom tidytext unnest_tokens
 #' @importFrom stringi stri_replace_all_regex
-#' @importFrom dplyr left_join group_by summarise select
+#' @importFrom dplyr left_join group_by summarise select ungroup
 rwa_add_emoji <- function(x) {
   x$id <- seq_along(x$text)
   x$text <- stringi::stri_replace_all_regex(
@@ -188,6 +194,7 @@ rwa_add_emoji <- function(x) {
     emoji = list(emoji[!is.na(emoji)]),
     emoji_name = list(name[!is.na(name)])
   )
+  out <- dplyr::ungroup(out)
   out$emoji_count <- sapply(out$emoji, length)
   return(dplyr::select(out, emoji, emoji_name))
 }

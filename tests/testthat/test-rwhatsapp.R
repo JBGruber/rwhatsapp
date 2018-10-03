@@ -85,16 +85,16 @@ test_that("reading from file", {
   expect_equal({
     out <- rwa_read(txt = history, tz = "GMT", encoding = "UTF-8")
     # weird behaviour of tibble for comparison
-    as.data.frame(out)
+    as.data.frame(out)[, 1:3]
   }, {
     out <- readRDS("../files/rwa_read.RDS")
-    as.data.frame(out)
+    as.data.frame(out)[, 1:3]
   },
   tolerance = 60 # 60 seconds tolerance
   )
   expect_equal({
-    as.data.frame(rwa_read(txt = c(history, history), tz = "GMT", encoding = "UTF-8"))
-  }, as.data.frame(rbind(readRDS("../files/rwa_read.RDS"), readRDS("../files/rwa_read.RDS"))),
+    as.data.frame(rwa_read(txt = c(history, history), tz = "GMT", encoding = "UTF-8"))[, 1:3]
+  }, as.data.frame(rbind(readRDS("../files/rwa_read.RDS"), readRDS("../files/rwa_read.RDS")))[, 1:3],
   tolerance = 60 # 60 seconds tolerance
   )
 })
