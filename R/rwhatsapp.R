@@ -188,10 +188,10 @@ rwa_add_emoji <- function(x) {
     "[[:alnum:]]",
     "x"
   )
-  out <- tidytext::unnest_tokens(
+  out <- tidytext::unnest_tokens_(
     x,
-    output = .data$emoji,
-    input = .data$text,
+    output = "emoji",
+    input = "text",
     token = "characters",
     format = "text",
     to_lower = FALSE,
@@ -201,7 +201,7 @@ rwa_add_emoji <- function(x) {
   )
   out <- dplyr::left_join(out, rwhatsapp::emojis, by = "emoji")
   out$emoji[is.na(out$name)] <- NA
-  out <- dplyr::group_by_(out, "id")
+  out <- dplyr::group_by(out, .data$id)
   out <- dplyr::summarise(
     out,
     emoji = list(.data$emoji[!is.na(.data$emoji)]),
