@@ -93,7 +93,7 @@ test_that("reading from file", {
   tolerance = 60 # 60 seconds tolerance
   )
   expect_equal({
-    as.data.frame(rwa_read(txt = c(history, history), tz = "GMT", encoding = "UTF-8"))[, 1:3]
+    as.data.frame(rwa_read(txt = c(history, history), tz = "GMT", encoding = "UTF-8", verbose = TRUE))[, 1:3]
   }, as.data.frame(rbind(readRDS("../files/rwa_read.RDS"), readRDS("../files/rwa_read.RDS")))[, 1:3],
   tolerance = 60 # 60 seconds tolerance
   )

@@ -190,8 +190,8 @@ rwa_add_emoji <- function(x) {
   )
   out <- tidytext::unnest_tokens(
     x,
-    output = "emoji",
-    input = "text",
+    output = .data$emoji,
+    input = .data$text,
     token = "characters",
     format = "text",
     to_lower = FALSE,
