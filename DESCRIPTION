@@ -1,7 +1,7 @@
 Package: rwhatsapp
 Title: Working with whatsapp data
 Version: 0.1.2
-Date: 2018-10-02
+Date: 2018-10-08
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk", 
   role = c("aut", "cre"))
 Description: Working with history files from the popular messenger service whatsapp.
@@ -10,6 +10,7 @@ Depends:
 License: GPL-3
 Imports:
     dplyr (>= 0.7.6),
+    rlang (>= 0.2.2),
     stringi (>= 1.1.7),
     tibble (>= 1.4.0),
     tidytext (>= 0.1.9)

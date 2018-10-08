@@ -1,9 +1,3 @@
-# some settings which quiet concerns of R CMD check about ggplot and dplyr pipelines
-if (getRversion() >= "2.15.1")utils::globalVariables(c("emoji",
-                                                       "name",
-                                                       "emoji_name"))
-
-
 #' Read whatsapp history into R
 #'
 #' The history can be obtained going to the menu in a chat on the whatsapp app,
@@ -39,25 +33,33 @@ rwa_read <- function(txt,
   }
   if (isTRUE(any(
     tryCatch(file.exists(txt),
-             error = function(e) {})
+             error = function(e) {
+
+             })
   ))) {
     if (length(txt) == 1) {
       chat_raw <- stringi::stri_read_lines(txt, ...)
       if (verbose) cat("one log file...\n\t...one log file loaded [",
-                       format( (Sys.time() - start_time), digits = 2, nsmall = 2),
+                       format(
+                         (Sys.time() - start_time), digits = 2, nsmall = 2
+                       ),
                        "]\n", sep = "")
     } else {
       chat_raw <- unlist(lapply(txt, function(t) {
         stringi::stri_read_lines(t, ...)
       }))
       if (verbose) cat(length(txt), " log files...\n\t...files loaded [",
-                       format( (Sys.time() - start_time), digits = 2, nsmall = 2),
+                       format(
+                         (Sys.time() - start_time), digits = 2, nsmall = 2
+                       ),
                        "]\n", sep = "")
     }
   } else if (is.character(txt)) {
     chat_raw <- txt
     if (verbose) cat("character object...\n\t...object loaded [",
-                     format( (Sys.time() - start_time), digits = 2, nsmall = 2),
+                     format(
+                       (Sys.time() - start_time), digits = 2, nsmall = 2
+                     ),
                      "]\n", sep = "")
   } else {
     stop("Provide either a path to one or multiple txt files of a whatsapp ",
@@ -81,8 +83,10 @@ rwa_read <- function(txt,
   chat_raw <- chat_raw[!is.na(time)]
   time <- time[!is.na(time)]
   if (verbose) cat("\t...timestamps extracted [",
-                   format( (Sys.time() - start_time),
-                           digits = 2, nsmall = 2),
+                   format(
+                     (Sys.time() - start_time),
+                     digits = 2, nsmall = 2
+                   ),
                    "]\n", sep = "")
 
   chat_raw <- stringi::stri_replace_first_fixed(str = chat_raw,
@@ -121,8 +125,10 @@ rwa_read <- function(txt,
                                        format = format,
                                        tz = tz)
   if (verbose) cat("\t...timestamps converted [",
-                   format( (Sys.time() - start_time),
-                           digits = 2, nsmall = 2),
+                   format(
+                     (Sys.time() - start_time),
+                     digits = 2, nsmall = 2
+                   ),
                    "]\n", sep = "")
   author <- stringi::stri_extract_first_regex(str = chat_raw,
                                               pattern = "[^:]+: ")
@@ -135,8 +141,10 @@ rwa_read <- function(txt,
                                              pattern = ": ",
                                              replacement = "")
   if (verbose) cat("\t...author extracted [",
-                   format( (Sys.time() - start_time),
-                           digits = 2, nsmall = 2),
+                   format(
+                     (Sys.time() - start_time),
+                     digits = 2, nsmall = 2
+                   ),
                    "]\n", sep = "")
   tbl <- tibble::data_frame(
     time = time,
@@ -146,8 +154,10 @@ rwa_read <- function(txt,
 
   tbl <- dplyr::bind_cols(tbl, rwa_add_emoji(tbl))
   if (verbose) cat("\t...emoji extracted [",
-                   format( (Sys.time() - start_time),
-                           digits = 2, nsmall = 2),
+                   format(
+                     (Sys.time() - start_time),
+                     digits = 2, nsmall = 2
+                   ),
                    "]\n", sep = "")
 
   if (verbose) cat(
@@ -155,7 +165,9 @@ rwa_read <- function(txt,
     " messages from ",
     length(unique(tbl$author)),
     " authors extracted. ",
-    "Elapsed time: ", format((Sys.time() - start_time), digits = 2, nsmall = 2), "\n", sep = ""
+    "Elapsed time: ", format(
+      (Sys.time() - start_time), digits = 2, nsmall = 2
+    ), "\n", sep = ""
   )
 
   return(
@@ -168,6 +180,7 @@ rwa_read <- function(txt,
 #' @importFrom tidytext unnest_tokens
 #' @importFrom stringi stri_replace_all_regex
 #' @importFrom dplyr left_join group_by summarise select ungroup
+#' @importFrom rlang .data
 rwa_add_emoji <- function(x) {
   x$id <- seq_along(x$text)
   x$text <- stringi::stri_replace_all_regex(
@@ -191,12 +204,12 @@ rwa_add_emoji <- function(x) {
   out <- dplyr::group_by_(out, "id")
   out <- dplyr::summarise(
     out,
-    emoji = list(emoji[!is.na(emoji)]),
-    emoji_name = list(name[!is.na(name)])
+    emoji = list(.data$emoji[!is.na(.data$emoji)]),
+    emoji_name = list(.data$name[!is.na(.data$name)])
   )
   out <- dplyr::ungroup(out)
   out$emoji_count <- sapply(out$emoji, length)
-  return(dplyr::select(out, emoji, emoji_name))
+  return(dplyr::select(out, .data$emoji, .data$emoji_name))
 }
 
 
@@ -210,4 +223,3 @@ rwa_add_emoji <- function(x) {
 #' - name: name of the emoji
 #' @source \url{https://github.com/hadley/emo/}
 "emojis"
-

@@ -6,3 +6,4 @@ Update package.R
 .travis.yml
 README.Rmd
 ^\.httr-oauth$
+imgur.key
