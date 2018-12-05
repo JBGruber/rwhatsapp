@@ -8,6 +8,9 @@
 #' @param tz A time zone for date conversion. Set NULL or "" for the default
 #'   time zone or a single string with a timezone identifier, see
 #'   \link[stringi]{stri_timezone_list}.
+#' @param format Most formats are automatically detected. If you encounter
+#'   problems you can provide a custom format here. Refer to
+#'   \link[stringi]{stri_datetime_parse} for guidance.
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen.
 #' @param ... Further arguments passed to \link[stringi]{stri_read_lines}.
@@ -25,6 +28,7 @@
 #' df <- rwa_read(history)
 rwa_read <- function(txt,
                      tz = NULL,
+                     format = NULL,
                      verbose = FALSE,
                      ...) {
   if (verbose) {
@@ -74,12 +78,13 @@ rwa_read <- function(txt,
   }
   if (sum(is.na(time)) == length(time)) {
     time <- stringi::stri_extract_first_regex(str = chat_raw,
-                                              pattern = "^.*\\d+:\\d+:")
+                                              pattern = "^.*\\d+:\\d+")
   }
   for (l in which(is.na(time))) {
     chat_raw[l - 1] <- stringi::stri_paste(chat_raw[l - 1], chat_raw[l],
                                            sep = "\n")
   }
+
   chat_raw <- chat_raw[!is.na(time)]
   time <- time[!is.na(time)]
   if (verbose) cat("\t...timestamps extracted [",
@@ -94,33 +99,51 @@ rwa_read <- function(txt,
                                                 replacement = "")
 
   time <- stringi::stri_replace_all_fixed(str = time,
-                                          pattern = c("[", "]"),
-                                          replacement = c("", ""),
+                                          pattern = c("[", "]", "-"),
+                                          replacement = c("", "",""),
                                           vectorize_all = FALSE)
-  formats <- c(
-    "dd.MM.yyyy, hh:mm:ss a",
-    "dd.MM.yyyy, hh:mm a",
-    "dd/MM/yyyy, hh:mm:ss a",
-    "dd/MM/yyyy, hh:mm a",
-    "dd-MM-yyyy, hh:mm:ss a",
-    "dd-MM-yyyy, hh:mm a",
-    "hh:mm:ssa, MM dd",
-    "dd.MM.yy, HH:mm:ss",
-    "dd.MM.yy, HH:mm",
-    "dd/MM/yyyy, HH:mm:ss",
-    "dd/MM/yyyy, HH:mm",
-    "dd-MM-yyyy, HH:mm:ss",
-    "dd-MM-yyyy, HH:mm",
-    "hh:mma, MM dd"
-  )
-  test <- sapply(formats, function(f) {
-    test <- stringi::stri_datetime_parse(str = head(time, n = 1000),
-                                         format = f,
-                                         lenient = TRUE,
-                                         tz = tz)
-    sum(is.na(test))
-  })
-  format <- names(which.min(test))
+
+  if (is.null(format)) {
+    if (any(stringi::stri_detect_fixed(time, "."))) {
+      formats <- c(
+        "dd.MM.yy, HH:mm:ss",
+        "dd.MM.yy, HH:mm",
+        "dd.MM.yyyy, hh:mm:ss a",
+        "dd.MM.yyyy, hh:mm a"
+      )
+    } else if (any(stringi::stri_detect_fixed(time, "/"))) {
+      formats <- c(
+        "dd/MM/yyyy, hh:mm:ss a",
+        "dd/MM/yyyy, hh:mm a",
+        "dd/MM/yyyy, HH:mm:ss",
+        "dd/MM/yyyy, HH:mm",
+        "MM/dd/yyyy, hh:mm:ss",
+        "MM/dd/yyyy, hh:mm",
+        "MM/dd/yyyy, HH:mm:ss",
+        "MM/dd/yyyy, HH:mm"
+      )
+    } else if (any(stringi::stri_detect_fixed(time, "-"))) {
+      formats <- c(
+        "dd-MM-yyyy, hh:mm:ss a",
+        "dd-MM-yyyy, hh:mm a",
+        "dd-MM-yyyy, HH:mm:ss",
+        "dd-MM-yyyy, HH:mm"
+      )
+    } else {
+      formats <- c(
+        "hh:mma, MM dd"
+      )
+    }
+    test <- sapply(formats, function(f) {
+      test <- stringi::stri_datetime_parse(str = head(time, n = 1000),
+                                           format = f,
+                                           lenient = FALSE,
+                                           tz = tz)
+      sum(is.na(test))
+    })
+    format <- names(which.min(test))
+  }
+
   time <- stringi::stri_datetime_parse(str = time,
                                        format = format,
                                        tz = tz)
