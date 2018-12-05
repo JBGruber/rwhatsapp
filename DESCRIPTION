@@ -4,7 +4,7 @@ Version: 0.1.2
 Date: 2018-12-05
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk", 
   role = c("aut", "cre"))
-Description: Working with history files from the popular messenger service whatsapp.
+Description: Working with history files from the popular messenger service "WhatsApp".
 Depends:
     R (>= 3.4.0)
 License: GPL-3
@@ -16,8 +16,11 @@ Imports:
     tidytext (>= 0.1.9)
 Suggests:
     knitr,
-    testthat
+    testthat,
+    covr,
+    spelling
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 VignetteBuilder: knitr
+Language: en-GB
