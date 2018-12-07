@@ -1,9 +1,9 @@
-#' Read whatsapp history into R
+#' Read WhatsApp history into R
 #'
-#' The history can be obtained going to the menu in a chat on the whatsapp app,
+#' The history can be obtained going to the menu in a chat on the WhatsApp app,
 #' choosing "more", then "Export chat".
 #'
-#' @param txt Path to a txt file of a whatsapp history or the history itself as
+#' @param txt Path to a txt file of a WhatsApp history or the history itself as
 #'   character object.
 #' @param tz A time zone for date conversion. Set NULL or "" for the default
 #'   time zone or a single string with a timezone identifier, see
@@ -17,9 +17,7 @@
 #'
 #' @return a tibble
 #' @export
-#' @importFrom stringi stri_read_lines stri_extract_first_regex stri_paste
-#'   stri_datetime_parse stri_replace_first_fixed stri_replace_last_fixed
-#'   stri_trim_both
+#' @import stringi
 #' @importFrom tibble data_frame
 #' @importFrom utils head
 #'
@@ -66,12 +64,14 @@ rwa_read <- function(txt,
                      ),
                      "]\n", sep = "")
   } else {
-    stop("Provide either a path to one or multiple txt files of a whatsapp ",
+    stop("Provide either a path to one or multiple txt files of a WhatsApp ",
          "history or the history itself as character object.")
   }
   chat_raw <- chat_raw[!chat_raw == ""]
-  time <- stringi::stri_extract_first_regex(str = chat_raw,
-                                            pattern = "[^-]+ - ")
+  time <- stringi::stri_extract_first_regex(
+    str = chat_raw,
+    pattern = "^\\d+-\\d+-\\d+.*-|[^-]+ - "
+  )
   if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stringi::stri_extract_first_regex(str = chat_raw,
                                               pattern = "[^]]+] ")
@@ -98,37 +98,61 @@ rwa_read <- function(txt,
                                                 pattern = time,
                                                 replacement = "")
 
-  time <- stringi::stri_replace_all_fixed(str = time,
-                                          pattern = c("[", "]", "-"),
-                                          replacement = c("", "",""),
-                                          vectorize_all = FALSE)
+  time <- stringi::stri_replace_all_regex(
+    str = time,
+    pattern = c("\\[", "\\]", "-$", "- $"),
+    replacement = c("", "", "", ""),
+    vectorize_all = FALSE
+  )
 
   if (is.null(format)) {
+    formats <- c(
+      "dd.MM.yyyy, hh:mm:ss a",
+      "dd.MM.yyyy, hh:mm a",
+      "dd.MM.yyyy, HH:mm:ss",
+      "dd.MM.yyyy, HH:mm",
+      "MM.dd.yyyy, hh:mm:ss a",
+      "MM.dd.yyyy, hh:mm a",
+      "MM.dd.yyyy, HH:mm:ss",
+      "MM.dd.yyyy, HH:mm"
+    )
     if (any(stringi::stri_detect_fixed(time, "."))) {
-      formats <- c(
-        "dd.MM.yy, HH:mm:ss",
-        "dd.MM.yy, HH:mm",
-        "dd.MM.yyyy, hh:mm:ss a",
-        "dd.MM.yyyy, hh:mm a"
-      )
+      if (sum(stringi::stri_detect_regex(time, "\\d+.\\d+.\\d{2}")) >
+          (length(time) * 0.9)) {
+        formats <- stringi::stri_replace_all_fixed(
+          formats,
+          "yyyy",
+          "yy"
+        )
+      }
     } else if (any(stringi::stri_detect_fixed(time, "/"))) {
-      formats <- c(
-        "dd/MM/yyyy, hh:mm:ss a",
-        "dd/MM/yyyy, hh:mm a",
-        "dd/MM/yyyy, HH:mm:ss",
-        "dd/MM/yyyy, HH:mm",
-        "MM/dd/yyyy, hh:mm:ss",
-        "MM/dd/yyyy, hh:mm",
-        "MM/dd/yyyy, HH:mm:ss",
-        "MM/dd/yyyy, HH:mm"
+      formats <- stringi::stri_replace_all_fixed(
+        formats,
+        ".",
+        "/"
       )
+      if (sum(stringi::stri_detect_regex(time, "\\d+/\\d+/\\d{2}")) >
+          (length(time) * 0.9)) {
+        formats <- stringi::stri_replace_all_fixed(
+          formats,
+          "yyyy",
+          "yy"
+        )
+      }
     } else if (any(stringi::stri_detect_fixed(time, "-"))) {
-      formats <- c(
-        "dd-MM-yyyy, hh:mm:ss a",
-        "dd-MM-yyyy, hh:mm a",
-        "dd-MM-yyyy, HH:mm:ss",
-        "dd-MM-yyyy, HH:mm"
+      formats <- stringi::stri_replace_all_fixed(
+        formats,
+        ".",
+        "-"
       )
+      if (sum(stringi::stri_detect_regex(time, "\\d+-\\d+-\\d{2}")) >
+          (length(time) * 0.9)) {
+        formats <- stringi::stri_replace_all_fixed(
+          formats,
+          "yyyy",
+          "yy"
+        )
+      }
     } else {
       formats <- c(
         "hh:mma, MM dd"
@@ -147,12 +171,19 @@ rwa_read <- function(txt,
   time <- stringi::stri_datetime_parse(str = time,
                                        format = format,
                                        tz = tz)
+
   if (verbose) cat("\t...timestamps converted [",
                    format(
                      (Sys.time() - start_time),
                      digits = 2, nsmall = 2
                    ),
                    "]\n", sep = "")
+
+  if (sum(is.na(time)) > (length(time) / 10)) {
+    warning("Time conversion did not work correctly. Provide a custom format",
+            " or add an issue at www.github.com/JBGruber/rwhatsapp.")
+  }
+
   author <- stringi::stri_extract_first_regex(str = chat_raw,
                                               pattern = "[^:]+: ")
   chat_raw[!is.na(author)] <- stringi::stri_replace_first_fixed(

@@ -2,12 +2,12 @@
 % Please edit documentation in R/rwhatsapp.R
 \name{rwa_read}
 \alias{rwa_read}
-\title{Read whatsapp history into R}
+\title{Read WhatsApp history into R}
 \usage{
 rwa_read(txt, tz = NULL, format = NULL, verbose = FALSE, ...)
 }
 \arguments{
-\item{txt}{Path to a txt file of a whatsapp history or the history itself as
+\item{txt}{Path to a txt file of a WhatsApp history or the history itself as
 character object.}
 
 \item{tz}{A time zone for date conversion. Set NULL or "" for the default
@@ -27,7 +27,7 @@ printed to the screen.}
 a tibble
 }
 \description{
-The history can be obtained going to the menu in a chat on the whatsapp app,
+The history can be obtained going to the menu in a chat on the WhatsApp app,
 choosing "more", then "Export chat".
 }
 \examples{
