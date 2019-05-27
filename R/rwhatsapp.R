@@ -18,7 +18,7 @@
 #' @return a tibble
 #' @export
 #' @import stringi
-#' @importFrom tibble data_frame
+#' @importFrom tibble tibble
 #' @importFrom utils head
 #'
 #' @examples
@@ -200,7 +200,7 @@ rwa_read <- function(txt,
                      digits = 2, nsmall = 2
                    ),
                    "]\n", sep = "")
-  tbl <- tibble::data_frame(
+  tbl <- tibble::tibble(
     time = time,
     author = as.factor(stringi::stri_trim_both(author)),
     text = chat_raw

@@ -451,10 +451,9 @@ test_that("time is converted correctly", {
       "10:35 PM, 07 20 - Johannes Gruber: Was it good?",
       "9:12 AM, 07 20 - R: Yes, it was"
     ), tz = "GMT")$time,
-    structure(c(1532126114.674, 1532077934.674),
-              tzone = "GMT",
-              class = c("POSIXct",
-                        "POSIXt")),
+    as.POSIXct(paste0(format(Sys.Date(), "%Y"),
+                      c("-07-20 22:35:14 GMT", "-07-20 09:12:14 GMT")),
+               tz = "GMT"),
     tolerance = 60
   )
   ##### special separators
@@ -541,7 +540,10 @@ test_that("See if author is converted correctly", {
 
 test_that("reading from file", {
   expect_equal({
-    out <- rwa_read(txt = history, tz = "GMT", encoding = "UTF-8", verbose = TRUE)
+    out <- rwa_read(txt = history,
+                    tz = "GMT",
+                    encoding = "UTF-8",
+                    verbose = TRUE)
     # weird behaviour of tibble for comparison
     as.data.frame(out)[, 1:3]
   }, {
@@ -551,8 +553,12 @@ test_that("reading from file", {
   tolerance = 60
   )
   expect_equal({
-    as.data.frame(rwa_read(txt = c(history, history), tz = "GMT", encoding = "UTF-8", verbose = TRUE))[, 1:3]
-  }, as.data.frame(rbind(readRDS("../files/rwa_read.RDS"), readRDS("../files/rwa_read.RDS")))[, 1:3],
+    as.data.frame(rwa_read(txt = c(history, history),
+                           tz = "GMT",
+                           encoding = "UTF-8",
+                           verbose = TRUE))[, 1:3]
+  }, as.data.frame(rbind(readRDS("../files/rwa_read.RDS"),
+                         readRDS("../files/rwa_read.RDS")))[, 1:3],
   tolerance = 60
   )
 })

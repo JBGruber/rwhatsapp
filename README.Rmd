@@ -67,10 +67,9 @@ chat %>%
   count(day) %>%
   ggplot(aes(x = day, y = n)) +
   geom_bar(stat = "identity") +
-  ylab("") + xlab("")
+  ylab("") + xlab("") +
   ggtitle("Messages per day") +
   theme_bw()
-
 ```
 
 The chat has been going on for a while and on some days there were more than a hundred messages.
@@ -105,7 +104,7 @@ chat %>%
   unnest(emoji) %>%
   count(author, emoji, sort = TRUE) %>%
   group_by(author) %>%
-  top_n(n = 6) %>%
+  top_n(n = 6, n) %>%
   ggplot(aes(x = reorder(emoji, n), y = n, fill = author)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   ylab("") +
@@ -114,7 +113,6 @@ chat %>%
   facet_wrap(~author, ncol = 2, scales = "free_y")  +
   ggtitle("Most often used emojis") +
   theme_bw()
-
 ```
 
 Looks like we have a clear winner: all of us like the :joy: ("face with tears of joy") most.
@@ -131,7 +129,7 @@ chat %>%
                 output = "word") %>%
   count(author, word, sort = TRUE) %>%
   group_by(author) %>%
-  top_n(n = 6) %>%
+  top_n(n = 6, n) %>%
   ggplot(aes(x = reorder(word, n), y = n, fill = author)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   ylab("") +
@@ -169,7 +167,7 @@ chat %>%
   )) %>%
   count(author, word, sort = TRUE) %>%
   group_by(author) %>%
-  top_n(n = 6) %>%
+  top_n(n = 6, n) %>%
   ggplot(aes(x = reorder(word, n), y = n, fill = author)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   ylab("") +
@@ -210,7 +208,7 @@ chat %>%
   bind_tf_idf(term = word, document = author, n = n) %>%
   filter(n > 10) %>%
   group_by(author) %>%
-  top_n(n = 6) %>%
+  top_n(n = 6, tf_idf) %>%
   ggplot(aes(x = reorder(word, n), y = n, fill = author)) +
   geom_bar(stat = "identity", show.legend = FALSE) +
   ylab("") +
