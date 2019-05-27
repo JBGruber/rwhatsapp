@@ -58,7 +58,7 @@ chat
 We write a lot in this group!
 Let's see over how much time we managed to accumulate `r scales::comma(nrow(chat))` messages.
 
-```{r messages_over_time, message=FALSE}
+```{r messages_over_time, message=FALSE, warning=FALSE}
 library("dplyr")
 library("ggplot2")
 library("lubridate")
@@ -251,5 +251,5 @@ chat %>%
   coord_flip()
 ```
 
-Overall, WhatsApp data is just a fun source to play around with text mining methods.
-If you have more serious data, a proper text analysis might also be possible.
+Overall, WhatsApp data is a fun source to play around with text mining methods.
+But if you have more serious data, you can do some proper research, just like with other social media data.
