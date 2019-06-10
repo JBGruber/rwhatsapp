@@ -56,7 +56,7 @@ rwa_read <- function(txt,
                        ),
                        "]\n", sep = "")
     }
-  } else if (is.character(txt)) {
+  } else if (is.character(txt) && length(txt) > 1) {
     chat_raw <- txt
     if (verbose) cat("character object...\n\t...object loaded [",
                      format(
