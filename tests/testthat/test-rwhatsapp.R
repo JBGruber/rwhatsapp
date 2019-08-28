@@ -561,10 +561,21 @@ test_that("reading from file", {
                          readRDS("../files/rwa_read.RDS")))[, 1:3],
   tolerance = 60
   )
+  expect_equal({
+    out <- rwa_read(x = system.file("extdata", "sample.txt", package = "rwhatsapp"),
+                    tz = "GMT",
+                    encoding = "UTF-8",
+                    verbose = TRUE)
+    # weird behaviour of tibble for comparison
+    as.data.frame(out)[, 1:3]
+  }, {
+    out <- readRDS("../files/rwa_read.RDS")
+    as.data.frame(out)[, 1:3]
+  }, tolerance = 60)
 })
 
 
 test_that("warning", {
   expect_error(rwa_read(x = 1),
-               "Provide either a path to one or multiple txt files of a WhatsApp history or the history itself as character object.")
+               "Provide either a path to one or multiple txt or zip files of a WhatsApp history or the history itself as character object.")
 })

@@ -82,7 +82,7 @@ rwa_read <- function(x,
                      ),
                      "]\n", sep = "")
   } else {
-    stop("Provide either a path to one or multiple txt files of a WhatsApp ",
+    stop("Provide either a path to one or multiple txt or zip files of a WhatsApp ",
          "history or the history itself as character object.")
   }
   if (length(zps) > 0) {
