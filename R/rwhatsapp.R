@@ -32,7 +32,9 @@ rwa_read <- function(x,
 
   zps <- grep(".zip$", x, ignore.case = TRUE)
   temp <- NULL
+  src <- NULL
   if (length(zps) > 0) {
+    src <- x[zps]
     x[zps] <- vapply(x[zps], function(x) {
       content <- unzip(x, list = TRUE)
       content <- content[grepl(".txt$", content$Name, ignore.case = TRUE), ]
@@ -53,6 +55,7 @@ rwa_read <- function(x,
   ))) {
     if (length(x) == 1) {
       chat_raw <- stringi::stri_read_lines(x, ...)
+      names(chat_raw) <- rep(x, length(chat_raw))
       if (verbose) cat("one log file...\n\t...one log file loaded [",
                        format(
                          (Sys.time() - start_time), digits = 2, nsmall = 2
@@ -60,7 +63,9 @@ rwa_read <- function(x,
                        "]\n", sep = "")
     } else {
       chat_raw <- unlist(lapply(x, function(t) {
-        stringi::stri_read_lines(t, ...)
+        cr <- stringi::stri_read_lines(t)#, ...)
+        names(cr) <- rep(t, length(cr))
+        return(cr)
       }))
       if (verbose) cat(length(x), " log files...\n\t...files loaded [",
                        format(
@@ -70,6 +75,7 @@ rwa_read <- function(x,
     }
   } else if (is.character(x) && length(x) > 1) {
     chat_raw <- x
+    names(chat_raw) <- rep("text input", length(chat_raw))
     if (verbose) cat("character object...\n\t...object loaded [",
                      format(
                        (Sys.time() - start_time), digits = 2, nsmall = 2
@@ -80,6 +86,7 @@ rwa_read <- function(x,
          "history or the history itself as character object.")
   }
   if (length(zps) > 0) {
+    names(chat_raw) <- stringi::stri_replace_last_fixed(names(chat_raw), x[zps], src)
     unlink(temp, recursive = TRUE)
   }
   chat_raw <- chat_raw[!chat_raw == ""]
@@ -109,6 +116,7 @@ rwa_read <- function(x,
                    ),
                    "]\n", sep = "")
 
+  source <- names(chat_raw)
   chat_raw <- stringi::stri_replace_first_fixed(str = chat_raw,
                                                 pattern = time,
                                                 replacement = "")
@@ -218,7 +226,8 @@ rwa_read <- function(x,
   tbl <- tibble::tibble(
     time = time,
     author = as.factor(stringi::stri_trim_both(author)),
-    text = chat_raw
+    text = chat_raw,
+    source = source
   )
 
   tbl <- dplyr::bind_cols(tbl, rwa_add_emoji(tbl))
