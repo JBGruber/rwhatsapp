@@ -4,7 +4,8 @@ Version: 0.1.4.9000
 Date: 2019-08-28
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk", 
   role = c("aut", "cre"))
-Description: Working with history files from the popular messenger service "WhatsApp".
+Description: A straightforward parsing package which digests history files from
+    the popular messenger service "WhatsApp" in all locales and from all devices.
 Depends:
     R (>= 3.4.0)
 License: GPL-3
