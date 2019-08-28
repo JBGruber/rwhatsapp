@@ -4,11 +4,11 @@
 \alias{rwa_read}
 \title{Read WhatsApp history into R}
 \usage{
-rwa_read(txt, tz = NULL, format = NULL, verbose = FALSE, ...)
+rwa_read(x, tz = NULL, format = NULL, verbose = FALSE, ...)
 }
 \arguments{
-\item{txt}{Path to a txt file of a WhatsApp history or the history itself as
-character object.}
+\item{x}{Path to a txt or zip file of a WhatsApp history or the history
+itself as character object.}
 
 \item{tz}{A time zone for date conversion. Set NULL or "" for the default
 time zone or a single string with a timezone identifier, see

@@ -3,8 +3,8 @@
 #' The history can be obtained going to the menu in a chat on the WhatsApp app,
 #' choosing "more", then "Export chat".
 #'
-#' @param txt Path to a txt file of a WhatsApp history or the history itself as
-#'   character object.
+#' @param x Path to a txt or zip file of a WhatsApp history or the history
+#'   itself as character object.
 #' @param tz A time zone for date conversion. Set NULL or "" for the default
 #'   time zone or a single string with a timezone identifier, see
 #'   \link[stringi]{stri_timezone_list}.
@@ -19,45 +19,57 @@
 #' @export
 #' @import stringi
 #' @importFrom tibble tibble
-#' @importFrom utils head
+#' @importFrom utils head unzip
 #'
 #' @examples
 #' history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
 #' df <- rwa_read(history)
-rwa_read <- function(txt,
+rwa_read <- function(x,
                      tz = NULL,
                      format = NULL,
                      verbose = FALSE,
                      ...) {
+
+  zps <- grep(".zip$", x, ignore.case = TRUE)
+  temp <- NULL
+  if (length(zps) > 0) {
+    x[zps] <- vapply(x[zps], function(x) {
+      content <- unzip(x, list = TRUE)
+      content <- content[grepl(".txt$", content$Name, ignore.case = TRUE), ]
+      temp <- paste0(tempdir(), "/whatsapp")
+      unzip(x, files = content$Name, overwrite = TRUE, exdir	= temp)
+      return(list.files(temp, pattern = content$Name, full.names = TRUE))
+    }, FUN.VALUE = character(1))
+  }
   if (verbose) {
     start_time <- Sys.time()
     cat("Reading chat history from ")
   }
   if (isTRUE(any(
-    tryCatch(file.exists(txt),
+    tryCatch(file.exists(x),
              error = function(e) {
 
              })
   ))) {
-    if (length(txt) == 1) {
-      chat_raw <- stringi::stri_read_lines(txt, ...)
+    if (length(x) == 1) {
+      chat_raw <- stringi::stri_read_lines(x, ...)
       if (verbose) cat("one log file...\n\t...one log file loaded [",
                        format(
                          (Sys.time() - start_time), digits = 2, nsmall = 2
                        ),
                        "]\n", sep = "")
     } else {
-      chat_raw <- unlist(lapply(txt, function(t) {
+      chat_raw <- unlist(lapply(x, function(t) {
         stringi::stri_read_lines(t, ...)
       }))
-      if (verbose) cat(length(txt), " log files...\n\t...files loaded [",
+      if (verbose) cat(length(x), " log files...\n\t...files loaded [",
                        format(
                          (Sys.time() - start_time), digits = 2, nsmall = 2
                        ),
                        "]\n", sep = "")
     }
-  } else if (is.character(txt) && length(txt) > 1) {
-    chat_raw <- txt
+  } else if (is.character(x) && length(x) > 1) {
+    chat_raw <- x
     if (verbose) cat("character object...\n\t...object loaded [",
                      format(
                        (Sys.time() - start_time), digits = 2, nsmall = 2
@@ -66,6 +78,9 @@ rwa_read <- function(txt,
   } else {
     stop("Provide either a path to one or multiple txt files of a WhatsApp ",
          "history or the history itself as character object.")
+  }
+  if (length(zps) > 0) {
+    unlink(temp, recursive = TRUE)
   }
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stringi::stri_extract_first_regex(

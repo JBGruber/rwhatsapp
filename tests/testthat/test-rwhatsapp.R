@@ -10,7 +10,7 @@ test_that("time is converted correctly", {
   # standard
   # dd.MM.yyyy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.2017, 10:35:22 PM - Johannes Gruber: Was it good?",
       "13.07.2017, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -19,7 +19,7 @@ test_that("time is converted correctly", {
   )
   # dd.MM.yyyy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.2017, 10:35 PM - Johannes Gruber: Was it good?",
       "13.07.2017, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -28,7 +28,7 @@ test_that("time is converted correctly", {
   )
   # dd.MM.yyyy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.2017, 22:35:22 - Johannes Gruber: Was it good?",
       "13.07.2017, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -37,7 +37,7 @@ test_that("time is converted correctly", {
   )
   # dd.MM.yyyy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.2017, 22:35 - Johannes Gruber: Was it good?",
       "13.07.2017, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -46,7 +46,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yyyy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.2017, 10:35:22 PM - Johannes Gruber: Was it good?",
       "07.13.2017, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -55,7 +55,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yyyy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.2017, 10:35 PM - Johannes Gruber: Was it good?",
       "07.13.2017, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -64,7 +64,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yyyy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.2017, 22:35:22 - Johannes Gruber: Was it good?",
       "07.13.2017, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -73,7 +73,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yyyy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.2017, 22:35 - Johannes Gruber: Was it good?",
       "07.13.2017, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -83,7 +83,7 @@ test_that("time is converted correctly", {
   ##### two-digit year
   # dd.MM.yy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 10:35:22 PM - Johannes Gruber: Was it good?",
       "13.07.17, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -92,7 +92,7 @@ test_that("time is converted correctly", {
   )
   # dd.MM.yy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 10:35 PM - Johannes Gruber: Was it good?",
       "13.07.17, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -101,7 +101,7 @@ test_that("time is converted correctly", {
   )
   # dd.MM.yy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 22:35:22 - Johannes Gruber: Was it good?",
       "13.07.17, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -110,7 +110,7 @@ test_that("time is converted correctly", {
   )
   # dd.MM.yy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 22:35 - Johannes Gruber: Was it good?",
       "13.07.17, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -119,7 +119,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.17, 10:35:22 PM - Johannes Gruber: Was it good?",
       "07.13.17, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -128,7 +128,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.17, 10:35 PM - Johannes Gruber: Was it good?",
       "07.13.17, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -137,7 +137,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.17, 22:35:22 - Johannes Gruber: Was it good?",
       "07.13.17, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -146,7 +146,7 @@ test_that("time is converted correctly", {
   )
   # MM.dd.yy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07.12.17, 22:35 - Johannes Gruber: Was it good?",
       "07.13.17, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -156,7 +156,7 @@ test_that("time is converted correctly", {
   ##### /
   # dd/MM/yyyy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/2017, 10:35:22 PM - Johannes Gruber: Was it good?",
       "13/07/2017, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -165,7 +165,7 @@ test_that("time is converted correctly", {
   )
   # dd/MM/yyyy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/2017, 10:35 PM - Johannes Gruber: Was it good?",
       "13/07/2017, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -174,7 +174,7 @@ test_that("time is converted correctly", {
   )
   # dd/MM/yyyy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/2017, 22:35:22 - Johannes Gruber: Was it good?",
       "13/07/2017, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -183,7 +183,7 @@ test_that("time is converted correctly", {
   )
   # dd/MM/yyyy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/2017, 22:35 - Johannes Gruber: Was it good?",
       "13/07/2017, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -192,7 +192,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yyyy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/2017, 10:35:22 PM - Johannes Gruber: Was it good?",
       "07/13/2017, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -201,7 +201,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yyyy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/2017, 10:35 PM - Johannes Gruber: Was it good?",
       "07/13/2017, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -210,7 +210,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yyyy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/2017, 22:35:22 - Johannes Gruber: Was it good?",
       "07/13/2017, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -219,7 +219,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yyyy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/2017, 22:35 - Johannes Gruber: Was it good?",
       "07/13/2017, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -229,7 +229,7 @@ test_that("time is converted correctly", {
   ##### / + two-digit year
   # dd/MM/yy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/17, 10:35:22 PM - Johannes Gruber: Was it good?",
       "13/07/17, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -238,7 +238,7 @@ test_that("time is converted correctly", {
   )
   # dd/MM/yy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/17, 10:35 PM - Johannes Gruber: Was it good?",
       "13/07/17, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -247,7 +247,7 @@ test_that("time is converted correctly", {
   )
   # dd/MM/yy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/17, 22:35:22 - Johannes Gruber: Was it good?",
       "13/07/17, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -256,7 +256,7 @@ test_that("time is converted correctly", {
   )
   # dd/MM/yy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12/07/17, 22:35 - Johannes Gruber: Was it good?",
       "13/07/17, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -265,7 +265,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/17, 10:35:22 PM - Johannes Gruber: Was it good?",
       "07/13/17, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -274,7 +274,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/17, 10:35 PM - Johannes Gruber: Was it good?",
       "07/13/17, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -283,7 +283,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/17, 22:35:22 - Johannes Gruber: Was it good?",
       "07/13/17, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -292,7 +292,7 @@ test_that("time is converted correctly", {
   )
   # MM/dd/yy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07/12/17, 22:35 - Johannes Gruber: Was it good?",
       "07/13/17, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -302,7 +302,7 @@ test_that("time is converted correctly", {
   ##### -
   # dd-MM-yyyy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-2017, 10:35:22 PM - Johannes Gruber: Was it good?",
       "13-07-2017, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -311,7 +311,7 @@ test_that("time is converted correctly", {
   )
   # dd-MM-yyyy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-2017, 10:35 PM - Johannes Gruber: Was it good?",
       "13-07-2017, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -320,7 +320,7 @@ test_that("time is converted correctly", {
   )
   # dd-MM-yyyy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-2017, 22:35:22 - Johannes Gruber: Was it good?",
       "13-07-2017, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -329,7 +329,7 @@ test_that("time is converted correctly", {
   )
   # dd-MM-yyyy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-2017, 22:35 - Johannes Gruber: Was it good?",
       "13-07-2017, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -338,7 +338,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yyyy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-2017, 10:35:22 PM - Johannes Gruber: Was it good?",
       "07-13-2017, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -347,7 +347,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yyyy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-2017, 10:35 PM - Johannes Gruber: Was it good?",
       "07-13-2017, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -356,7 +356,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yyyy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-2017, 22:35:22 - Johannes Gruber: Was it good?",
       "07-13-2017, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -365,7 +365,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yyyy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-2017, 22:35 - Johannes Gruber: Was it good?",
       "07-13-2017, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -375,7 +375,7 @@ test_that("time is converted correctly", {
   ##### - + two-digit year
   # dd-MM-yy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-17, 10:35:22 PM - Johannes Gruber: Was it good?",
       "13-07-17, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -384,7 +384,7 @@ test_that("time is converted correctly", {
   )
   # dd-MM-yy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-17, 10:35 PM - Johannes Gruber: Was it good?",
       "13-07-17, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -393,7 +393,7 @@ test_that("time is converted correctly", {
   )
   # dd-MM-yy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-17, 22:35:22 - Johannes Gruber: Was it good?",
       "13-07-17, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -402,7 +402,7 @@ test_that("time is converted correctly", {
   )
   # dd-MM-yy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12-07-17, 22:35 - Johannes Gruber: Was it good?",
       "13-07-17, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -411,7 +411,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yy, hh:mm:ss a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-17, 10:35:22 PM - Johannes Gruber: Was it good?",
       "07-13-17, 09:12:44 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -420,7 +420,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yy, hh:mm a
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-17, 10:35 PM - Johannes Gruber: Was it good?",
       "07-13-17, 09:12 AM - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -429,7 +429,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yy, HH:mm:ss
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-17, 22:35:22 - Johannes Gruber: Was it good?",
       "07-13-17, 09:12:44 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -438,7 +438,7 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yy, HH:mm
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07-12-17, 22:35 - Johannes Gruber: Was it good?",
       "07-13-17, 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -447,7 +447,7 @@ test_that("time is converted correctly", {
   )
   ##### weirdo format
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "10:35 PM, 07 20 - Johannes Gruber: Was it good?",
       "9:12 AM, 07 20 - R: Yes, it was"
     ), tz = "GMT")$time,
@@ -459,7 +459,7 @@ test_that("time is converted correctly", {
   ##### special separators
   # []
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "[12.07.2017, 22:35:22] Johannes Gruber: Was it good?",
       "[13.07.2017, 09:12:44] R: Yes, it was"
     ), tz = "GMT")$time,
@@ -468,7 +468,7 @@ test_that("time is converted correctly", {
   )
   # :
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.2017, 22:35:22: Johannes Gruber: Was it good?",
       "13.07.2017, 09:12:44: R: Yes, it was"
     ), tz = "GMT")$time,
@@ -477,7 +477,7 @@ test_that("time is converted correctly", {
   )
   # : + no-seconds
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.2017, 22:35: Johannes Gruber: Was it good?",
       "13.07.2017, 09:12: R: Yes, it was"
     ), tz = "GMT")$time,
@@ -486,7 +486,7 @@ test_that("time is converted correctly", {
   )
   ##### custom format and warning
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "07,12,2017, 22:35 - Johannes Gruber: Was it good?",
       "07,13,2017, 09:12 - R: Yes, it was"
     ), tz = "GMT", format = "MM,dd,yy, HH:mm")$time,
@@ -494,7 +494,7 @@ test_that("time is converted correctly", {
     tolerance = 60
   )
   expect_warning(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "20 09 17, 16:54 - Johannes Gruber: Was it good?",
       "20 09 17, 16:54 -  R: Yes, it was"
     )),
@@ -504,7 +504,7 @@ test_that("time is converted correctly", {
 
 test_that("See if author is converted correctly", {
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 22:35:22: Johannes Gruber: Was it good?",
       "13.07.17, 09:12:44: R: Yes, it was"
     ))$author,
@@ -512,7 +512,7 @@ test_that("See if author is converted correctly", {
               class = "factor")
   )
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 22:35:22 - Johannes Gruber: Was it good?",
       "13.07.17, 09:12:44 - R: Yes, it was"
     ))$author,
@@ -520,7 +520,7 @@ test_that("See if author is converted correctly", {
               class = "factor")
   )
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "12.07.17, 10:35 PM - Johannes Gruber: Was it good?",
       "13.07.17, 10:36 PM  - R: Yes, it was"
     ))$author,
@@ -528,7 +528,7 @@ test_that("See if author is converted correctly", {
               class = "factor")
   )
   expect_equal(
-    rwa_read(txt = c(
+    rwa_read(x = c(
       "[20.09.17, 16:54:32] Johannes Gruber: Was it good?",
       "[20.09.17, 16:54:43] R: Yes, it was"
     ), verbose = TRUE)$author,
@@ -540,7 +540,7 @@ test_that("See if author is converted correctly", {
 
 test_that("reading from file", {
   expect_equal({
-    out <- rwa_read(txt = history,
+    out <- rwa_read(x = history,
                     tz = "GMT",
                     encoding = "UTF-8",
                     verbose = TRUE)
@@ -553,7 +553,7 @@ test_that("reading from file", {
   tolerance = 60
   )
   expect_equal({
-    as.data.frame(rwa_read(txt = c(history, history),
+    as.data.frame(rwa_read(x = c(history, history),
                            tz = "GMT",
                            encoding = "UTF-8",
                            verbose = TRUE))[, 1:3]
@@ -565,6 +565,6 @@ test_that("reading from file", {
 
 
 test_that("warning", {
-  expect_error(rwa_read(txt = 1),
+  expect_error(rwa_read(x = 1),
                "Provide either a path to one or multiple txt files of a WhatsApp history or the history itself as character object.")
 })
