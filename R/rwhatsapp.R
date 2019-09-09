@@ -44,8 +44,7 @@ rwa_read <- function(x,
     }, FUN.VALUE = character(1))
   }
   if (verbose) {
-    start_time <- Sys.time()
-    cat("Reading chat history from ")
+    start_time <- status("Reading chat history from", appendLF = FALSE, ppfix = "")
   }
   if (isTRUE(any(
     tryCatch(file.exists(x),
@@ -56,31 +55,28 @@ rwa_read <- function(x,
     if (length(x) == 1) {
       chat_raw <- stringi::stri_read_lines(x, ...)
       names(chat_raw) <- rep(x, length(chat_raw))
-      if (verbose) cat("one log file...\n\t...one log file loaded [",
-                       format(
-                         (Sys.time() - start_time), digits = 2, nsmall = 2
-                       ),
-                       "]\n", sep = "")
+      if (verbose) {
+        message(" one log file...")
+        status("one log file loaded ")
+      }
     } else {
       chat_raw <- unlist(lapply(x, function(t) {
         cr <- stringi::stri_read_lines(t)#, ...)
         names(cr) <- rep(t, length(cr))
         return(cr)
       }))
-      if (verbose) cat(length(x), " log files...\n\t...files loaded [",
-                       format(
-                         (Sys.time() - start_time), digits = 2, nsmall = 2
-                       ),
-                       "]\n", sep = "")
+      if (verbose) {
+        message(" ", length(x), " log files...")
+        status("files loaded ")
+      }
     }
   } else if (is.character(x) && length(x) > 1) {
     chat_raw <- x
     names(chat_raw) <- rep("text input", length(chat_raw))
-    if (verbose) cat("character object...\n\t...object loaded [",
-                     format(
-                       (Sys.time() - start_time), digits = 2, nsmall = 2
-                     ),
-                     "]\n", sep = "")
+    if (verbose) {
+      message(" character object...")
+      status("object loaded ")
+    }
   } else {
     stop("Provide either a path to one or multiple txt or zip files of a WhatsApp ",
          "history or the history itself as character object.")
@@ -109,12 +105,7 @@ rwa_read <- function(x,
 
   chat_raw <- chat_raw[!is.na(time)]
   time <- time[!is.na(time)]
-  if (verbose) cat("\t...timestamps extracted [",
-                   format(
-                     (Sys.time() - start_time),
-                     digits = 2, nsmall = 2
-                   ),
-                   "]\n", sep = "")
+  if (verbose) status("timestamps extracted")
 
   source <- names(chat_raw)
   chat_raw <- stringi::stri_replace_first_fixed(str = chat_raw,
@@ -195,12 +186,7 @@ rwa_read <- function(x,
                                        format = format,
                                        tz = tz)
 
-  if (verbose) cat("\t...timestamps converted [",
-                   format(
-                     (Sys.time() - start_time),
-                     digits = 2, nsmall = 2
-                   ),
-                   "]\n", sep = "")
+  if (verbose) status("timestamps converted")
 
   if (sum(is.na(time)) > (length(time) / 10)) {
     warning("Time conversion did not work correctly. Provide a custom format",
@@ -217,12 +203,9 @@ rwa_read <- function(x,
   author <- stringi::stri_replace_last_fixed(str = author,
                                              pattern = ": ",
                                              replacement = "")
-  if (verbose) cat("\t...author extracted [",
-                   format(
-                     (Sys.time() - start_time),
-                     digits = 2, nsmall = 2
-                   ),
-                   "]\n", sep = "")
+
+  if (verbose) status("author extracted")
+
   tbl <- tibble::tibble(
     time = time,
     author = as.factor(stringi::stri_trim_both(author)),
@@ -231,26 +214,18 @@ rwa_read <- function(x,
   )
 
   tbl <- dplyr::bind_cols(tbl, rwa_add_emoji(tbl))
-  if (verbose) cat("\t...emoji extracted [",
-                   format(
-                     (Sys.time() - start_time),
-                     digits = 2, nsmall = 2
-                   ),
-                   "]\n", sep = "")
 
-  if (verbose) cat(
-    nrow(tbl),
-    " messages from ",
-    length(unique(tbl$author)),
-    " authors extracted. ",
-    "Elapsed time: ", format(
-      (Sys.time() - start_time), digits = 2, nsmall = 2
-    ), "\n", sep = ""
-  )
+  if (verbose){
+    status("emoji extracted")
+    status(nrow(tbl),
+           " messages from ",
+           length(unique(tbl$author)),
+           " authors extracted. ",
+           "Elapsed time:",
+           ppfix = "", indent = "")
+  }
 
-  return(
-    tbl
-  )
+  return(tbl)
 }
 
 
@@ -288,6 +263,25 @@ rwa_add_emoji <- function(x) {
   out <- dplyr::ungroup(out)
   out$emoji_count <- sapply(out$emoji, length)
   return(dplyr::select(out, .data$emoji, .data$emoji_name))
+}
+
+
+# creates status message and exports start_time if not in parent environment yet
+status <- function(..., sep = "", appendLF = TRUE, ppfix = "...", indent = "\t") {
+
+  if (exists("start_time", envir = parent.frame())) {
+    start_time <- mget("start_time", envir = parent.frame())[[1]]
+    diff <- format((Sys.time() - start_time), digits = 2, nsmall = 2)
+    message(paste(indent, ppfix, ..., " [", diff, "]", sep = sep), appendLF = appendLF)
+  } else {
+    export <- Sys.time()
+    start_time <- export
+    message(paste(..., ppfix, sep = sep), appendLF = appendLF)
+  }
+
+  if (exists("export")) {
+    return(export)
+  }
 }
 
 

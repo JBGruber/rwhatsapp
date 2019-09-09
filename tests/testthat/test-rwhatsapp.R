@@ -574,6 +574,14 @@ test_that("reading from file", {
   }, tolerance = 60)
 })
 
+test_that("status", {
+  expect_message(rwhatsapp:::status("test"), "test")
+  expect_s3_class(rwhatsapp:::status("test"), "POSIXct")
+  expect_message({
+    start_time <- Sys.time()
+    rwhatsapp:::status("test2")
+  }, regexp = "	...test2 \\[\\d+.+")
+})
 
 test_that("warning", {
   expect_error(rwa_read(x = 1),
