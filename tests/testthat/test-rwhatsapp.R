@@ -572,6 +572,23 @@ test_that("reading from file", {
     out <- readRDS("../files/rwa_read.RDS")
     as.data.frame(out)[, 1:3]
   }, tolerance = 60)
+  expect_equal({
+    dir <- paste0(tempdir(), "/test/")
+    dir.create(dir)
+    file.copy(system.file("extdata", "sample.txt", package = "rwhatsapp"),
+              dir)
+    zip(paste0(dir, "test.zip"), paste0(dir, "sample.txt"), flags = "-jr9X")
+    out <- rwa_read(x = paste0(dir, "test.zip"),
+                    tz = "GMT",
+                    encoding = "UTF-8",
+                    verbose = TRUE)
+    unlink(dir, recursive = TRUE)
+    # weird behaviour of tibble for comparison
+    as.data.frame(out)[, 1:3]
+  }, {
+    out <- readRDS("../files/rwa_read.RDS")
+    as.data.frame(out)[, 1:3]
+  }, tolerance = 60)
 })
 
 test_that("status", {
