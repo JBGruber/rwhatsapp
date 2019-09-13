@@ -251,5 +251,5 @@ chat %>%
   coord_flip()
 ```
 
-Overall, WhatsApp data is a fun source to play around with text mining methods.
-But if you have more serious data, you can do some proper research, just like with other social media data.
+Overall, WhatsApp data is just a fun source to play around with text mining methods.
+But if you have more serious data, a proper text analysis is also possible, just like with other social media data.

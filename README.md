@@ -53,18 +53,22 @@ chat <- rwa_read(history)
 chat
 ```
 
-    ## # A tibble: 9 x 5
-    ##   time                author    text                      emoji  emoji_name
-    ##   <dttm>              <fct>     <chr>                     <list> <list>    
-    ## 1 2017-07-12 22:35:54 <NA>      Messages to this group a… <chr … <chr [0]> 
-    ## 2 2017-07-12 22:35:54 <NA>      "You created group \"Tes… <chr … <chr [0]> 
-    ## 3 2017-07-12 22:35:54 Johannes… <Media omitted>           <chr … <chr [0]> 
-    ## 4 2017-07-12 22:35:54 Johannes… Fruit bread with cheddar… <chr … <chr [2]> 
-    ## 5 2017-07-13 09:12:54 Test      "It's fun doing text ana… <chr … <chr [0]> 
-    ## 6 2017-07-13 09:16:54 Johannes… Haha it sure is 😅        <chr … <chr [1]> 
-    ## 7 2018-09-28 13:27:54 Johannes… Did you know there is an… <chr … <chr [0]> 
-    ## 8 2018-09-28 13:28:54 Johannes… 😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉😌😍😘😗😙😚😋😛😝😜… <chr … <chr [242…
-    ## 9 2018-09-28 13:30:54 Johannes… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍‍♀🙍‍♂💇‍♀💇‍…         <chr … <chr [87]>
+    ## # A tibble: 9 x 6
+    ##   time                author   text          source        emoji emoji_name
+    ##   <dttm>              <fct>    <chr>         <chr>         <lis> <list>    
+    ## 1 2017-07-12 22:35:57 <NA>     Messages to … /home/johann… <chr… <chr [0]> 
+    ## 2 2017-07-12 22:35:57 <NA>     "You created… /home/johann… <chr… <chr [0]> 
+    ## 3 2017-07-12 22:35:57 Johanne… <Media omitt… /home/johann… <chr… <chr [0]> 
+    ## 4 2017-07-12 22:35:57 Johanne… Fruit bread … /home/johann… <chr… <chr [2]> 
+    ## 5 2017-07-13 09:12:57 Test     "It's fun do… /home/johann… <chr… <chr [0]> 
+    ## 6 2017-07-13 09:16:57 Johanne… Haha it sure… /home/johann… <chr… <chr [1]> 
+    ## 7 2018-09-28 13:27:57 Johanne… Did you know… /home/johann… <chr… <chr [0]> 
+    ## 8 2018-09-28 13:28:57 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂… /home/johann… <chr… <chr [242…
+    ## 9 2018-09-28 13:30:57 Johanne… 🤷
+♀🤷🏻
+♂🙎
+♀🙎
+…     /home/johann… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
@@ -75,19 +79,19 @@ chat <- rwa_read("/home/johannes/WhatsApp Chat.txt")
 chat
 ```
 
-    ## # A tibble: 16,816 x 5
-    ##    time                author    text                     emoji  emoji_name
-    ##    <dttm>              <fct>     <chr>                    <list> <list>    
-    ##  1 2015-12-10 19:57:54 Artur Ku… <Media omitted>          <chr … <chr [0]> 
-    ##  2 2015-12-10 22:31:54 Erika Ils 😂😂😂😂😂😂             <chr … <chr [6]> 
-    ##  3 2015-12-11 02:13:54 Alexandr… 🙈                       <chr … <chr [1]> 
-    ##  4 2015-12-11 02:23:54 Johannes… 😂                       <chr … <chr [1]> 
-    ##  5 2015-12-11 02:24:54 Johannes… Die Petitionen Trump di… <chr … <chr [1]> 
-    ##  6 2015-12-11 03:51:54 Erika Ils Läääuft                  <chr … <chr [0]> 
-    ##  7 2015-12-12 07:49:54 Johannes… <Media omitted>          <chr … <chr [0]> 
-    ##  8 2015-12-12 07:53:54 Erika Ils was macht ihr huete?     <chr … <chr [0]> 
-    ##  9 2015-12-12 07:55:54 Johannes… Alex arbeitet weil sie … <chr … <chr [0]> 
-    ## 10 2015-12-12 07:55:54 Johannes… und ich spiele auf mein… <chr … <chr [0]> 
+    ## # A tibble: 16,816 x 6
+    ##    time                author   text             source    emoji emoji_name
+    ##    <dttm>              <fct>    <chr>            <chr>     <lis> <list>    
+    ##  1 2015-12-10 19:57:57 Artur K… <Media omitted>  /home/jo… <chr… <chr [0]> 
+    ##  2 2015-12-10 22:31:57 Erika I… 😂😂😂😂😂😂     /home/jo… <chr… <chr [6]> 
+    ##  3 2015-12-11 02:13:57 Alexand… 🙈               /home/jo… <chr… <chr [1]> 
+    ##  4 2015-12-11 02:23:57 Johanne… 😂               /home/jo… <chr… <chr [1]> 
+    ##  5 2015-12-11 02:24:57 Johanne… Die Petitionen … /home/jo… <chr… <chr [1]> 
+    ##  6 2015-12-11 03:51:57 Erika I… Läääuft          /home/jo… <chr… <chr [0]> 
+    ##  7 2015-12-12 07:49:57 Johanne… <Media omitted>  /home/jo… <chr… <chr [0]> 
+    ##  8 2015-12-12 07:53:57 Erika I… was macht ihr h… /home/jo… <chr… <chr [0]> 
+    ##  9 2015-12-12 07:55:57 Johanne… Alex arbeitet w… /home/jo… <chr… <chr [0]> 
+    ## 10 2015-12-12 07:55:57 Johanne… und ich spiele … /home/jo… <chr… <chr [0]> 
     ## # … with 16,806 more rows
 
 We write a lot in this group\! Let’s see over how much time we managed
@@ -107,7 +111,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/ONW927b.png)<!-- -->
+![](https://i.imgur.com/KaRh9rj.png)<!-- -->
 
 The chat has been going on for a while and on some days there were more
 than a hundred messages. Who’s responsible for all of this?
@@ -124,7 +128,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/MGbIdSf.png)<!-- -->
+![](https://i.imgur.com/tgaPqbN.png)<!-- -->
 
 Looks like we contributed more or less the same number of messages, with
 Erika slightly leading the field.
@@ -149,7 +153,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/6bTX4u5.png)<!-- -->
+![](https://i.imgur.com/KwVuOYs.png)<!-- -->
 
 Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
@@ -178,7 +182,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/vOL4pf1.png)<!-- -->
+![](https://i.imgur.com/xR8j8K1.png)<!-- -->
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -221,7 +225,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/KfRKCCd.png)<!-- -->
+![](https://i.imgur.com/NTtE8wq.png)<!-- -->
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -269,7 +273,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/PPQ1ru8.png)<!-- -->
+![](https://i.imgur.com/z4v0ULX.png)<!-- -->
 
 Another common text mining tool is to calculate lexical diversity.
 Basically, you just check how many unique words are used by an author.
@@ -303,8 +307,8 @@ chat %>%
   coord_flip()
 ```
 
-![](https://i.imgur.com/m5p3SGP.png)<!-- -->
+![](https://i.imgur.com/e2xL4oa.png)<!-- -->
 
 Overall, WhatsApp data is just a fun source to play around with text
-mining methods. If you have more serious data, a proper text analysis
-might also be possible.
+mining methods. But if you have more serious data, a proper text analysis
+is also be possible, just like with other social media data.
