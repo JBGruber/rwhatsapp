@@ -1,7 +1,7 @@
 Package: rwhatsapp
 Title: Working with WhatsApp data
-Version: 0.1.4.9000
-Date: 2019-09-09
+Version: 0.1.5.9000
+Date: 2019-09-14
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk", 
   role = c("aut", "cre"))
 Description: A straightforward parsing package which digests history files from

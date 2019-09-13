@@ -30,61 +30,14 @@ rwa_read <- function(x,
                      verbose = FALSE,
                      ...) {
 
-  zps <- grep(".zip$", x, ignore.case = TRUE)
-  temp <- NULL
-  src <- NULL
-  if (length(zps) > 0) {
-    src <- x[zps]
-    x[zps] <- vapply(x[zps], function(x) {
-      content <- unzip(x, list = TRUE)
-      content <- content[grepl(".txt$", content$Name, ignore.case = TRUE), ]
-      temp <- paste0(tempdir(), "/whatsapp")
-      unzip(x, files = content$Name, overwrite = TRUE, exdir	= temp)
-      return(list.files(temp, pattern = content$Name, full.names = TRUE))
-    }, FUN.VALUE = character(1))
-  }
   if (verbose) {
     start_time <- status("Reading chat history from", appendLF = FALSE, ppfix = "")
-  }
-  if (isTRUE(any(
-    tryCatch(file.exists(x),
-             error = function(e) {
-
-             })
-  ))) {
-    if (length(x) == 1) {
-      chat_raw <- stringi::stri_read_lines(x, ...)
-      names(chat_raw) <- rep(x, length(chat_raw))
-      if (verbose) {
-        message(" one log file...")
-        status("one log file loaded ")
-      }
-    } else {
-      chat_raw <- unlist(lapply(x, function(t) {
-        cr <- stringi::stri_read_lines(t)#, ...)
-        names(cr) <- rep(t, length(cr))
-        return(cr)
-      }))
-      if (verbose) {
-        message(" ", length(x), " log files...")
-        status("files loaded ")
-      }
-    }
-  } else if (is.character(x) && length(x) > 1) {
-    chat_raw <- x
-    names(chat_raw) <- rep("text input", length(chat_raw))
-    if (verbose) {
-      message(" character object...")
-      status("object loaded ")
-    }
   } else {
-    stop("Provide either a path to one or multiple txt or zip files of a WhatsApp ",
-         "history or the history itself as character object.")
+    start_time <- NULL
   }
-  if (length(zps) > 0) {
-    names(chat_raw) <- stringi::stri_replace_last_fixed(names(chat_raw), x[zps], src)
-    unlink(temp, recursive = TRUE)
-  }
+
+  chat_raw <- rwa_read_lines(x, verbose, start_time, ...)
+
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stringi::stri_extract_first_regex(
     str = chat_raw,
@@ -119,6 +72,111 @@ rwa_read <- function(x,
     vectorize_all = FALSE
   )
 
+  time <- rwa_parse_time(time, format, tz)
+
+  if (verbose) status("timestamps converted")
+
+  if (sum(is.na(time)) > (length(time) / 10)) {
+    warning("Time conversion did not work correctly. Provide a custom format",
+            " or add an issue at www.github.com/JBGruber/rwhatsapp.")
+  }
+
+  author <- stringi::stri_extract_first_regex(str = chat_raw,
+                                              pattern = "[^:]+: ")
+  chat_raw[!is.na(author)] <- stringi::stri_replace_first_fixed(
+    str = chat_raw[!is.na(author)],
+    pattern = author[!is.na(author)],
+    replacement = ""
+  )
+  author <- stringi::stri_replace_last_fixed(str = author,
+                                             pattern = ": ",
+                                             replacement = "")
+
+  if (verbose) status("author extracted")
+
+  tbl <- tibble::tibble(
+    time = time,
+    author = as.factor(stringi::stri_trim_both(author)),
+    text = chat_raw,
+    source = source
+  )
+
+  tbl <- dplyr::bind_cols(tbl, rwa_add_emoji(tbl))
+
+  if (verbose){
+    status("emoji extracted")
+    status(nrow(tbl),
+           " messages from ",
+           length(unique(tbl$author)),
+           " authors extracted. ",
+           "Elapsed time:",
+           ppfix = "", indent = "")
+  }
+
+  return(tbl)
+}
+
+#' Read in files from supported formats
+#'
+#' @inherit rwa_read
+rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
+  # get files
+  zps <- grep(".zip$", x, ignore.case = TRUE)
+  temp <- NULL
+  src <- NULL
+  if (length(zps) > 0) {
+    src <- x[zps]
+    x[zps] <- vapply(x[zps], function(x) {
+      content <- unzip(x, list = TRUE)
+      content <- content[grepl(".txt$", content$Name, ignore.case = TRUE), ]
+      temp <- paste0(tempdir(), "/whatsapp")
+      unzip(x, files = content$Name, overwrite = TRUE, exdir	= temp)
+      return(list.files(temp, pattern = content$Name, full.names = TRUE))
+    }, FUN.VALUE = character(1))
+  }
+
+  if (f_exist_s(x)) {
+    if (length(x) == 1) {
+      chat_raw <- stringi::stri_read_lines(x, ...)
+      names(chat_raw) <- rep(x, length(chat_raw))
+      if (verbose) {
+        message(" one log file...")
+        status("one log file loaded")
+      }
+    } else {
+      chat_raw <- unlist(lapply(x, function(t) {
+        cr <- stringi::stri_read_lines(t)#, ...)
+        names(cr) <- rep(t, length(cr))
+        return(cr)
+      }))
+      if (verbose) {
+        message(" ", length(x), " log files...")
+        status("files loaded ")
+      }
+    }
+  } else if (is.character(x) && length(x) > 1) {
+    chat_raw <- x
+    names(chat_raw) <- rep("text input", length(chat_raw))
+    if (verbose) {
+      message(" character object...")
+      status("object loaded ")
+    }
+  } else {
+    stop("Provide either a path to one or multiple txt or zip files of a WhatsApp ",
+         "history or the history itself as character object.")
+  }
+  if (length(zps) > 0) {
+    names(chat_raw) <- stringi::stri_replace_last_fixed(names(chat_raw), x[zps], src)
+    unlink(temp, recursive = TRUE)
+  }
+  return(chat_raw)
+}
+
+
+#' Parse time
+#'
+#' @inherit rwa_read
+rwa_parse_time <- function(time, format, tz) {
   if (is.null(format)) {
     formats <- c(
       "dd.MM.yyyy, hh:mm:ss a",
@@ -186,46 +244,7 @@ rwa_read <- function(x,
                                        format = format,
                                        tz = tz)
 
-  if (verbose) status("timestamps converted")
-
-  if (sum(is.na(time)) > (length(time) / 10)) {
-    warning("Time conversion did not work correctly. Provide a custom format",
-            " or add an issue at www.github.com/JBGruber/rwhatsapp.")
-  }
-
-  author <- stringi::stri_extract_first_regex(str = chat_raw,
-                                              pattern = "[^:]+: ")
-  chat_raw[!is.na(author)] <- stringi::stri_replace_first_fixed(
-    str = chat_raw[!is.na(author)],
-    pattern = author[!is.na(author)],
-    replacement = ""
-  )
-  author <- stringi::stri_replace_last_fixed(str = author,
-                                             pattern = ": ",
-                                             replacement = "")
-
-  if (verbose) status("author extracted")
-
-  tbl <- tibble::tibble(
-    time = time,
-    author = as.factor(stringi::stri_trim_both(author)),
-    text = chat_raw,
-    source = source
-  )
-
-  tbl <- dplyr::bind_cols(tbl, rwa_add_emoji(tbl))
-
-  if (verbose){
-    status("emoji extracted")
-    status(nrow(tbl),
-           " messages from ",
-           length(unique(tbl$author)),
-           " authors extracted. ",
-           "Elapsed time:",
-           ppfix = "", indent = "")
-  }
-
-  return(tbl)
+  return(time)
 }
 
 
@@ -282,6 +301,17 @@ status <- function(..., sep = "", appendLF = TRUE, ppfix = "...", indent = "\t")
   if (exists("export")) {
     return(export)
   }
+}
+
+
+# safely test if files exist
+f_exist_s <- function(x) {
+  isTRUE(any(
+    tryCatch(file.exists(x),
+             error = function(e) {
+
+             })
+  ))
 }
 
 
