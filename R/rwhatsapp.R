@@ -31,7 +31,8 @@ rwa_read <- function(x,
                      ...) {
 
   if (verbose) {
-    start_time <- status("Reading chat history from", appendLF = FALSE, ppfix = "")
+    start_time <- status("Reading chat history from",
+                         appendLF = FALSE, ppfix = "")
   } else {
     start_time <- NULL
   }
@@ -39,21 +40,21 @@ rwa_read <- function(x,
   chat_raw <- rwa_read_lines(x, verbose, start_time, ...)
 
   chat_raw <- chat_raw[!chat_raw == ""]
-  time <- stringi::stri_extract_first_regex(
+  time <- stri_extract_first_regex(
     str = chat_raw,
     pattern = "^\\d+-\\d+-\\d+.*-|[^-]+ - "
   )
   if (sum(is.na(time)) > (length(time) / 2)) {
-    time <- stringi::stri_extract_first_regex(str = chat_raw,
-                                              pattern = "[^]]+] ")
+    time <- stri_extract_first_regex(str = chat_raw,
+                                     pattern = "[^]]+] ")
   }
   if (sum(is.na(time)) == length(time)) {
-    time <- stringi::stri_extract_first_regex(str = chat_raw,
-                                              pattern = "^.*\\d+:\\d+")
+    time <- stri_extract_first_regex(str = chat_raw,
+                                     pattern = "^.*\\d+:\\d+")
   }
   for (l in which(is.na(time))) {
-    chat_raw[l - 1] <- stringi::stri_paste(chat_raw[l - 1], chat_raw[l],
-                                           sep = "\n")
+    chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l],
+                                  sep = "\n")
   }
 
   chat_raw <- chat_raw[!is.na(time)]
@@ -61,11 +62,11 @@ rwa_read <- function(x,
   if (verbose) status("timestamps extracted")
 
   source <- names(chat_raw)
-  chat_raw <- stringi::stri_replace_first_fixed(str = chat_raw,
-                                                pattern = time,
-                                                replacement = "")
+  chat_raw <- stri_replace_first_fixed(str = chat_raw,
+                                       pattern = time,
+                                       replacement = "")
 
-  time <- stringi::stri_replace_all_regex(
+  time <- stri_replace_all_regex(
     str = time,
     pattern = c("\\[", "\\]", "-$", "- $"),
     replacement = c("", "", "", ""),
@@ -81,22 +82,22 @@ rwa_read <- function(x,
             " or add an issue at www.github.com/JBGruber/rwhatsapp.")
   }
 
-  author <- stringi::stri_extract_first_regex(str = chat_raw,
-                                              pattern = "[^:]+: ")
-  chat_raw[!is.na(author)] <- stringi::stri_replace_first_fixed(
+  author <- stri_extract_first_regex(str = chat_raw,
+                                     pattern = "[^:]+: ")
+  chat_raw[!is.na(author)] <- stri_replace_first_fixed(
     str = chat_raw[!is.na(author)],
     pattern = author[!is.na(author)],
     replacement = ""
   )
-  author <- stringi::stri_replace_last_fixed(str = author,
-                                             pattern = ": ",
-                                             replacement = "")
+  author <- stri_replace_last_fixed(str = author,
+                                    pattern = ": ",
+                                    replacement = "")
 
   if (verbose) status("author extracted")
 
   tbl <- tibble::tibble(
     time = time,
-    author = as.factor(stringi::stri_trim_both(author)),
+    author = as.factor(stri_trim_both(author)),
     text = chat_raw,
     source = source
   )
@@ -118,7 +119,10 @@ rwa_read <- function(x,
 
 #' Read in files from supported formats
 #'
+#' @param start_time For verbose messages.
 #' @inherit rwa_read
+#' @import stringi
+#' @noRd
 rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
   # get files
   zps <- grep(".zip$", x, ignore.case = TRUE)
@@ -126,18 +130,18 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
   src <- NULL
   if (length(zps) > 0) {
     src <- x[zps]
-    x[zps] <- vapply(x[zps], function(x) {
+    x[zps] <- vapply(x[zps], FUN.VALUE = character(1), FUN = function(x) {
       content <- unzip(x, list = TRUE)
       content <- content[grepl(".txt$", content$Name, ignore.case = TRUE), ]
       temp <- paste0(tempdir(), "/whatsapp")
-      unzip(x, files = content$Name, overwrite = TRUE, exdir	= temp)
+      unzip(x, files = content$Name, overwrite = TRUE, exdir = temp)
       return(list.files(temp, pattern = content$Name, full.names = TRUE))
-    }, FUN.VALUE = character(1))
+    })
   }
 
   if (f_exist_s(x)) {
     if (length(x) == 1) {
-      chat_raw <- stringi::stri_read_lines(x, ...)
+      chat_raw <- stri_read_lines(x, ...)
       names(chat_raw) <- rep(x, length(chat_raw))
       if (verbose) {
         message(" one log file...")
@@ -145,7 +149,7 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
       }
     } else {
       chat_raw <- unlist(lapply(x, function(t) {
-        cr <- stringi::stri_read_lines(t)#, ...)
+        cr <- stri_read_lines(t)#, ...)
         names(cr) <- rep(t, length(cr))
         return(cr)
       }))
@@ -162,11 +166,11 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
       status("object loaded ")
     }
   } else {
-    stop("Provide either a path to one or multiple txt or zip files of a WhatsApp ",
-         "history or the history itself as character object.")
+    stop("Provide either a path to one or multiple txt or zip files of a ",
+         "WhatsApp history or the history itself as character object.")
   }
   if (length(zps) > 0) {
-    names(chat_raw) <- stringi::stri_replace_last_fixed(names(chat_raw), x[zps], src)
+    names(chat_raw) <- stri_replace_last_fixed(names(chat_raw), x[zps], src)
     unlink(temp, recursive = TRUE)
   }
   return(chat_raw)
@@ -175,7 +179,10 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
 
 #' Parse time
 #'
+#' @param time A character object with times to parse.
 #' @inherit rwa_read
+#' @import stringi
+#' @noRd
 rwa_parse_time <- function(time, format, tz) {
   if (is.null(format)) {
     formats <- c(
@@ -188,38 +195,38 @@ rwa_parse_time <- function(time, format, tz) {
       "MM.dd.yyyy, HH:mm:ss",
       "MM.dd.yyyy, HH:mm"
     )
-    if (any(stringi::stri_detect_fixed(time, "."))) {
-      if (sum(stringi::stri_detect_regex(time, "\\d+.\\d+.\\d{2}")) >
+    if (any(stri_detect_fixed(time, "."))) {
+      if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{2}")) >
           (length(time) * 0.9)) {
-        formats <- stringi::stri_replace_all_fixed(
+        formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
         )
       }
-    } else if (any(stringi::stri_detect_fixed(time, "/"))) {
-      formats <- stringi::stri_replace_all_fixed(
+    } else if (any(stri_detect_fixed(time, "/"))) {
+      formats <- stri_replace_all_fixed(
         formats,
         ".",
         "/"
       )
-      if (sum(stringi::stri_detect_regex(time, "\\d+/\\d+/\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\d+/\\d+/\\d{2}")) >
           (length(time) * 0.9)) {
-        formats <- stringi::stri_replace_all_fixed(
+        formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
         )
       }
-    } else if (any(stringi::stri_detect_fixed(time, "-"))) {
-      formats <- stringi::stri_replace_all_fixed(
+    } else if (any(stri_detect_fixed(time, "-"))) {
+      formats <- stri_replace_all_fixed(
         formats,
         ".",
         "-"
       )
-      if (sum(stringi::stri_detect_regex(time, "\\d+-\\d+-\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\d+-\\d+-\\d{2}")) >
           (length(time) * 0.9)) {
-        formats <- stringi::stri_replace_all_fixed(
+        formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
@@ -231,18 +238,18 @@ rwa_parse_time <- function(time, format, tz) {
       )
     }
     test <- sapply(formats, function(f) {
-      test <- stringi::stri_datetime_parse(str = head(time, n = 1000),
-                                           format = f,
-                                           lenient = FALSE,
-                                           tz = tz)
+      test <- stri_datetime_parse(str = head(time, n = 1000),
+                                  format = f,
+                                  lenient = FALSE,
+                                  tz = tz)
       sum(is.na(test))
     })
     format <- names(which.min(test))
   }
 
-  time <- stringi::stri_datetime_parse(str = time,
-                                       format = format,
-                                       tz = tz)
+  time <- stri_datetime_parse(str = time,
+                              format = format,
+                              tz = tz)
 
   return(time)
 }
@@ -255,7 +262,7 @@ rwa_parse_time <- function(time, format, tz) {
 #' @importFrom rlang .data
 rwa_add_emoji <- function(x) {
   x$id <- seq_along(x$text)
-  x$text <- stringi::stri_replace_all_regex(
+  x$text <- stri_replace_all_regex(
     x$text,
     "[[:alnum:]]",
     "x"
@@ -286,12 +293,17 @@ rwa_add_emoji <- function(x) {
 
 
 # creates status message and exports start_time if not in parent environment yet
-status <- function(..., sep = "", appendLF = TRUE, ppfix = "...", indent = "\t") {
+status <- function(...,
+                   sep = "",
+                   appendLF = TRUE,
+                   ppfix = "...",
+                   indent = "\t") {
 
   if (exists("start_time", envir = parent.frame())) {
     start_time <- mget("start_time", envir = parent.frame())[[1]]
     diff <- format((Sys.time() - start_time), digits = 2, nsmall = 2)
-    message(paste(indent, ppfix, ..., " [", diff, "]", sep = sep), appendLF = appendLF)
+    message(paste(indent, ppfix, ..., " [", diff, "]", sep = sep),
+            appendLF = appendLF)
   } else {
     export <- Sys.time()
     start_time <- export

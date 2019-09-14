@@ -577,7 +577,7 @@ test_that("reading from file", {
     dir.create(dir)
     file.copy(system.file("extdata", "sample.txt", package = "rwhatsapp"),
               dir)
-    zip(paste0(dir, "test.zip"), paste0(dir, "sample.txt"), flags = "-jr9X")
+    utils::zip(paste0(dir, "test.zip"), paste0(dir, "sample.txt"), flags = "-jr9X")
     out <- rwa_read(x = paste0(dir, "test.zip"),
                     tz = "GMT",
                     encoding = "UTF-8",

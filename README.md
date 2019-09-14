@@ -25,9 +25,7 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="275" />
-<img src="https://i.imgur.com/OwUE6aE.jpg" width="275" />
-<img src="https://i.imgur.com/8lCJQfZ.jpg" width="275" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="200" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="200" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="200" />
 
 This package is intended make the first step of analysing WhatsApp text
 data as easy as possible—reading your chat history into `R`. This should
@@ -76,7 +74,11 @@ chat
     ## 6 2017-07-13 09:16:48 Johanne… Haha it sure… /home/johann… <chr… <chr [1]> 
     ## 7 2018-09-28 13:27:48 Johanne… Did you know… /home/johann… <chr… <chr [0]> 
     ## 8 2018-09-28 13:28:48 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂… /home/johann… <chr… <chr [242…
-    ## 9 2018-09-28 13:30:48 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍…     /home/johann… <chr… <chr [87]>
+    ## 9 2018-09-28 13:30:48 Johanne… 🤷
+♀🤷🏻
+♂🙎
+♀🙎
+…     /home/johann… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
