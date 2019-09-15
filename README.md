@@ -25,7 +25,7 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="200" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="200" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="200" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
 
 This package is intended make the first step of analysing WhatsApp text
 data as easy as possible—reading your chat history into `R`. This should

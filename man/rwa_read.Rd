@@ -24,11 +24,15 @@ printed to the screen.}
 \item{...}{Further arguments passed to \link[stringi]{stri_read_lines}.}
 }
 \value{
-a tibble
+A tibble with the information parsed from the history file.
 }
 \description{
-The history can be obtained going to the menu in a chat on the WhatsApp app,
-choosing "more", then "Export chat".
+Takes a history file from the ``WhatsApp'' messenger app and returns a
+formatted data.frame with descriptions of the used emojis.
+}
+\details{
+The history can be obtained going to the menu in a chat on the
+  ``WhatsApp'' app, choosing "more", then "Export chat".
 }
 \examples{
 history <- system.file("extdata", "sample.txt", package = "rwhatsapp")

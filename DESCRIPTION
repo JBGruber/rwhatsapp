@@ -1,11 +1,12 @@
 Package: rwhatsapp
-Title: Working with WhatsApp data
-Version: 0.1.5.9000
-Date: 2019-09-14
-Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk", 
+Title: Import and Handling for 'WhatsApp' Chat Logs
+Version: 0.2.0
+Date: 2019-09-15
+Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk",
   role = c("aut", "cre"))
-Description: A straightforward parsing package which digests history files from
-    the popular messenger service "WhatsApp" in all locales and from all devices.
+Description: A straightforward, easy-to-use and robust parsing package which digests
+    history files from the popular messenger service 'WhatsApp' in all locales and
+    from all devices.
 Depends:
     R (>= 3.4.0)
 License: GPL-3

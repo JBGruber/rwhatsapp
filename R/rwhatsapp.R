@@ -1,7 +1,10 @@
 #' Read WhatsApp history into R
 #'
-#' The history can be obtained going to the menu in a chat on the WhatsApp app,
-#' choosing "more", then "Export chat".
+#' Takes a history file from the ``WhatsApp'' messenger app and returns a
+#' formatted data.frame with descriptions of the used emojis.
+#'
+#' @details The history can be obtained going to the menu in a chat on the
+#'   ``WhatsApp'' app, choosing "more", then "Export chat".
 #'
 #' @param x Path to a txt or zip file of a WhatsApp history or the history
 #'   itself as character object.
@@ -15,7 +18,7 @@
 #'   printed to the screen.
 #' @param ... Further arguments passed to \link[stringi]{stri_read_lines}.
 #'
-#' @return a tibble
+#' @return A tibble with the information parsed from the history file.
 #' @export
 #' @import stringi
 #' @importFrom tibble tibble
@@ -332,8 +335,10 @@ f_exist_s <- function(x) {
 #' A dataset containing emojis and corresponding descriptions. This is a subset
 #' of the emojis provided by the emo package.
 #'
-#' @format A tibble with 3570 rows and 2 columns
-#' - emoji: character representation of the emoji
-#' - name: name of the emoji
+#' @format A tibble with 3570 rows and 2 columns:
+#' \itemize{
+#'   \item emoji: character representation of the emoji
+#'   \item name of the emoji
+#' }
 #' @source \url{https://github.com/hadley/emo/}
 "emojis"
