@@ -7,6 +7,7 @@ converted <- structure(c(1499898922.226, 1499937164.226),
                                  "POSIXt"))
 
 test_that("time is converted correctly", {
+  skip_on_cran()
   # standard
   # dd.MM.yyyy, hh:mm:ss a
   expect_equal(
@@ -420,10 +421,10 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yy, hh:mm a
   expect_equal(
-    rwa_read(x = c(
-      "07-12-17, 10:35 PM - Johannes Gruber: Was it good?",
-      "07-13-17, 09:12 AM - R: Yes, it was"
-    ), tz = "GMT")$time,
+      rwa_read(x = c(
+        "07-12-17, 10:35 PM - Johannes Gruber: Was it good?",
+        "07-13-17, 09:12 AM - R: Yes, it was"
+      ), tz = "GMT")$time,
     converted,
     tolerance = 60
   )

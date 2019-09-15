@@ -36,6 +36,11 @@ This should work, no matter which device or locale you used to retrieve the `txt
 ## Installation
 
 ``` r
+install.packages("rwhatsapp")
+``` 
+Or install the GitHub version:
+
+``` r
 devtools::install_github("JBGruber/rwhatsapp")
 ```
 

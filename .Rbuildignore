@@ -7,3 +7,5 @@ Update package.R
 README.Rmd
 ^\.httr-oauth$
 imgur.key
+^cran-comments\.md$
+^CRAN-RELEASE$
