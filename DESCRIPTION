@@ -1,7 +1,7 @@
 Package: rwhatsapp
 Title: Import and Handling for 'WhatsApp' Chat Logs
 Version: 0.2.0
-Date: 2019-09-15
+Date: 2019-10-18
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk",
   role = c("aut", "cre"))
 Description: A straightforward, easy-to-use and robust parsing package which digests
@@ -11,11 +11,8 @@ Depends:
     R (>= 3.4.0)
 License: GPL-3
 Imports:
-    dplyr (>= 0.7.6),
-    rlang (>= 0.2.2),
     stringi (>= 1.1.7),
-    tibble (>= 1.4.0),
-    tidytext (>= 0.1.9)
+    tibble (>= 1.4.0)
 Suggests:
     knitr,
     testthat,
