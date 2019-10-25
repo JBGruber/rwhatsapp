@@ -334,10 +334,10 @@ f_exist_s <- function(x) {
 #' A dataset containing emojis and corresponding descriptions. This is a subset
 #' of the emojis provided by the emo package.
 #'
-#' @format A tibble with 3570 rows and 2 columns:
-#' \itemize{
-#'   \item emoji: character representation of the emoji
-#'   \item name of the emoji
-#' }
+#' @format A tibble with 3570 rows and 2 columns: \itemize{ \item emoji:
+#'   character representation of the emoji \item name of the emoji \hex_runes
+#'   hexadecimal representations of emoji }
+#' @details \code{hex_runes} can be used to easily look up image files of
+#'   emojis.
 #' @source \url{https://github.com/hadley/emo/}
 "emojis"
