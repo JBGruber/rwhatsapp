@@ -592,6 +592,16 @@ test_that("reading from file", {
   }, tolerance = 60)
 })
 
+test_that("emojis", {
+  expect_equal({
+    out <- rwa_read(x = system.file("extdata", "sample.txt", package = "rwhatsapp"),
+                    tz = "GMT")
+    data.frame(emoji = unlist(out$emoji),
+               emoji_name = unlist(out$emoji_name))
+
+  }, readRDS("../files/rwa_read_emojis.RDS"))
+})
+
 test_that("status", {
   expect_message(rwhatsapp:::status("test"), "test")
   expect_s3_class(rwhatsapp:::status("test"), "POSIXct")

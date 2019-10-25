@@ -105,7 +105,7 @@ rwa_read <- function(x,
     source = source
   )
 
-  tbl <- cbind(tbl, rwa_add_emoji(tbl))
+  tbl <- rwa_add_emoji(tbl)
 
   if (verbose) {
     status("emoji extracted")
@@ -259,27 +259,38 @@ rwa_parse_time <- function(time, format, tz) {
 
 
 #' @noRd
-#' @importFrom stringi stri_replace_all_regex
+#' @importFrom tibble tibble add_column
+#' @importFrom stringi stri_replace_all_regex stri_replace_all_charclass stri_split_boundaries
 rwa_add_emoji <- function(x) {
 
-  x$id <- seq_along(x$text)
-  x$text <- stri_replace_all_regex(x$text, "[[:alnum:]]", NA)
+  id <- seq_along(x[["text"]])
+  x <- add_column(x, id = id)
+  text <- x[["text"]]
 
-  l <- strsplit(x[["text"]], split = "")
+  text <- stri_replace_all_charclass(text, "[[:punct:][:whitespace:]]", "")
+  l <- stri_split_boundaries(text, type = "character")
 
-  out <- data.frame(id = rep(x[["id"]], sapply(l, length)), emoji = unlist(l),
-                    stringsAsFactors = FALSE)
+  out <- tibble(id = rep(id, sapply(l, length)), emoji = unlist(l))
 
-  out$emoji_name <- rwhatsapp::emojis$name[match(out$emoji, rwhatsapp::emojis$emoji)]
-  out$emoji[is.na(out$name)] <- NA
+  out <- add_column(out,
+                    emoji_name = rwhatsapp::emojis$name[match(out$emoji,
+                                                              rwhatsapp::emojis$emoji)])
 
-  out <- tibble(emoji = unname(split(out$emoji, out$id)),
+  out <- out[!is.na(out$emoji_name), ]
+
+  out <- tibble(id = unique(out$id),
+                emoji = unname(split(out$emoji, out$id)),
                 emoji_name = unname(split(out$emoji_name, out$id)))
 
-  out$emoji[is.na(out$emoji)] <- list(NULL)
-  out$emoji_name[is.na(out$emoji)] <- list(NULL)
+  x <- add_column(
+    x,
+    emoji = out$emoji[match(x$id, out$id)],
+    emoji_name = out$emoji_name[match(x$id, out$id)]
+  )
 
-  return(out)
+  x$id <- NULL
+
+  return(x)
 }
 
 
