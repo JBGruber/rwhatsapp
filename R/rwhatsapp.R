@@ -107,7 +107,7 @@ rwa_read <- function(x,
 
   tbl <- cbind(tbl, rwa_add_emoji(tbl))
 
-  if (verbose){
+  if (verbose) {
     status("emoji extracted")
     status(nrow(tbl),
            " messages from ",
