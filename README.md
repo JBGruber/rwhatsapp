@@ -25,7 +25,9 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="200" />
+<img src="https://i.imgur.com/OwUE6aE.jpg" width="200" />
+<img src="https://i.imgur.com/8lCJQfZ.jpg" width="200" />
 
 This package is intended make the first step of analysing WhatsApp text
 data as easy as possible—reading your chat history into `R`. This should
@@ -37,6 +39,12 @@ problems with an existing function, please don’t hesitate to file an
 [issue report](https://github.com/JBGruber/rwhatsapp/issues)**.
 
 ## Installation
+
+``` r
+install.packages("rwhatsapp")
+```
+
+Or install the GitHub version:
 
 ``` r
 devtools::install_github("JBGruber/rwhatsapp")
@@ -66,19 +74,15 @@ chat
     ## # A tibble: 9 x 6
     ##   time                author   text          source        emoji emoji_name
     ##   <dttm>              <fct>    <chr>         <chr>         <lis> <list>    
-    ## 1 2017-07-12 22:35:48 <NA>     Messages to … /home/johann… <chr… <chr [0]> 
-    ## 2 2017-07-12 22:35:48 <NA>     "You created… /home/johann… <chr… <chr [0]> 
-    ## 3 2017-07-12 22:35:48 Johanne… <Media omitt… /home/johann… <chr… <chr [0]> 
-    ## 4 2017-07-12 22:35:48 Johanne… Fruit bread … /home/johann… <chr… <chr [2]> 
-    ## 5 2017-07-13 09:12:48 Test     "It's fun do… /home/johann… <chr… <chr [0]> 
-    ## 6 2017-07-13 09:16:48 Johanne… Haha it sure… /home/johann… <chr… <chr [1]> 
-    ## 7 2018-09-28 13:27:48 Johanne… Did you know… /home/johann… <chr… <chr [0]> 
-    ## 8 2018-09-28 13:28:48 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂… /home/johann… <chr… <chr [242…
-    ## 9 2018-09-28 13:30:48 Johanne… 🤷
-♀🤷🏻
-♂🙎
-♀🙎
-…     /home/johann… <chr… <chr [87]>
+    ## 1 2017-07-12 22:35:00 <NA>     Messages to … /home/johann… <NUL… <NULL>    
+    ## 2 2017-07-12 22:35:00 <NA>     "You created… /home/johann… <NUL… <NULL>    
+    ## 3 2017-07-12 22:35:00 Johanne… <Media omitt… /home/johann… <NUL… <NULL>    
+    ## 4 2017-07-12 22:35:00 Johanne… Fruit bread … /home/johann… <chr… <chr [2]> 
+    ## 5 2017-07-13 09:12:00 Test     "It's fun do… /home/johann… <NUL… <NULL>    
+    ## 6 2017-07-13 09:16:00 Johanne… Haha it sure… /home/johann… <chr… <chr [1]> 
+    ## 7 2018-09-28 13:27:00 Johanne… Did you know… /home/johann… <NUL… <NULL>    
+    ## 8 2018-09-28 13:28:00 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂… /home/johann… <chr… <chr [242…
+    ## 9 2018-09-28 13:30:00 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍…     /home/johann… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
@@ -92,16 +96,16 @@ chat
     ## # A tibble: 16,816 x 6
     ##    time                author   text             source    emoji emoji_name
     ##    <dttm>              <fct>    <chr>            <chr>     <lis> <list>    
-    ##  1 2015-12-10 19:57:48 Artur K… <Media omitted>  /home/jo… <chr… <chr [0]> 
-    ##  2 2015-12-10 22:31:48 Erika I… 😂😂😂😂😂😂     /home/jo… <chr… <chr [6]> 
-    ##  3 2015-12-11 02:13:48 Alexand… 🙈               /home/jo… <chr… <chr [1]> 
-    ##  4 2015-12-11 02:23:48 Johanne… 😂               /home/jo… <chr… <chr [1]> 
-    ##  5 2015-12-11 02:24:48 Johanne… Die Petitionen … /home/jo… <chr… <chr [1]> 
-    ##  6 2015-12-11 03:51:48 Erika I… Läääuft          /home/jo… <chr… <chr [0]> 
-    ##  7 2015-12-12 07:49:48 Johanne… <Media omitted>  /home/jo… <chr… <chr [0]> 
-    ##  8 2015-12-12 07:53:48 Erika I… was macht ihr h… /home/jo… <chr… <chr [0]> 
-    ##  9 2015-12-12 07:55:48 Johanne… Alex arbeitet w… /home/jo… <chr… <chr [0]> 
-    ## 10 2015-12-12 07:55:48 Johanne… und ich spiele … /home/jo… <chr… <chr [0]> 
+    ##  1 2015-12-10 19:57:01 Artur K… <Media omitted>  /home/jo… <NUL… <NULL>    
+    ##  2 2015-12-10 22:31:01 Erika I… 😂😂😂😂😂😂     /home/jo… <chr… <chr [6]> 
+    ##  3 2015-12-11 02:13:01 Alexand… 🙈               /home/jo… <chr… <chr [1]> 
+    ##  4 2015-12-11 02:23:01 Johanne… 😂               /home/jo… <chr… <chr [1]> 
+    ##  5 2015-12-11 02:24:01 Johanne… Die Petitionen … /home/jo… <chr… <chr [1]> 
+    ##  6 2015-12-11 03:51:01 Erika I… Läääuft          /home/jo… <NUL… <NULL>    
+    ##  7 2015-12-12 07:49:01 Johanne… <Media omitted>  /home/jo… <NUL… <NULL>    
+    ##  8 2015-12-12 07:53:01 Erika I… was macht ihr h… /home/jo… <NUL… <NULL>    
+    ##  9 2015-12-12 07:55:01 Johanne… Alex arbeitet w… /home/jo… <NUL… <NULL>    
+    ## 10 2015-12-12 07:55:01 Johanne… und ich spiele … /home/jo… <NUL… <NULL>    
     ## # … with 16,806 more rows
 
 You can see from the size of the resulting `data.frame` that we write a
@@ -122,7 +126,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/wX9yTIg.png)<!-- -->
+![](https://i.imgur.com/tzBpuIF.png)<!-- -->
 
 The chat has been going on for a while and on some days there were more
 than a hundred messages. Who’s responsible for all of this?
@@ -139,7 +143,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/UwMrDpS.png)<!-- -->
+![](https://i.imgur.com/UzjVn5V.png)<!-- -->
 
 Looks like we contributed more or less the same number of messages, with
 Erika slightly leading the field.
@@ -164,7 +168,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/o3mlz4X.png)<!-- -->
+![](https://i.imgur.com/ssansi6.png)<!-- -->
 
 Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
@@ -193,7 +197,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/W1PeDX0.png)<!-- -->
+![](https://i.imgur.com/RhO0elS.png)<!-- -->
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -237,7 +241,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/1l6BKFv.png)<!-- -->
+![](https://i.imgur.com/sK0I5fn.png)<!-- -->
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -276,7 +280,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/S4UIyQL.png)<!-- -->
+![](https://i.imgur.com/m0M5XGJ.png)<!-- -->
 
 Now the picture changes pretty much entirely. First, the top words of
 the different authors have very little overlap now compared to
@@ -318,7 +322,7 @@ chat %>%
   coord_flip()
 ```
 
-![](https://i.imgur.com/0HFoXva.png)<!-- -->
+![](https://i.imgur.com/og1eNmU.png)<!-- -->
 
 It appears that I use the most unique words, even though Erika wrote
 more messages overall. Is this because I use some amazing and unique
@@ -346,7 +350,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/qtwQypF.png)<!-- -->
+![](https://i.imgur.com/E5uXiAP.png)<!-- -->
 
 Looking at the top words that are only used by me we see these are words
 I don’t use very often either. There are two technical terms here:
