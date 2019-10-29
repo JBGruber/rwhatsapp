@@ -172,7 +172,9 @@ Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
 very popular, except with Erika who has a few more flamboyant
 favourites. I apparently tend to use fewer emojis overall while Erika is
-leading the field (again).
+leading the field (again). (Note that the emojis are not ordered within
+the facets but by overall number of appearances, see next plot for a
+solution.)
 
 How does it look if we compare favourite words? I use the excellent
 `tidytext` package to get this task done:
@@ -185,17 +187,18 @@ chat %>%
   count(author, word, sort = TRUE) %>%
   group_by(author) %>%
   top_n(n = 6, n) %>%
-  ggplot(aes(x = reorder(word, n), y = n, fill = author)) +
+  ggplot(aes(x = reorder_within(word, n, author), y = n, fill = author)) +
   geom_col(show.legend = FALSE) +
   ylab("") +
   xlab("") +
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
+  scale_x_reordered() +
   ggtitle("Most often used words") +
   theme_bw()
 ```
 
-![](https://i.imgur.com/RhO0elS.png)<!-- -->
+![](https://i.imgur.com/51zSZyC.png)<!-- -->
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -229,17 +232,18 @@ chat %>%
   count(author, word, sort = TRUE) %>%
   group_by(author) %>%
   top_n(n = 6, n) %>%
-  ggplot(aes(x = reorder(word, n), y = n, fill = author)) +
+  ggplot(aes(x = reorder_within(word, n, author), y = n, fill = author)) +
   geom_col(show.legend = FALSE) +
   ylab("") +
   xlab("") +
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
+  scale_x_reordered() +
   ggtitle("Most often used words") +
   theme_bw()
 ```
 
-![](https://i.imgur.com/sK0I5fn.png)<!-- -->
+![](https://i.imgur.com/CH56sf6.png)<!-- -->
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -268,17 +272,18 @@ chat %>%
   filter(n > 10) %>%
   group_by(author) %>%
   top_n(n = 6, tf_idf) %>%
-  ggplot(aes(x = reorder(word, n), y = n, fill = author)) +
+  ggplot(aes(x = reorder_within(word, n, author), y = n, fill = author)) +
   geom_col(show.legend = FALSE) +
   ylab("") +
   xlab("") +
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
+  scale_x_reordered() +
   ggtitle("Important words using tf–idf by author") +
   theme_bw()
 ```
 
-![](https://i.imgur.com/m0M5XGJ.png)<!-- -->
+![](https://i.imgur.com/cbCztSK.png)<!-- -->
 
 Now the picture changes pretty much entirely. First, the top words of
 the different authors have very little overlap now compared to
@@ -320,7 +325,7 @@ chat %>%
   coord_flip()
 ```
 
-![](https://i.imgur.com/og1eNmU.png)<!-- -->
+![](https://i.imgur.com/uURBlQb.png)<!-- -->
 
 It appears that I use the most unique words, even though Erika wrote
 more messages overall. Is this because I use some amazing and unique
@@ -348,7 +353,7 @@ chat %>%
   theme_bw()
 ```
 
-![](https://i.imgur.com/E5uXiAP.png)<!-- -->
+![](https://i.imgur.com/CmLepnt.png)<!-- -->
 
 Looking at the top words that are only used by me we see these are words
 I don’t use very often either. There are two technical terms here:

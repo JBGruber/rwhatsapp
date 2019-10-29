@@ -260,7 +260,8 @@ rwa_parse_time <- function(time, format, tz) {
 
 #' @noRd
 #' @importFrom tibble tibble add_column
-#' @importFrom stringi stri_replace_all_regex stri_replace_all_charclass stri_split_boundaries
+#' @importFrom stringi stri_replace_all_regex stri_replace_all_charclass
+#'   stri_split_boundaries
 rwa_add_emoji <- function(x) {
 
   id <- seq_along(x[["text"]])
@@ -273,8 +274,10 @@ rwa_add_emoji <- function(x) {
   out <- tibble(id = rep(id, sapply(l, length)), emoji = unlist(l))
 
   out <- add_column(out,
-                    emoji_name = rwhatsapp::emojis$name[match(out$emoji,
-                                                              rwhatsapp::emojis$emoji)])
+                    emoji_name = rwhatsapp::emojis$name[
+                      match(out$emoji,
+                            rwhatsapp::emojis$emoji)
+                      ])
 
   out <- out[!is.na(out$emoji_name), ]
 
@@ -334,9 +337,11 @@ f_exist_s <- function(x) {
 #' A dataset containing emojis and corresponding descriptions. This is a subset
 #' of the emojis provided by the emo package.
 #'
-#' @format A tibble with 3570 rows and 2 columns: \itemize{ \item emoji:
-#'   character representation of the emoji \item name of the emoji \hex_runes
-#'   hexadecimal representations of emoji }
+#' @format A tibble with 3570 rows and 3 columns: \itemize{
+#'   \item emoji character representation of the emoji
+#'   \item name of the emoji
+#'   \item hex_runes hexadecimal representations of emoji
+#' }
 #' @details \code{hex_runes} can be used to easily look up image files of
 #'   emojis.
 #' @source \url{https://github.com/hadley/emo/}
