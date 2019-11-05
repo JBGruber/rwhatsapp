@@ -166,7 +166,7 @@ How does it look if we compare favourite words? I use the excellent
 `tidytext` package to get this task done:
 
 ``` r
-library("tidytext")
+library("tidyte^[Note that most of the analysis below is taken (or heavily inspired) from the book at [tidytextmining.com/](https://www.tidytextmining.com/) where you can also learn much more about text analysis.]xt")
 chat %>%
   unnest_tokens(input = text,
                 output = word) %>%

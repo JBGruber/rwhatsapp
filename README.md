@@ -365,3 +365,8 @@ change the German word “im” (in).
 Overall, WhatsApp data is just a fun source to play around with text
 mining methods. But if you have more serious data, a proper text
 analysis is also possible, just like with other social media data.
+
+1.  Note that most of the analysis below is taken (or heavily inspired)
+    from the book at
+    [tidytextmining.com/](https://www.tidytextmining.com/) where you can
+    also learn much more about text analysis.

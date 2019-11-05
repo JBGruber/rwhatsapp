@@ -136,7 +136,7 @@ I apparently tend to use fewer emojis overall while Erika is leading the field (
 (Note that the emojis are not ordered within the facets but by overall number of appearances, see next plot for a solution.)
 
 How does it look if we compare favourite words?
-I use the excellent `tidytext` package to get this task done:
+I use the excellent `tidytext` package to get this task done^[Note that most of the analysis below is taken (or heavily inspired) from the book at [tidytextmining.com/](https://www.tidytextmining.com/) where you can also learn much more about text analysis.]:
 
 ```{r often_used_words}
 library("tidytext")
