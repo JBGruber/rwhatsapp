@@ -177,7 +177,7 @@ the facets but by overall number of appearances, see next plot for a
 solution.)
 
 How does it look if we compare favourite words? I use the excellent
-`tidytext` package to get this task done:
+`tidytext` package to get this task done\[1\]:
 
 ``` r
 library("tidytext")
