@@ -55,7 +55,7 @@ rwa_read <- function(x,
     time <- stri_extract_first_regex(str = chat_raw,
                                      pattern = "^.*\\d+:\\d+")
   }
-  for (l in which(is.na(time))) {
+  for (l in rev(which(is.na(time)))) {
     chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l],
                                   sep = "\n")
   }
