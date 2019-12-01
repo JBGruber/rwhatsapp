@@ -27,10 +27,10 @@ then `Export chat` and export the history to a txt file.
 
 <img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
 
-This package is intended make the first step of analysing WhatsApp text
-data as easy as possible—reading your chat history into `R`. This should
-work, no matter which device or locale you used to retrieve the `txt` or
-`zip` file containing your conversations.
+This package is intended to make the first step of analysing WhatsApp
+text data as easy as possible: reading your chat history into `R`. This
+should work, no matter which device or locale you used to retrieve the
+`txt` or `zip` file containing your conversations.
 
 **If you have ideas for what can be useful functions or if you have
 problems with an existing function, please don’t hesitate to file an
@@ -45,7 +45,7 @@ install.packages("rwhatsapp")
 Or install the GitHub version:
 
 ``` r
-devtools::install_github("JBGruber/rwhatsapp")
+remotes::install_github("JBGruber/rwhatsapp")
 ```
 
 ## Demo
