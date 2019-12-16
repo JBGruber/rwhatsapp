@@ -79,7 +79,7 @@ I use a couple of extra packages for that:
 
 ```{r messages_over_time, message=FALSE, warning=FALSE}
 library("dplyr")
-library("ggplot2")
+library("ggplot2"); theme_set(theme_minimal())
 library("lubridate")
 chat %>%
   mutate(day = date(time)) %>%
@@ -87,8 +87,7 @@ chat %>%
   ggplot(aes(x = day, y = n)) +
   geom_bar(stat = "identity") +
   ylab("") + xlab("") +
-  ggtitle("Messages per day") +
-  theme_bw()
+  ggtitle("Messages per day")
 ```
 
 The chat has been going on for a while and on some days there were more than a hundred messages.
@@ -109,8 +108,7 @@ chat %>%
   geom_bar(stat = "identity") +
   ylab("") + xlab("") +
   coord_flip() +
-  ggtitle("Number of messages") +
-  theme_bw()
+  ggtitle("Number of messages")
 ```
 
 Looks like we contributed more or less the same number of messages, with Erika slightly leading the field.
@@ -130,8 +128,36 @@ chat %>%
   xlab("") +
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y")  +
+  ggtitle("Most often used emojis")
+```
+
+On some operating systems, the default font in `ggplot2` does not support emojis.
+In this case you might want to move the emojis inside the plot instead.
+I use emoji images from Twitter as they can be easily queried:
+
+```{r emojis2}
+library("ggimage")
+emoji_data <- rwhatsapp::emojis %>% # data built into package
+  mutate(hex_runes1 = gsub("\\s[[:alnum:]]+", "", hex_runes)) %>% # ignore combined emojis
+  mutate(emoji_url = paste0("https://abs.twimg.com/emoji/v2/72x72/", 
+                            tolower(hex_runes1), ".png"))
+
+chat %>%
+  unnest(emoji) %>%
+  count(author, emoji, sort = TRUE) %>%
+  group_by(author) %>%
+  top_n(n = 6, n) %>%
+  left_join(emoji_data, by = "emoji") %>% 
+  ggplot(aes(x = reorder(emoji, n), y = n, fill = author)) +
+  geom_col(show.legend = FALSE) +
+  ylab("") +
+  xlab("") +
+  coord_flip() +
+  geom_image(aes(y = n + 20, image = emoji_url)) +
+  facet_wrap(~author, ncol = 2, scales = "free_y") +
   ggtitle("Most often used emojis") +
-  theme_bw()
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
 ```
 
 Looks like we have a clear winner: all of us like the :joy: ("face with tears of joy") most.
@@ -157,8 +183,7 @@ chat %>%
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
   scale_x_reordered() +
-  ggtitle("Most often used words") +
-  theme_bw()
+  ggtitle("Most often used words")
 ```
 
 This doesn't make much sense.
@@ -197,8 +222,7 @@ chat %>%
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
   scale_x_reordered() +
-  ggtitle("Most often used words") +
-  theme_bw()
+  ggtitle("Most often used words")
 ```
 
 Still not very informative, but hey, this is just a private conversation, what did you expect?
@@ -230,8 +254,7 @@ chat %>%
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
   scale_x_reordered() +
-  ggtitle("Important words using tf–idf by author") +
-  theme_bw()
+  ggtitle("Important words using tf–idf by author")
 ```
 
 Now the picture changes pretty much entirely.
@@ -263,7 +286,6 @@ chat %>%
   ylab("unique words") +
   xlab("") +
   ggtitle("Lexical Diversity") +
-  theme_bw() +
   coord_flip()
 ```
 
@@ -289,8 +311,7 @@ chat %>%
   geom_col(show.legend = FALSE) +
   ylab("") + xlab("") +
   coord_flip() +
-  ggtitle("Unique words of Johannes") +
-  theme_bw()
+  ggtitle("Unique words of Johannes")
 ```
 
 Looking at the top words that are only used by me we see these are words I don't use very often either.

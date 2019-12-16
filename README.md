@@ -25,7 +25,7 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="200" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="200" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="200" />
 
 This package is intended to make the first step of analysing WhatsApp
 text data as easy as possible: reading your chat history into `R`. This
@@ -70,17 +70,17 @@ chat
 ```
 
     ## # A tibble: 9 x 6
-    ##   time                author   text          source        emoji emoji_name
-    ##   <dttm>              <fct>    <chr>         <chr>         <lis> <list>    
-    ## 1 2017-07-12 22:35:00 <NA>     Messages to … /home/johann… <NUL… <NULL>    
-    ## 2 2017-07-12 22:35:00 <NA>     "You created… /home/johann… <NUL… <NULL>    
-    ## 3 2017-07-12 22:35:00 Johanne… <Media omitt… /home/johann… <NUL… <NULL>    
-    ## 4 2017-07-12 22:35:00 Johanne… Fruit bread … /home/johann… <chr… <chr [2]> 
-    ## 5 2017-07-13 09:12:00 Test     "It's fun do… /home/johann… <NUL… <NULL>    
-    ## 6 2017-07-13 09:16:00 Johanne… Haha it sure… /home/johann… <chr… <chr [1]> 
-    ## 7 2018-09-28 13:27:00 Johanne… Did you know… /home/johann… <NUL… <NULL>    
-    ## 8 2018-09-28 13:28:00 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂… /home/johann… <chr… <chr [242…
-    ## 9 2018-09-28 13:30:00 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍…     /home/johann… <chr… <chr [87]>
+    ##   time                author   text             source          emoji emoji_name
+    ##   <dttm>              <fct>    <chr>            <chr>           <lis> <list>    
+    ## 1 2017-07-12 22:35:20 <NA>     Messages to thi… /home/johannes… <NUL… <NULL>    
+    ## 2 2017-07-12 22:35:20 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
+    ## 3 2017-07-12 22:35:20 Johanne… <Media omitted>  /home/johannes… <NUL… <NULL>    
+    ## 4 2017-07-12 22:35:20 Johanne… Fruit bread wit… /home/johannes… <chr… <chr [2]> 
+    ## 5 2017-07-13 09:12:20 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
+    ## 6 2017-07-13 09:16:20 Johanne… Haha it sure is… /home/johannes… <chr… <chr [1]> 
+    ## 7 2018-09-28 13:27:20 Johanne… Did you know th… /home/johannes… <NUL… <NULL>    
+    ## 8 2018-09-28 13:28:20 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉😌… /home/johannes… <chr… <chr [242…
+    ## 9 2018-09-28 13:30:20 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍‍…      /home/johannes… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
@@ -92,18 +92,18 @@ chat
 ```
 
     ## # A tibble: 16,816 x 6
-    ##    time                author   text             source    emoji emoji_name
-    ##    <dttm>              <fct>    <chr>            <chr>     <lis> <list>    
-    ##  1 2015-12-10 19:57:01 Artur K… <Media omitted>  /home/jo… <NUL… <NULL>    
-    ##  2 2015-12-10 22:31:01 Erika I… 😂😂😂😂😂😂     /home/jo… <chr… <chr [6]> 
-    ##  3 2015-12-11 02:13:01 Alexand… 🙈               /home/jo… <chr… <chr [1]> 
-    ##  4 2015-12-11 02:23:01 Johanne… 😂               /home/jo… <chr… <chr [1]> 
-    ##  5 2015-12-11 02:24:01 Johanne… Die Petitionen … /home/jo… <chr… <chr [1]> 
-    ##  6 2015-12-11 03:51:01 Erika I… Läääuft          /home/jo… <NUL… <NULL>    
-    ##  7 2015-12-12 07:49:01 Johanne… <Media omitted>  /home/jo… <NUL… <NULL>    
-    ##  8 2015-12-12 07:53:01 Erika I… was macht ihr h… /home/jo… <NUL… <NULL>    
-    ##  9 2015-12-12 07:55:01 Johanne… Alex arbeitet w… /home/jo… <NUL… <NULL>    
-    ## 10 2015-12-12 07:55:01 Johanne… und ich spiele … /home/jo… <NUL… <NULL>    
+    ##    time                author   text                source      emoji emoji_name
+    ##    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
+    ##  1 2015-12-10 19:57:21 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
+    ##  2 2015-12-10 22:31:21 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
+    ##  3 2015-12-11 02:13:21 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
+    ##  4 2015-12-11 02:23:21 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
+    ##  5 2015-12-11 02:24:21 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
+    ##  6 2015-12-11 03:51:21 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
+    ##  7 2015-12-12 07:49:21 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
+    ##  8 2015-12-12 07:53:21 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
+    ##  9 2015-12-12 07:55:21 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
+    ## 10 2015-12-12 07:55:21 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
     ## # … with 16,806 more rows
 
 You can see from the size of the resulting `data.frame` that we write a
@@ -112,7 +112,7 @@ accumulate 16,816 messages. I use a couple of extra packages for that:
 
 ``` r
 library("dplyr")
-library("ggplot2")
+library("ggplot2"); theme_set(theme_minimal())
 library("lubridate")
 chat %>%
   mutate(day = date(time)) %>%
@@ -120,11 +120,10 @@ chat %>%
   ggplot(aes(x = day, y = n)) +
   geom_bar(stat = "identity") +
   ylab("") + xlab("") +
-  ggtitle("Messages per day") +
-  theme_bw()
+  ggtitle("Messages per day")
 ```
 
-![](https://i.imgur.com/tzBpuIF.png)<!-- -->
+![](https://i.imgur.com/HRYcWwS.png)<!-- -->
 
 The chat has been going on for a while and on some days there were more
 than a hundred messages. Who’s responsible for all of this?
@@ -137,11 +136,10 @@ chat %>%
   geom_bar(stat = "identity") +
   ylab("") + xlab("") +
   coord_flip() +
-  ggtitle("Number of messages") +
-  theme_bw()
+  ggtitle("Number of messages")
 ```
 
-![](https://i.imgur.com/UzjVn5V.png)<!-- -->
+![](https://i.imgur.com/LsXMCHa.png)<!-- -->
 
 Looks like we contributed more or less the same number of messages, with
 Erika slightly leading the field.
@@ -162,11 +160,42 @@ chat %>%
   xlab("") +
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y")  +
-  ggtitle("Most often used emojis") +
-  theme_bw()
+  ggtitle("Most often used emojis")
 ```
 
-![](https://i.imgur.com/ssansi6.png)<!-- -->
+![](https://i.imgur.com/8vuKtIi.png)<!-- -->
+
+On some operating systems, the default font in `ggplot2` does not
+support emojis. In this case you might want to move the emojis inside
+the plot instead. I use emoji images from Twitter as they can be easily
+queried:
+
+``` r
+library("ggimage")
+emoji_data <- rwhatsapp::emojis %>% # data built into package
+  mutate(hex_runes1 = gsub("\\s[[:alnum:]]+", "", hex_runes)) %>% # ignore combined emojis
+  mutate(emoji_url = paste0("https://abs.twimg.com/emoji/v2/72x72/", 
+                            tolower(hex_runes1), ".png"))
+
+chat %>%
+  unnest(emoji) %>%
+  count(author, emoji, sort = TRUE) %>%
+  group_by(author) %>%
+  top_n(n = 6, n) %>%
+  left_join(emoji_data, by = "emoji") %>% 
+  ggplot(aes(x = reorder(emoji, n), y = n, fill = author)) +
+  geom_col(show.legend = FALSE) +
+  ylab("") +
+  xlab("") +
+  coord_flip() +
+  geom_image(aes(y = n + 20, image = emoji_url)) +
+  facet_wrap(~author, ncol = 2, scales = "free_y") +
+  ggtitle("Most often used emojis") +
+  theme(axis.text.y = element_blank(),
+        axis.ticks.y = element_blank())
+```
+
+![](https://i.imgur.com/aV4ToIv.png)<!-- -->
 
 Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
@@ -194,11 +223,10 @@ chat %>%
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
   scale_x_reordered() +
-  ggtitle("Most often used words") +
-  theme_bw()
+  ggtitle("Most often used words")
 ```
 
-![](https://i.imgur.com/51zSZyC.png)<!-- -->
+![](https://i.imgur.com/4Pxn3bo.png)<!-- -->
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -239,11 +267,10 @@ chat %>%
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
   scale_x_reordered() +
-  ggtitle("Most often used words") +
-  theme_bw()
+  ggtitle("Most often used words")
 ```
 
-![](https://i.imgur.com/CH56sf6.png)<!-- -->
+![](https://i.imgur.com/TzACK1o.png)<!-- -->
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -279,11 +306,10 @@ chat %>%
   coord_flip() +
   facet_wrap(~author, ncol = 2, scales = "free_y") +
   scale_x_reordered() +
-  ggtitle("Important words using tf–idf by author") +
-  theme_bw()
+  ggtitle("Important words using tf–idf by author")
 ```
 
-![](https://i.imgur.com/cbCztSK.png)<!-- -->
+![](https://i.imgur.com/okgrvIJ.png)<!-- -->
 
 Now the picture changes pretty much entirely. First, the top words of
 the different authors have very little overlap now compared to
@@ -321,11 +347,10 @@ chat %>%
   ylab("unique words") +
   xlab("") +
   ggtitle("Lexical Diversity") +
-  theme_bw() +
   coord_flip()
 ```
 
-![](https://i.imgur.com/uURBlQb.png)<!-- -->
+![](https://i.imgur.com/KNiRl60.png)<!-- -->
 
 It appears that I use the most unique words, even though Erika wrote
 more messages overall. Is this because I use some amazing and unique
@@ -349,11 +374,10 @@ chat %>%
   geom_col(show.legend = FALSE) +
   ylab("") + xlab("") +
   coord_flip() +
-  ggtitle("Unique words of Johannes") +
-  theme_bw()
+  ggtitle("Unique words of Johannes")
 ```
 
-![](https://i.imgur.com/CmLepnt.png)<!-- -->
+![](https://i.imgur.com/OrUEN4h.png)<!-- -->
 
 Looking at the top words that are only used by me we see these are words
 I don’t use very often either. There are two technical terms here:
