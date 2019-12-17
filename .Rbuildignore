@@ -9,3 +9,6 @@ README.Rmd
 imgur.key
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+README_cache
+^doc$
+^Meta$

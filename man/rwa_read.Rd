@@ -27,8 +27,8 @@ printed to the screen.}
 A tibble with the information parsed from the history file.
 }
 \description{
-Takes a history file from the ``WhatsApp'' messenger app and returns a
-formatted data.frame with descriptions of the used emojis.
+Takes a history file from the ``WhatsApp'' messenger app (txt or zip) and
+returns a formatted data.frame with descriptions of the used emojis.
 }
 \details{
 The history can be obtained going to the menu in a chat on the

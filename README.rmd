@@ -2,9 +2,11 @@
 output: github_document
 ---
 
-```{r global_options, include=FALSE}
+```{r global_options, echo = FALSE}
 library(knitr)
-opts_knit$set(upload.fun = function(file) imgur_upload(file, key = readLines("imgur.key")), base.url = NULL)
+opts_knit$set(upload.fun = function(file) {imgur_upload(file, key = readLines("imgur.key"))},
+              base.url = NULL) # upload all images to imgur.com
+opts_chunk$set(fig.width = 7, fig.height = 5, fig.align = "center", cache = TRUE)
 ```
 
 
@@ -26,7 +28,7 @@ WhatsApp seems to become increasingly important not just as a messaging service 
 Furthermore, retrieving chat logs from the Android or iOS app is very straightforward:
 Simply choose `More` in the menu of a chat, then `Export chat` and export the history to a txt file.
 
-```{r results='asis', echo=FALSE, tidy=FALSE}
+```{r results = 'asis', echo = FALSE, tidy = FALSE}
 cat('<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />')
 ```
 
@@ -37,13 +39,13 @@ This should work, no matter which device or locale you used to retrieve the `txt
 
 ## Installation
 
-```{r eval=FALSE}
+```{r eval = FALSE}
 install.packages("rwhatsapp")
 ```
 
 Or install the GitHub version:
 
-```{r eval=FALSE}
+```{r eval = FALSE}
 remotes::install_github("JBGruber/rwhatsapp")
 ```
 
@@ -77,7 +79,7 @@ You can see from the size of the resulting `data.frame` that we write a lot in t
 Let's see over how much time we managed to accumulate `r scales::comma(nrow(chat))` messages.
 I use a couple of extra packages for that:
 
-```{r messages_over_time, message=FALSE, warning=FALSE}
+```{r messages_over_time, message = FALSE, warning = FALSE}
 library("dplyr")
 library("ggplot2"); theme_set(theme_minimal())
 library("lubridate")
@@ -93,7 +95,7 @@ chat %>%
 The chat has been going on for a while and on some days there were more than a hundred messages.
 Who's responsible for all of this?
 
-```{r echo=FALSE}
+```{r echo = FALSE}
 chat <- chat %>%
   filter(!is.na(author)) %>%
   mutate(author = gsub("\\s.*", "", author)) # I remove the last names here
@@ -293,7 +295,7 @@ It appears that I use the most unique words, even though Erika wrote more messag
 Is this because I use some amazing and unique technical terms?
 Let's find out:
 
-```{r}
+```{r unique_johannes}
 o_words <- chat %>%
   unnest_tokens(input = text,
                 output = word) %>%
@@ -321,3 +323,5 @@ The English "i'm" is in there because autocorrect on my phone tends to change th
 
 Overall, WhatsApp data is just a fun source to play around with text mining methods.
 But if you have more serious data, a proper text analysis is also possible, just like with other social media data.
+
+---

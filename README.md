@@ -25,7 +25,7 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="200" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="200" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="200" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
 
 This package is intended to make the first step of analysing WhatsApp
 text data as easy as possible: reading your chat history into `R`. This
@@ -72,15 +72,15 @@ chat
     ## # A tibble: 9 x 6
     ##   time                author   text             source          emoji emoji_name
     ##   <dttm>              <fct>    <chr>            <chr>           <lis> <list>    
-    ## 1 2017-07-12 22:35:20 <NA>     Messages to thi… /home/johannes… <NUL… <NULL>    
-    ## 2 2017-07-12 22:35:20 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
-    ## 3 2017-07-12 22:35:20 Johanne… <Media omitted>  /home/johannes… <NUL… <NULL>    
-    ## 4 2017-07-12 22:35:20 Johanne… Fruit bread wit… /home/johannes… <chr… <chr [2]> 
-    ## 5 2017-07-13 09:12:20 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
-    ## 6 2017-07-13 09:16:20 Johanne… Haha it sure is… /home/johannes… <chr… <chr [1]> 
-    ## 7 2018-09-28 13:27:20 Johanne… Did you know th… /home/johannes… <NUL… <NULL>    
-    ## 8 2018-09-28 13:28:20 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉😌… /home/johannes… <chr… <chr [242…
-    ## 9 2018-09-28 13:30:20 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍‍…      /home/johannes… <chr… <chr [87]>
+    ## 1 2017-07-12 22:35:26 <NA>     Messages to thi… /home/johannes… <NUL… <NULL>    
+    ## 2 2017-07-12 22:35:26 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
+    ## 3 2017-07-12 22:35:26 Johanne… <Media omitted>  /home/johannes… <NUL… <NULL>    
+    ## 4 2017-07-12 22:35:26 Johanne… Fruit bread wit… /home/johannes… <chr… <chr [2]> 
+    ## 5 2017-07-13 09:12:26 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
+    ## 6 2017-07-13 09:16:26 Johanne… Haha it sure is… /home/johannes… <chr… <chr [1]> 
+    ## 7 2018-09-28 13:27:26 Johanne… Did you know th… /home/johannes… <NUL… <NULL>    
+    ## 8 2018-09-28 13:28:26 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉😌… /home/johannes… <chr… <chr [242…
+    ## 9 2018-09-28 13:30:26 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍‍…      /home/johannes… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
@@ -94,16 +94,16 @@ chat
     ## # A tibble: 16,816 x 6
     ##    time                author   text                source      emoji emoji_name
     ##    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
-    ##  1 2015-12-10 19:57:21 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
-    ##  2 2015-12-10 22:31:21 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
-    ##  3 2015-12-11 02:13:21 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
-    ##  4 2015-12-11 02:23:21 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
-    ##  5 2015-12-11 02:24:21 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
-    ##  6 2015-12-11 03:51:21 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
-    ##  7 2015-12-12 07:49:21 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
-    ##  8 2015-12-12 07:53:21 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
-    ##  9 2015-12-12 07:55:21 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
-    ## 10 2015-12-12 07:55:21 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
+    ##  1 2015-12-10 19:57:26 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
+    ##  2 2015-12-10 22:31:26 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
+    ##  3 2015-12-11 02:13:26 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
+    ##  4 2015-12-11 02:23:26 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
+    ##  5 2015-12-11 02:24:26 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
+    ##  6 2015-12-11 03:51:26 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
+    ##  7 2015-12-12 07:49:26 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
+    ##  8 2015-12-12 07:53:26 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
+    ##  9 2015-12-12 07:55:26 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
+    ## 10 2015-12-12 07:55:26 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
     ## # … with 16,806 more rows
 
 You can see from the size of the resulting `data.frame` that we write a
@@ -123,7 +123,7 @@ chat %>%
   ggtitle("Messages per day")
 ```
 
-![](https://i.imgur.com/HRYcWwS.png)<!-- -->
+<img src="https://i.imgur.com/pWXRTGw.png" style="display: block; margin: auto;" />
 
 The chat has been going on for a while and on some days there were more
 than a hundred messages. Who’s responsible for all of this?
@@ -139,7 +139,7 @@ chat %>%
   ggtitle("Number of messages")
 ```
 
-![](https://i.imgur.com/LsXMCHa.png)<!-- -->
+<img src="https://i.imgur.com/ZNvH7VV.png" style="display: block; margin: auto;" />
 
 Looks like we contributed more or less the same number of messages, with
 Erika slightly leading the field.
@@ -163,7 +163,7 @@ chat %>%
   ggtitle("Most often used emojis")
 ```
 
-![](https://i.imgur.com/8vuKtIi.png)<!-- -->
+<img src="https://i.imgur.com/CYSLldD.png" style="display: block; margin: auto;" />
 
 On some operating systems, the default font in `ggplot2` does not
 support emojis. In this case you might want to move the emojis inside
@@ -195,7 +195,7 @@ chat %>%
         axis.ticks.y = element_blank())
 ```
 
-![](https://i.imgur.com/aV4ToIv.png)<!-- -->
+<img src="https://i.imgur.com/USq2D8d.png" style="display: block; margin: auto;" />
 
 Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
@@ -226,7 +226,7 @@ chat %>%
   ggtitle("Most often used words")
 ```
 
-![](https://i.imgur.com/4Pxn3bo.png)<!-- -->
+<img src="https://i.imgur.com/E0nayu8.png" style="display: block; margin: auto;" />
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -270,7 +270,7 @@ chat %>%
   ggtitle("Most often used words")
 ```
 
-![](https://i.imgur.com/TzACK1o.png)<!-- -->
+<img src="https://i.imgur.com/XXtcykl.png" style="display: block; margin: auto;" />
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -309,7 +309,7 @@ chat %>%
   ggtitle("Important words using tf–idf by author")
 ```
 
-![](https://i.imgur.com/okgrvIJ.png)<!-- -->
+<img src="https://i.imgur.com/vEp5p4K.png" style="display: block; margin: auto;" />
 
 Now the picture changes pretty much entirely. First, the top words of
 the different authors have very little overlap now compared to
@@ -350,7 +350,7 @@ chat %>%
   coord_flip()
 ```
 
-![](https://i.imgur.com/KNiRl60.png)<!-- -->
+<img src="https://i.imgur.com/toGRqhs.png" style="display: block; margin: auto;" />
 
 It appears that I use the most unique words, even though Erika wrote
 more messages overall. Is this because I use some amazing and unique
@@ -377,7 +377,7 @@ chat %>%
   ggtitle("Unique words of Johannes")
 ```
 
-![](https://i.imgur.com/OrUEN4h.png)<!-- -->
+<img src="https://i.imgur.com/yKobn6K.png" style="display: block; margin: auto;" />
 
 Looking at the top words that are only used by me we see these are words
 I don’t use very often either. There are two technical terms here:
@@ -389,6 +389,8 @@ change the German word “im” (in).
 Overall, WhatsApp data is just a fun source to play around with text
 mining methods. But if you have more serious data, a proper text
 analysis is also possible, just like with other social media data.
+
+-----
 
 1.  Note that most of the analysis below is taken (or heavily inspired)
     from the book at
