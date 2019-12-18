@@ -12,7 +12,6 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![Travis-CI Build
 Status](https://travis-ci.org/JBGruber/rwhatsapp.svg?branch=master)](https://travis-ci.org/JBGruber/rwhatsapp)
 [![Say
-Thanks\!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/JBGruber)
 
 ## Motivation
 
@@ -80,7 +79,12 @@ chat
     ## 6 2017-07-13 09:16:26 Johanne… Haha it sure is… /home/johannes… <chr… <chr [1]> 
     ## 7 2018-09-28 13:27:26 Johanne… Did you know th… /home/johannes… <NUL… <NULL>    
     ## 8 2018-09-28 13:28:26 Johanne… 😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉😌… /home/johannes… <chr… <chr [242…
-    ## 9 2018-09-28 13:30:26 Johanne… 🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍‍…      /home/johannes… <chr… <chr [87]>
+    ## 9 2018-09-28 13:30:26 Johanne… 🤷
+♀🤷🏻
+♂🙎
+♀🙎
+♂🙍
+…      /home/johannes… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a

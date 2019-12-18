@@ -17,7 +17,6 @@ opts_chunk$set(fig.width = 7, fig.height = 5, fig.align = "center", cache = TRUE
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rwhatsapp)
 [![Travis-CI Build Status](https://travis-ci.org/JBGruber/rwhatsapp.svg?branch=master)](https://travis-ci.org/JBGruber/rwhatsapp) 
-[![Say Thanks\!](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/JBGruber)
 
 
 ## Motivation
