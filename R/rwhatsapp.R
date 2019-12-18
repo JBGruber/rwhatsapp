@@ -16,7 +16,9 @@
 #'   \link[stringi]{stri_datetime_parse} for guidance.
 #' @param verbose A logical flag indicating whether information should be
 #'   printed to the screen.
-#' @param ... Further arguments passed to \link[stringi]{stri_read_lines}.
+#' @param encoding Input encoding. Should usually be "UTF-8" if files haven't
+#'   changed since export from WhatsApp.
+#' @param ... Further arguments passed to \link[base]{readLines}.
 #'
 #' @return A tibble with the information parsed from the history file.
 #' @export
@@ -31,6 +33,7 @@ rwa_read <- function(x,
                      tz = NULL,
                      format = NULL,
                      verbose = FALSE,
+                     encoding = "UTF-8",
                      ...) {
 
   if (verbose) {
@@ -40,7 +43,7 @@ rwa_read <- function(x,
     start_time <- NULL
   }
 
-  chat_raw <- rwa_read_lines(x, verbose, start_time, ...)
+  chat_raw <- rwa_read_lines(x, verbose, start_time, encoding, ...)
 
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stri_extract_first_regex(
@@ -126,7 +129,7 @@ rwa_read <- function(x,
 #' @inherit rwa_read
 #' @import stringi
 #' @noRd
-rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
+rwa_read_lines <- function(x, verbose, start_time = NULL, encoding, ...) {
   # get files
   zps <- grep(".zip$", x, ignore.case = TRUE)
   temp <- NULL
@@ -144,7 +147,7 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
 
   if (f_exist_s(x)) {
     if (length(x) == 1) {
-      chat_raw <- stri_read_lines(x, ...)
+      chat_raw <- readLines(x, encoding = encoding, ...)
       names(chat_raw) <- rep(x, length(chat_raw))
       if (verbose) {
         message(" one log file...")
@@ -152,7 +155,7 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, ...) {
       }
     } else {
       chat_raw <- unlist(lapply(x, function(t) {
-        cr <- stri_read_lines(t)#, ...)
+        cr <- readLines(t, encoding = encoding, ...)
         names(cr) <- rep(t, length(cr))
         return(cr)
       }))

@@ -11,7 +11,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rwhatsapp)
 [![Travis-CI Build
 Status](https://travis-ci.org/JBGruber/rwhatsapp.svg?branch=master)](https://travis-ci.org/JBGruber/rwhatsapp)
-[![Say
+
 
 ## Motivation
 

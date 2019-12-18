@@ -4,7 +4,7 @@
 \alias{rwa_read}
 \title{Read WhatsApp history into R}
 \usage{
-rwa_read(x, tz = NULL, format = NULL, verbose = FALSE, ...)
+rwa_read(x, tz = NULL, format = NULL, verbose = FALSE, encoding = "UTF-8", ...)
 }
 \arguments{
 \item{x}{Path to a txt or zip file of a WhatsApp history or the history
@@ -21,7 +21,10 @@ problems you can provide a custom format here. Refer to
 \item{verbose}{A logical flag indicating whether information should be
 printed to the screen.}
 
-\item{...}{Further arguments passed to \link[stringi]{stri_read_lines}.}
+\item{encoding}{Input encoding. Should usually be "UTF-8" if files haven't
+changed since export from WhatsApp.}
+
+\item{...}{Further arguments passed to \link[base]{readLines}.}
 }
 \value{
 A tibble with the information parsed from the history file.
