@@ -593,6 +593,7 @@ test_that("reading from file", {
 })
 
 test_that("emojis", {
+  skip_on_cran()
   expect_equal({
     out <- rwa_read(x = system.file("extdata", "sample.txt", package = "rwhatsapp"),
                     tz = "GMT")

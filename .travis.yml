@@ -19,6 +19,9 @@ matrix:
 r_github_packages:
     - r-lib/covr
 
+before_install:
+    - Rscript -e 'install.packages("stringi", configure.args = "--disable-pkg-config")'
+
 script:
     - R CMD build .
     - R CMD check *tar.gz
