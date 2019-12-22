@@ -192,15 +192,23 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, encoding, ...) {
 rwa_parse_time <- function(time, format, tz) {
   if (is.null(format)) {
     formats <- c(
-      "dd.MM.yyyy, hh:mm:ss a",
-      "dd.MM.yyyy, hh:mm a",
-      "dd.MM.yyyy, HH:mm:ss",
-      "dd.MM.yyyy, HH:mm",
-      "MM.dd.yyyy, hh:mm:ss a",
-      "MM.dd.yyyy, hh:mm a",
-      "MM.dd.yyyy, HH:mm:ss",
-      "MM.dd.yyyy, HH:mm"
+      "dd.MM.yyyy hh:mm:ss a",
+      "dd.MM.yyyy hh:mm a",
+      "dd.MM.yyyy HH:mm:ss",
+      "dd.MM.yyyy HH:mm",
+      "MM.dd.yyyy hh:mm:ss a",
+      "MM.dd.yyyy hh:mm a",
+      "MM.dd.yyyy HH:mm:ss",
+      "MM.dd.yyyy HH:mm"
     )
+
+    time <- stri_replace_all_regex(
+      time,
+      c("[^[0-9.:/-]]", "\\s+"),
+      c(" ", " "),
+      vectorize_all = FALSE
+    )
+
     if (any(stri_detect_fixed(time, "."))) {
       if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{2}")) >
           (length(time) * 0.9)) {

@@ -1,3 +1,7 @@
+# rwhatsapp 0.2.2
+
+* Support for even more time formats.
+
 # rwhatsapp 0.2.1
 
 * Removed dependencies tidytext and dplyr to make the package leaner.
