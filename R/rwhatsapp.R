@@ -204,7 +204,7 @@ rwa_parse_time <- function(time, format, tz) {
 
     time <- stri_replace_all_regex(
       time,
-      c("[^[0-9.:/-]]", "\\s+"),
+      c("[^[0-9.:/\\-APM]]", "\\s+"),
       c(" ", " "),
       vectorize_all = FALSE
     )

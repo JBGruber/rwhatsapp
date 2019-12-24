@@ -1,7 +1,7 @@
 Package: rwhatsapp
 Title: Import and Handling for 'WhatsApp' Chat Logs
 Version: 0.2.1.9000
-Date: 2019-12-22
+Date: 2019-12-24
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk",
   role = c("aut", "cre"))
 Description: A straightforward, easy-to-use and robust parsing package which digests

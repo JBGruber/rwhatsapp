@@ -421,10 +421,10 @@ test_that("time is converted correctly", {
   )
   # MM-dd-yy, hh:mm a
   expect_equal(
-      rwa_read(x = c(
-        "07-12-17, 10:35 PM - Johannes Gruber: Was it good?",
-        "07-13-17, 09:12 AM - R: Yes, it was"
-      ), tz = "GMT")$time,
+    rwa_read(x = c(
+      "07-12-17, 10:35 PM - Johannes Gruber: Was it good?",
+      "07-13-17, 09:12 AM - R: Yes, it was"
+    ), tz = "GMT")$time,
     converted,
     tolerance = 60
   )
@@ -485,6 +485,25 @@ test_that("time is converted correctly", {
     converted,
     tolerance = 60
   )
+  # French format
+  expect_equal(
+    rwa_read(x = c(
+      "12/07/2017 à 22:35 - Les messages envoyés dans cette discussion et les appels sont désormais protégés avec le chiffrement de bout en bout. Appuyez pour plus d'informations.",
+      "13/07/2017 à 09:12 - XXX: Salut :)"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 60
+  )
+  # no comma
+  expect_equal(
+    rwa_read(x = c(
+      "07/12/17 22:35 - Johannes Gruber: Was it good?",
+      "07/13/17 09:12 - R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 60
+  )
+
   ##### custom format and warning
   expect_equal(
     rwa_read(x = c(
