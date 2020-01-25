@@ -18,7 +18,7 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /><img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /><img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
 
 This package is intended to make the first step of analysing WhatsApp
 text data as easy as possible: reading your chat history into `R`. This
@@ -35,10 +35,7 @@ The package comes with a small sample that you can use to get going.
 
 ``` r
 history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
-history
 ```
-
-    ## [1] "/home/johannes/R/x86_64-pc-linux-gnu-library/3.6/rwhatsapp/extdata/sample.txt"
 
 The main function of the package, `rwa_read()` can handle `txt` (and
 `zip`) files directly, which means that you can simply provide the path
@@ -53,45 +50,47 @@ chat
     ## # A tibble: 9 x 6
     ##   time                author   text             source          emoji emoji_name
     ##   <dttm>              <fct>    <chr>            <chr>           <lis> <list>    
-    ## 1 2017-07-12 22:35:26 <NA>     Messages to thi… /home/johannes… <NUL… <NULL>    
-    ## 2 2017-07-12 22:35:26 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
-    ## 3 2017-07-12 22:35:26 Johanne… <Media omitted>  /home/johannes… <NUL… <NULL>    
-    ## 4 2017-07-12 22:35:26 Johanne… Fruit bread wit… /home/johannes… <chr… <chr [2]> 
-    ## 5 2017-07-13 09:12:26 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
-    ## 6 2017-07-13 09:16:26 Johanne… Haha it sure is… /home/johannes… <chr… <chr [1]> 
-    ## 7 2018-09-28 13:27:26 Johanne… Did you know th… /home/johannes… <NUL… <NULL>    
-    ## 8 2018-09-28 13:28:26 Johanne… 😀😃😆😅😂🤣☺😊😇🙂🙃😉😌… /home/johannes… <chr… <chr [24
+    ## 1 2017-07-12 22:35:00 <NA>     "Messages to th… /home/johannes… <NUL… <NULL>    
+    ## 2 2017-07-12 22:35:00 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
+    ## 3 2017-07-12 22:35:00 Johanne… "<Media omitted… /home/johannes… <NUL… <NULL>    
+    ## 4 2017-07-12 22:35:00 Johanne… "Fruit bread wi… /home/johannes… <chr… <chr [2]> 
+    ## 5 2017-07-13 09:12:00 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
+    ## 6 2017-07-13 09:16:00 Johanne… "Haha it sure i… /home/johannes… <chr… <chr [1]> 
+    ## 7 2018-09-28 13:27:00 Johanne… "Did you know t… /home/johannes… <NUL… <NULL>    
+    ## 8 2018-09-28 13:28:00 Johanne… "😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉… /home/johannes… <chr… <chr [242…
+    ## 9 2018-09-28 13:30:00 Johanne… "🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍…     /home/johannes… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
-conversation with friends:
-
-``` r
-chat <- rwa_read("/home/johannes/WhatsApp Chat.txt")
-chat
-```
-
-    ## # A tibble: 16,816 x 6
-    ##    time                author   text                source      emoji emoji_name
-    ##    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
-    ##  1 2015-12-10 19:57:26 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
-    ##  2 2015-12-10 22:31:26 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
-    ##  3 2015-12-11 02:13:26 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
-    ##  4 2015-12-11 02:23:26 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
-    ##  5 2015-12-11 02:24:26 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
-    ##  6 2015-12-11 03:51:26 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
-    ##  7 2015-12-12 07:49:26 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
-    ##  8 2015-12-12 07:53:26 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
-    ##  9 2015-12-12 07:55:26 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
-    ## 10 2015-12-12 07:55:26 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
-    ## # … with 16,806 more rows
-
-You can see from the size of the resulting `data.frame` that we write a
-lot in this group\! Let’s see over how much time we managed to
-accumulate 16,816 messages. I use a couple of extra packages for that:
+conversation with friends:\[1\]
 
 ``` r
 library("dplyr")
+chat <- rwa_read("/home/johannes/WhatsApp Chat.txt") %>% 
+  filter(!is.na(author)) # remove messages without author
+chat
+```
+
+    ## # A tibble: 16,814 x 6
+    ##    time                author   text                source      emoji emoji_name
+    ##    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
+    ##  1 2015-12-10 19:57:03 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
+    ##  2 2015-12-10 22:31:03 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
+    ##  3 2015-12-11 02:13:03 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
+    ##  4 2015-12-11 02:23:03 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
+    ##  5 2015-12-11 02:24:03 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
+    ##  6 2015-12-11 03:51:03 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
+    ##  7 2015-12-12 07:49:03 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
+    ##  8 2015-12-12 07:53:03 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
+    ##  9 2015-12-12 07:55:03 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
+    ## 10 2015-12-12 07:55:03 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
+    ## # … with 16,804 more rows
+
+You can see from the size of the resulting `data.frame` that we write a
+lot in this group\! Let’s see over how much time we managed to
+accumulate 16,814 messages. I use a couple of extra packages for that:
+
+``` r
 library("ggplot2"); theme_set(theme_minimal())
 library("lubridate")
 chat %>%
@@ -103,7 +102,7 @@ chat %>%
   ggtitle("Messages per day")
 ```
 
-<img src="https://i.imgur.com/pWXRTGw.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/u6PSDFJ.png" style="display: block; margin: auto;" />
 
 The chat has been going on for a while and on some days there were more
 than a hundred messages. Who’s responsible for all of this?
@@ -119,7 +118,7 @@ chat %>%
   ggtitle("Number of messages")
 ```
 
-<img src="https://i.imgur.com/ZNvH7VV.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/ddSIxdE.png" style="display: block; margin: auto;" />
 
 Looks like we contributed more or less the same number of messages, with
 Erika slightly leading the field.
@@ -143,7 +142,7 @@ chat %>%
   ggtitle("Most often used emojis")
 ```
 
-<img src="https://i.imgur.com/CYSLldD.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/O1pmHGw.png" style="display: block; margin: auto;" />
 
 On some operating systems, the default font in `ggplot2` does not
 support emojis. In this case you might want to move the emojis inside
@@ -175,7 +174,7 @@ chat %>%
         axis.ticks.y = element_blank())
 ```
 
-<img src="https://i.imgur.com/USq2D8d.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/Y5jFpMu.png" style="display: block; margin: auto;" />
 
 Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
@@ -186,7 +185,7 @@ the facets but by overall number of appearances, see next plot for a
 solution.)
 
 How does it look if we compare favourite words? I use the excellent
-`tidytext` package to get this task done\[1\]:
+`tidytext` package to get this task done\[2\]:
 
 ``` r
 library("tidytext")
@@ -206,7 +205,7 @@ chat %>%
   ggtitle("Most often used words")
 ```
 
-<img src="https://i.imgur.com/E0nayu8.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/MyyNDhc.png" style="display: block; margin: auto;" />
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -250,7 +249,7 @@ chat %>%
   ggtitle("Most often used words")
 ```
 
-<img src="https://i.imgur.com/XXtcykl.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/0ACDpLy.png" style="display: block; margin: auto;" />
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -289,7 +288,7 @@ chat %>%
   ggtitle("Important words using tf–idf by author")
 ```
 
-<img src="https://i.imgur.com/vEp5p4K.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/83bf7Uh.png" style="display: block; margin: auto;" />
 
 Now the picture changes pretty much entirely. First, the top words of
 the different authors have very little overlap now compared to
@@ -330,7 +329,7 @@ chat %>%
   coord_flip()
 ```
 
-<img src="https://i.imgur.com/toGRqhs.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/l6O6QUi.png" style="display: block; margin: auto;" />
 
 It appears that I use the most unique words, even though Erika wrote
 more messages overall. Is this because I use some amazing and unique
@@ -357,7 +356,7 @@ chat %>%
   ggtitle("Unique words of Johannes")
 ```
 
-<img src="https://i.imgur.com/yKobn6K.png" style="display: block; margin: auto;" />
+<img src="https://i.imgur.com/8v1SiQn.png" style="display: block; margin: auto;" />
 
 Looking at the top words that are only used by me we see these are words
 I don’t use very often either. There are two technical terms here:
@@ -372,7 +371,11 @@ analysis is also possible, just like with other social media data.
 
 -----
 
-1.  Note that most of the analysis below is taken (or heavily inspired)
+1.  I remove messages with author = `NA` as these are just info messages
+    from WhatsApp like *“Messages to this group are now secured with
+    end-to-end encryption. Tap for more info”*.
+
+2.  Note that most of the analysis below is taken (or heavily inspired)
     from the book at
     [tidytextmining.com/](https://www.tidytextmining.com/) where you can
     also learn much more about text analysis.
