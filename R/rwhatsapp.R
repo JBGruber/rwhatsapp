@@ -210,7 +210,7 @@ rwa_parse_time <- function(time, format, tz) {
     )
 
     if (any(stri_detect_fixed(time, "."))) {
-      if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{1,2}")) >
           (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
@@ -224,14 +224,14 @@ rwa_parse_time <- function(time, format, tz) {
         ".",
         "/"
       )
-      if (sum(stri_detect_regex(time, "\\b\\d{2}/\\d+/\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\b\\d{1,2}/\\d{1,2}/\\d{2}")) >
           (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
         )
-      } else if (sum(stri_detect_regex(time, "\\b\\d{4}/\\d+/\\d{2}")) >
+      } else if (sum(stri_detect_regex(time, "\\b\\d{4}/\\d+/\\d{1,2}")) >
                  (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
@@ -246,14 +246,14 @@ rwa_parse_time <- function(time, format, tz) {
         ".",
         "-"
       )
-      if (sum(stri_detect_regex(time, "\\b\\d{2}-\\d+-\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\b\\d{1,2}-\\d{1,2}-\\d+")) >
           (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
         )
-      } else if (sum(stri_detect_regex(time, "\\b\\d{4}-\\d+-\\d{2}")) >
+      } else if (sum(stri_detect_regex(time, "\\b\\d{4}-\\d+-\\d{1,2}")) >
                  (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,

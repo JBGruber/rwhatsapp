@@ -523,6 +523,16 @@ test_that("time is converted correctly", {
     tolerance = 5
   )
 
+  ## one digit dates
+  expect_equal(
+    rwa_read(x = c(
+      "[7/5/15, 22:35:22] Johannes Gruber: Was it good?",
+      "[8/5/15, 09:12:44] R: Yes, it was"
+    ), tz = "GMT")$time,
+    structure(c(1431038122.902, 1431076364.902), tzone = "GMT", class = c("POSIXct", "POSIXt")),
+    tolerance = 5
+  )
+
   ##### custom format and warning
   expect_equal(
     rwa_read(x = c(
