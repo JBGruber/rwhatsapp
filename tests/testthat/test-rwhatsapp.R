@@ -571,7 +571,7 @@ test_that("See if author is converted correctly", {
   expect_equal(
     rwa_read(x = c(
       "12.07.17, 10:35 PM - Johannes Gruber: Was it good?",
-      "13.07.17, 10:36 PM  - R: Yes, it was"
+      "13.07.17, 10:36 PM - R: Yes, it was"
     ))$author,
     structure(1:2, .Label = c("Johannes Gruber", "R"),
               class = "factor")
@@ -580,6 +580,18 @@ test_that("See if author is converted correctly", {
     rwa_read(x = c(
       "[20.09.17, 16:54:32] Johannes Gruber: Was it good?",
       "[20.09.17, 16:54:43] R: Yes, it was"
+    ), verbose = TRUE)$author,
+    structure(1:2, .Label = c("Johannes Gruber", "R"),
+              class = "factor")
+  )
+  #multiple lines and time in message
+  expect_equal(
+    rwa_read(x = c(
+      "20.09.17, 16:54 Johannes Gruber: What did you do yesterday 16:45.",
+      "2nd line.",
+      "3rd line.",
+      "08.02.20, 17:35 R: You removed my history 8:00 this morning, I don't remember.",
+      "2nd line."
     ), verbose = TRUE)$author,
     structure(1:2, .Label = c("Johannes Gruber", "R"),
               class = "factor")

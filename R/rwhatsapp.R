@@ -54,9 +54,9 @@ rwa_read <- function(x,
     time <- stri_extract_first_regex(str = chat_raw,
                                      pattern = "[^]]+] ")
   }
-  if (sum(is.na(time)) == length(time)) {
+  if (all(is.na(time))) {
     time <- stri_extract_first_regex(str = chat_raw,
-                                     pattern = "^.*\\d+:\\d+")
+                                     pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}")
   }
   for (l in rev(which(is.na(time)))) {
     chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l],
