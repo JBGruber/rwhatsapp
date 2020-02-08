@@ -99,6 +99,12 @@ rwa_read <- function(x,
                                     pattern = ": ",
                                     replacement = "")
 
+  if (isTRUE(any(stri_detect_regex(head(author, 10), "^ - ")))) {
+    author <- stri_replace_first_regex(str = author,
+                                       pattern = "^ - ",
+                                       replacement = "")
+  }
+
   if (verbose) status("author extracted")
 
   tbl <- tibble::tibble(

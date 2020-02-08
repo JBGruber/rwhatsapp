@@ -587,10 +587,10 @@ test_that("See if author is converted correctly", {
   #multiple lines and time in message
   expect_equal(
     rwa_read(x = c(
-      "20.09.17, 16:54 Johannes Gruber: What did you do yesterday 16:45.",
+      "20.09.17, 16:54 - Johannes Gruber: What did you do yesterday 16:45.",
       "2nd line.",
       "3rd line.",
-      "08.02.20, 17:35 R: You removed my history 8:00 this morning, I don't remember.",
+      "08.02.20, 17:35 - R: You removed my history 8:00 this morning, I don't remember.",
       "2nd line."
     ), verbose = TRUE)$author,
     structure(1:2, .Label = c("Johannes Gruber", "R"),
