@@ -56,7 +56,7 @@ rwa_read <- function(x,
   }
   if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stri_extract_first_regex(str = chat_raw,
-                                     pattern = "^.*\\d+:\\d+")
+                                     pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}")
   }
 
   proper_time <- stri_detect_regex(
@@ -105,6 +105,12 @@ rwa_read <- function(x,
   author <- stri_replace_last_fixed(str = author,
                                     pattern = ": ",
                                     replacement = "")
+
+  if (isTRUE(any(stri_detect_regex(head(author, 10), "^ - ")))) {
+    author <- stri_replace_first_regex(str = author,
+                                       pattern = "^ - ",
+                                       replacement = "")
+  }
 
   if (verbose) status("author extracted")
 
