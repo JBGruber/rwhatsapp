@@ -529,8 +529,20 @@ test_that("time is converted correctly", {
       "[7/5/15, 22:35:22] Johannes Gruber: Was it good?",
       "[8/5/15, 09:12:44] R: Yes, it was"
     ), tz = "GMT")$time,
-    structure(c(1431038122.902, 1431076364.902), tzone = "GMT", class = c("POSIXct", "POSIXt")),
+    structure(c(1431038122.902, 1431076364.902), tzone = "GMT",
+              class = c("POSIXct", "POSIXt")),
     tolerance = 5
+  )
+  ## different spelling of AM/PM
+  expect_equal(
+    rwa_read(x = c(
+      "12.07.17, 10:35 a.m. - Johannes Gruber: Was it good?",
+      "---> Another line - with a dash",
+      "13.07.17, 10:36 p.m.  - R: Yes, it was"
+    ), tz = "GMT")$time,
+    structure(c(1499855723.845, 1499985383.845), tzone = "GMT",
+              class = c("POSIXct", "POSIXt")),
+    tolerance = 60
   )
 
   ##### custom format and warning
@@ -584,7 +596,15 @@ test_that("See if author is converted correctly", {
     structure(1:2, .Label = c("Johannes Gruber", "R"),
               class = "factor")
   )
-
+  expect_equal(
+    rwa_read(x = c(
+      "12.07.17, 10:35 a.m. - Johannes Gruber: Was it good?",
+      "---> Another line - with a dash",
+      "13.07.17, 10:36 p.m.  - R: Yes, it was"
+    ))$author,
+    structure(1:2, .Label = c("Johannes Gruber", "R"),
+              class = "factor")
+  )
 })
 
 

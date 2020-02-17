@@ -48,16 +48,23 @@ rwa_read <- function(x,
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stri_extract_first_regex(
     str = chat_raw,
-    pattern = "^\\d+-\\d+-\\d+.*-|[^-]+ - "
+    pattern = "^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -|[^-]+ - "
   )
   if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stri_extract_first_regex(str = chat_raw,
                                      pattern = "[^]]+] ")
   }
-  if (sum(is.na(time)) == length(time)) {
+  if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stri_extract_first_regex(str = chat_raw,
                                      pattern = "^.*\\d+:\\d+")
   }
+
+  proper_time <- stri_detect_regex(
+    str = time,
+    pattern = "\\d{2,4}.\\d{2}.\\d{2,4}|\\d{1,2}:\\d{1,2} [APM]"
+  )
+  time[!proper_time] <- NA
+
   for (l in rev(which(is.na(time)))) {
     chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l],
                                   sep = "\n")
@@ -173,7 +180,8 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, encoding, ...) {
     }
   } else {
     stop("Provide either a path to one or multiple txt or zip files of a ",
-         "WhatsApp history or the history itself as character object.")
+         "WhatsApp history or the history itself as character object ",
+         "(length > 1).")
   }
   if (length(zps) > 0) {
     names(chat_raw) <- stri_replace_last_fixed(names(chat_raw), x[zps], src)
@@ -200,6 +208,13 @@ rwa_parse_time <- function(time, format, tz) {
       "MM.dd.yyyy hh:mm a",
       "MM.dd.yyyy HH:mm:ss",
       "MM.dd.yyyy HH:mm"
+    )
+
+    time <- stri_replace_all_fixed(
+      time,
+      c("a.m.", "p.m."),
+      c("AM", "PM"),
+      vectorize_all = FALSE
     )
 
     time <- stri_replace_all_regex(
