@@ -485,6 +485,15 @@ test_that("time is converted correctly", {
     converted,
     tolerance = 60
   )
+  # ;
+  expect_equal(
+    rwa_read(x = c(
+      "12.07.2017 - 22:35:22; Johannes Gruber: Was it good?",
+      "13.07.2017 - 09:12:44; R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 5
+  )
   # French format
   expect_equal(
     rwa_read(x = c(

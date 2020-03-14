@@ -48,7 +48,7 @@ rwa_read <- function(x,
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stri_extract_first_regex(
     str = chat_raw,
-    pattern = "^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -|[^-]+ - "
+    pattern = "^\\d{2,4}.\\d{2}.\\d{2,4} - \\d{2}:\\d{2}[^;]+;|^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -|[^-]+ - "
   )
   if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stri_extract_first_regex(str = chat_raw,
