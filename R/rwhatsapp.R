@@ -55,8 +55,10 @@ rwa_read <- function(x,
                                      pattern = "[^]]+] ")
   }
   if (sum(is.na(time)) > (length(time) / 2)) {
-    time <- stri_extract_first_regex(str = chat_raw,
-                                     pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}")
+    time <- stri_extract_first_regex(
+      str = chat_raw,
+        pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}(\\sAM|\\sPM){0,1}"
+    )
   }
 
   proper_time <- stri_detect_regex(
