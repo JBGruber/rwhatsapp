@@ -96,7 +96,7 @@ modifier_df <- map_df(entries$html, extract_table)
 
 emojis <- bind_rows(emo_df, emo_full_df, modifier_df, emojis_emo) %>%
   mutate(hex_runes = str_remove(hex_runes, "^U\\+")) %>%
-  distinct(emoji)
+  distinct(emoji, .keep_all = TRUE)
 
 # save data
 usethis::use_data(emojis, overwrite = TRUE)

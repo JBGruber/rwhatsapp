@@ -388,7 +388,7 @@ f_exist_s <- function(x) {
 #' collected by combining the data from the emo package with newly scraped
 #' emojis from unicode.org.
 #'
-#' @format A tibble with 3570 rows and 3 columns: \itemize{ \item emoji
+#' @format A tibble with 4085 rows and 3 columns: \itemize{ \item emoji
 #'   character representation of the emoji \item name of the emoji \item
 #'   hex_runes hexadecimal representations of emoji }
 #' @details \code{hex_runes} can be used to easily look up image files of
