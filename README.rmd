@@ -55,7 +55,6 @@ The package comes with a small sample that you can use to get going.
 
 ```{r}
 history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
-history
 ```
 
 The main function of the package, `rwa_read()` can handle `txt` (and `zip`) files directly, which means that you can simply provide the path to a file to get started:
@@ -67,10 +66,12 @@ chat
 ```
 
 Now, this isn't very interesting so you will probably want to use your own data.
-For this demonstration, I use one of my own chat logs from a conversation with friends:
+For this demonstration, I use one of my own chat logs from a conversation with friends:^[I remove messages with author = `NA` as these are just info messages from WhatsApp like *"Messages to this group are now secured with end-to-end encryption. Tap for more info"*.]
 
 ```{r}
-chat <- rwa_read("/home/johannes/WhatsApp Chat.txt")
+library("dplyr")
+chat <- rwa_read("/home/johannes/WhatsApp Chat.txt") %>% 
+  filter(!is.na(author)) # remove messages without author
 chat
 ```
 
@@ -79,7 +80,6 @@ Let's see over how much time we managed to accumulate `r scales::comma(nrow(chat
 I use a couple of extra packages for that:
 
 ```{r messages_over_time, message = FALSE, warning = FALSE}
-library("dplyr")
 library("ggplot2"); theme_set(theme_minimal())
 library("lubridate")
 chat %>%
@@ -96,8 +96,7 @@ Who's responsible for all of this?
 
 ```{r echo = FALSE}
 chat <- chat %>%
-  filter(!is.na(author)) %>%
-  mutate(author = gsub("\\s.*", "", author)) # I remove the last names here
+  mutate(author = gsub("\\s.*", "", author)) # I remove the last names here for anonymity
 ```
 
 

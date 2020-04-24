@@ -1,6 +1,7 @@
 # rwhatsapp 0.2.2
 
 * Support for even more time formats.
+* Enhanced vignette.
 
 # rwhatsapp 0.2.1
 

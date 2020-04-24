@@ -485,6 +485,15 @@ test_that("time is converted correctly", {
     converted,
     tolerance = 60
   )
+  # ;
+  expect_equal(
+    rwa_read(x = c(
+      "12.07.2017 - 22:35:22; Johannes Gruber: Was it good?",
+      "13.07.2017 - 09:12:44; R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 5
+  )
   # French format
   expect_equal(
     rwa_read(x = c(
@@ -501,6 +510,56 @@ test_that("time is converted correctly", {
       "07/13/17 09:12 - R: Yes, it was"
     ), tz = "GMT")$time,
     converted,
+    tolerance = 60
+  )
+
+  ## Year/Month/Day
+  expect_equal(
+    rwa_read(x = c(
+      "[2017/07/12, 22:35:22] Johannes Gruber: Was it good?",
+      "[2017/07/13, 09:12:44] R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 5
+  )
+
+  expect_equal(
+    rwa_read(x = c(
+      "2017-07-12, 22:35:22 - Johannes Gruber: Was it good?",
+      "2017-07-13, 09:12:44 - R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 5
+  )
+
+  expect_equal(
+    rwa_read(x = c(
+      "2017-7-12, 10:35:22 PM: Johannes Gruber: Was it good?",
+      "2017-7-13, 9:12:44 AM: R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 5
+  )
+
+  ## one digit dates
+  expect_equal(
+    rwa_read(x = c(
+      "[7/5/15, 22:35:22] Johannes Gruber: Was it good?",
+      "[8/5/15, 09:12:44] R: Yes, it was"
+    ), tz = "GMT")$time,
+    structure(c(1431038122.902, 1431076364.902), tzone = "GMT",
+              class = c("POSIXct", "POSIXt")),
+    tolerance = 5
+  )
+  ## different spelling of AM/PM
+  expect_equal(
+    rwa_read(x = c(
+      "12.07.17, 10:35 a.m. - Johannes Gruber: Was it good?",
+      "---> Another line - with a dash",
+      "13.07.17, 10:36 p.m.  - R: Yes, it was"
+    ), tz = "GMT")$time,
+    structure(c(1499855723.845, 1499985383.845), tzone = "GMT",
+              class = c("POSIXct", "POSIXt")),
     tolerance = 60
   )
 
@@ -542,7 +601,7 @@ test_that("See if author is converted correctly", {
   expect_equal(
     rwa_read(x = c(
       "12.07.17, 10:35 PM - Johannes Gruber: Was it good?",
-      "13.07.17, 10:36 PM  - R: Yes, it was"
+      "13.07.17, 10:36 PM - R: Yes, it was"
     ))$author,
     structure(1:2, .Label = c("Johannes Gruber", "R"),
               class = "factor")
@@ -551,6 +610,27 @@ test_that("See if author is converted correctly", {
     rwa_read(x = c(
       "[20.09.17, 16:54:32] Johannes Gruber: Was it good?",
       "[20.09.17, 16:54:43] R: Yes, it was"
+    ), verbose = TRUE)$author,
+    structure(1:2, .Label = c("Johannes Gruber", "R"),
+              class = "factor")
+  )
+  expect_equal(
+    rwa_read(x = c(
+      "12.07.17, 10:35 a.m. - Johannes Gruber: Was it good?",
+      "---> Another line - with a dash",
+      "13.07.17, 10:36 p.m.  - R: Yes, it was"
+    ))$author,
+    structure(1:2, .Label = c("Johannes Gruber", "R"),
+              class = "factor")
+  )
+  # multiple lines and time in message
+  expect_equal(
+    rwa_read(x = c(
+      "20.09.17, 16:54 - Johannes Gruber: What did you do yesterday 16:45.",
+      "2nd line.",
+      "3rd line.",
+      "08.02.20, 17:35 - R: You removed my history 8:00 this morning, I don't remember.",
+      "2nd line."
     ), verbose = TRUE)$author,
     structure(1:2, .Label = c("Johannes Gruber", "R"),
               class = "factor")

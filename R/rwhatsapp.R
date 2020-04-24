@@ -48,16 +48,25 @@ rwa_read <- function(x,
   chat_raw <- chat_raw[!chat_raw == ""]
   time <- stri_extract_first_regex(
     str = chat_raw,
-    pattern = "^\\d+-\\d+-\\d+.*-|[^-]+ - "
+    pattern = "^\\d{2,4}.\\d{2}.\\d{2,4} - \\d{2}:\\d{2}[^;]+;|^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -|[^-]+ - "
   )
   if (sum(is.na(time)) > (length(time) / 2)) {
     time <- stri_extract_first_regex(str = chat_raw,
                                      pattern = "[^]]+] ")
   }
-  if (sum(is.na(time)) == length(time)) {
-    time <- stri_extract_first_regex(str = chat_raw,
-                                     pattern = "^.*\\d+:\\d+")
+  if (sum(is.na(time)) > (length(time) / 2)) {
+    time <- stri_extract_first_regex(
+      str = chat_raw,
+        pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}(\\sAM|\\sPM){0,1}"
+    )
   }
+
+  proper_time <- stri_detect_regex(
+    str = time,
+    pattern = "\\d{2,4}.\\d{2}.\\d{2,4}|\\d{1,2}:\\d{1,2} [APM]"
+  )
+  time[!proper_time] <- NA
+
   for (l in rev(which(is.na(time)))) {
     chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l],
                                   sep = "\n")
@@ -98,6 +107,12 @@ rwa_read <- function(x,
   author <- stri_replace_last_fixed(str = author,
                                     pattern = ": ",
                                     replacement = "")
+
+  if (isTRUE(any(stri_detect_regex(head(author, 10), "^ - ")))) {
+    author <- stri_replace_first_regex(str = author,
+                                       pattern = "^ - ",
+                                       replacement = "")
+  }
 
   if (verbose) status("author extracted")
 
@@ -173,7 +188,8 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, encoding, ...) {
     }
   } else {
     stop("Provide either a path to one or multiple txt or zip files of a ",
-         "WhatsApp history or the history itself as character object.")
+         "WhatsApp history or the history itself as character object ",
+         "(length > 1).")
   }
   if (length(zps) > 0) {
     names(chat_raw) <- stri_replace_last_fixed(names(chat_raw), x[zps], src)
@@ -202,6 +218,13 @@ rwa_parse_time <- function(time, format, tz) {
       "MM.dd.yyyy HH:mm"
     )
 
+    time <- stri_replace_all_fixed(
+      time,
+      c("a.m.", "p.m."),
+      c("AM", "PM"),
+      vectorize_all = FALSE
+    )
+
     time <- stri_replace_all_regex(
       time,
       c("[^[0-9.:/\\-APM]]", "\\s+"),
@@ -210,7 +233,7 @@ rwa_parse_time <- function(time, format, tz) {
     )
 
     if (any(stri_detect_fixed(time, "."))) {
-      if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{1,2}")) >
           (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
@@ -224,12 +247,20 @@ rwa_parse_time <- function(time, format, tz) {
         ".",
         "/"
       )
-      if (sum(stri_detect_regex(time, "\\d+/\\d+/\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\b\\d{1,2}/\\d{1,2}/\\d{2}")) >
           (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
+        )
+      } else if (sum(stri_detect_regex(time, "\\b\\d{4}/\\d+/\\d{1,2}")) >
+                 (length(time) * 0.9)) {
+        formats <- stri_replace_all_fixed(
+          formats,
+          "dd/MM/yyyy",
+          "yyyy/MM/dd",
+          vectorize_all = FALSE
         )
       }
     } else if (any(stri_detect_fixed(time, "-"))) {
@@ -238,12 +269,20 @@ rwa_parse_time <- function(time, format, tz) {
         ".",
         "-"
       )
-      if (sum(stri_detect_regex(time, "\\d+-\\d+-\\d{2}")) >
+      if (sum(stri_detect_regex(time, "\\b\\d{1,2}-\\d{1,2}-\\d+")) >
           (length(time) * 0.9)) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
+        )
+      } else if (sum(stri_detect_regex(time, "\\b\\d{4}-\\d+-\\d{1,2}")) >
+                 (length(time) * 0.9)) {
+        formats <- stri_replace_all_fixed(
+          formats,
+          "dd-MM-yyyy",
+          "yyyy-MM-dd",
+          vectorize_all = FALSE
         )
       }
     } else {

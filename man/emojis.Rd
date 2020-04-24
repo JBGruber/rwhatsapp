@@ -5,9 +5,11 @@
 \alias{emojis}
 \title{List of emojis and corresponding descriptions.}
 \format{
-A tibble with 3570 rows and 3 columns: \itemize{ \item emoji
-  character representation of the emoji \item name of the emoji \item
-  hex_runes hexadecimal representations of emoji }
+
+A tibble with 3570 rows and 3 columns: \itemize{
+  \item emoji character representation of the emoji
+  \item name of the emoji
+  \item hex_runes hexadecimal representations of emoji
 }
 \source{
 \url{https://github.com/hadley/emo/} and
