@@ -24,7 +24,7 @@ entries <- which(stri_detect_regex(
   pattern = "<tr><td class='rchars'>\\d+</td>"
 ))
 entries <- tibble(entry_start = entries,
-             entry_stop = lead(entry_start) - 1) %>%
+                  entry_stop = lead(entry_start) - 1) %>%
   mutate(entry_stop = ifelse(is.na(entry_stop), length(lines), entry_stop)) %>%
   mutate(html = map2(entry_start, entry_stop, function(x, y) {
     lines[x:y]

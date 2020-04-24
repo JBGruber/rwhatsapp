@@ -4,20 +4,22 @@
 \name{emojis}
 \alias{emojis}
 \title{List of emojis and corresponding descriptions.}
-\format{A tibble with 3570 rows and 3 columns: \itemize{
-  \item emoji character representation of the emoji
-  \item name of the emoji
-  \item hex_runes hexadecimal representations of emoji
-}}
+\format{
+A tibble with 3570 rows and 3 columns: \itemize{ \item emoji
+  character representation of the emoji \item name of the emoji \item
+  hex_runes hexadecimal representations of emoji }
+}
 \source{
-\url{https://github.com/hadley/emo/}
+\url{https://github.com/hadley/emo/} and
+  \url{https://unicode.org/emoji/charts/}
 }
 \usage{
 emojis
 }
 \description{
-A dataset containing emojis and corresponding descriptions. This is a subset
-of the emojis provided by the emo package.
+A dataset containing emojis and corresponding descriptions. This dataset was
+collected by combining the data from the emo package with newly scraped
+emojis from unicode.org.
 }
 \details{
 \code{hex_runes} can be used to easily look up image files of
