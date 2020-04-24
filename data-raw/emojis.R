@@ -1,109 +1,102 @@
-em <- "http://unicode.org/Public/emoji/latest/emoji-data.txt"
+# install newest version of emo to get data
+devtools::install_github("hadley/emo")
 
-library(data.table)
-
-emo <- fread(em)
-
-library(rvest)
+# extract emoji data
 library(dplyr)
-emoji_list <- "https://unicode.org/emoji/charts-13.0/full-emoji-list.html"
-emoji_modifiers <- "https://unicode.org/emoji/charts-13.0/full-emoji-modifiers.html"
-
-html_table2 <- function(x, header) {
-  tables <- xml2::xml_find_all(x, ".//table")[[1]]
-  rows <- html_nodes(tables, "tr")
-  n <- length(rows)
-  cells <- lapply(rows, "html_nodes", xpath = ".//td|.//th")
-
-  ncols <- lapply(cells, html_attr, "colspan", default = "1")
-  ncols <- lapply(ncols, as.integer)
-  nrows <- lapply(cells, html_attr, "rowspan", default = "1")
-  nrows <- lapply(nrows, as.integer)
-
-  p <- unique(vapply(ncols, sum, integer(1)))
-  maxp <- max(p)
-
-  values1 <- lapply(cells, html_text, trim = TRUE)
-  values2 <- lapply(lapply(cells, html_node, "img"), html_attr, name = "src")
-  values <- mapply(function(x, y){
-    ifelse(x == "", y, x)
-  }, x = values1, y = values2)
-
-  out <- matrix(NA_character_, nrow = n, ncol = maxp)
-
-  # fill colspans right with repetition
-  for (i in seq_len(n)) {
-    row <- values[[i]]
-    ncol <- ncols[[i]]
-    col <- 1
-    for (j in seq_len(length(ncol))) {
-      out[i, col:(col+ncol[j]-1)] <- row[[j]]
-      col <- col + ncol[j]
-    }
-  }
-
-  # fill rowspans down with repetition
-  for (i in seq_len(maxp)) {
-    for (j in seq_len(n)) {
-      rowspan <- nrows[[j]][i]; colspan <- ncols[[j]][i]
-      if (!is.na(rowspan) & (rowspan > 1)) {
-        if (!is.na(colspan) & (colspan > 1)) {
-          # special case of colspan and rowspan in same cell
-          nrows[[j]] <- c(utils::head(nrows[[j]], i),
-                          rep(rowspan, colspan-1),
-                          utils::tail(nrows[[j]], length(rowspan)-(i+1)))
-          rowspan <- nrows[[j]][i]
-        }
-        for (k in seq_len(rowspan - 1)) {
-          l <- utils::head(out[j+k, ], i-1)
-          r <- utils::tail(out[j+k, ], maxp-i+1)
-          out[j + k, ] <- utils::head(c(l, out[j, i], r), maxp)
-        }
-      }
-    }
-  }
-  # Convert matrix to list to data frame
-  df <- lapply(seq_len(maxp), function(i) {
-    utils::type.convert(out[, i], as.is = TRUE)
-  })
-  names(df) <- out[header, ]
-  class(df) <- "data.frame"
-  attr(df, "row.names") <- .set_row_names(length(df[[1]]))
-
-  df
-}
-
-
-emoji_df <- read_html(emoji_list) %>%
-  html_table2(header = 3) %>%
-  filter(grepl("\\d", `№`)) %>%
-  select(emoji = Browser, name = `CLDR Short Name`, hex_runes = Code, img = Appl) %>%
-  mutate(hex_runes = gsub("U+", "", hex_runes, fixed = TRUE))
-
-# In case pictures should be stored
-# lapply(seq_along(emoji_df$img), function(i) {
-#   magick::image_write(image = magick::image_read(emoji_df$img[i]),
-#                       path = paste0("./data/img/", emoji_df$hex_runes[i], ".png"))
-# })
-
-emoji_modifiers_df <- read_html(emoji_modifiers) %>%
-  html_table2(header = 3) %>%
-  filter(grepl("\\d", `№`)) %>%
-  select(emoji = Browser, name = `CLDR Short Name`, hex_runes = Code, img = Appl) %>%
-  mutate(hex_runes = gsub("U+", "", hex_runes, fixed = TRUE))
-
-emojis <- bind_rows(emoji_df, emoji_modifiers_df) %>%
-  select(-img)
+emojis_emo <- emo::jis %>%
+  select(emoji, name, hex_runes = runes)
 
 # save data
 usethis::use_data(emojis, overwrite = TRUE)
 
-cmp <- emojis[!emojis$emoji %in% rwhatsapp::emojis$emoji, ]
+# scrape new data from unicode website
+library(rvest)
+library(stringi)
+
+emo_url <- "http://unicode.org/emoji/charts/emoji-list.html"
+emo_full_url <- "https://unicode.org/emoji/charts/full-emoji-list.html"
+modifier_url <- "https://unicode.org/emoji/charts/full-emoji-modifiers.html"
+
+# emo
+lines <- readLines(emo_url)
+entries <- which(stri_detect_regex(
+  lines,
+  pattern = "<tr><td class='rchars'>\\d+</td>"
+))
+entries <- tibble(entry_start = entries,
+             entry_stop = lead(entry_start) - 1) %>%
+  mutate(entry_stop = ifelse(is.na(entry_stop), length(lines), entry_stop)) %>%
+  mutate(html = map2(entry_start, entry_stop, function(x, y) {
+    lines[x:y]
+  }))
 
 
-emoji_df %>%
-  head(500) %>%
-  pull(emoji) %>%
-  paste(collapse = " ") %>%
-  clipr::write_clip()
+extract_table <- function(x) {
+  emoji <- x %>%
+    stri_subset_fixed("class='andr'")
+  if (length(emoji) == 0) {
+    emoji <- x %>%
+      stri_subset_fixed("class='andr alt'") %>%
+      .[1]
+  }
+  emoji <- emoji %>%
+    read_html() %>%
+    html_nodes("img") %>%
+    html_attr("alt")
 
+  name <- x %>%
+    stri_subset_fixed("class='name'") %>%
+    .[1] %>%
+    read_html() %>%
+    html_text()
+
+  hex_runes <- x %>%
+    stri_subset_fixed("class='code'") %>%
+    read_html() %>%
+    html_text()
+
+  tibble::tibble(
+    emoji = emoji,
+    name = name,
+    hex_runes = hex_runes
+  )
+}
+
+emo_df <- map_df(entries$html, extract_table)
+
+# emo_full
+lines <- readLines(emo_full_url)
+entries <- which(stri_detect_regex(
+  lines,
+  pattern = "<tr><td class='rchars'>\\d+</td>"
+))
+entries <- tibble(entry_start = entries,
+                  entry_stop = lead(entry_start) - 1) %>%
+  mutate(entry_stop = ifelse(is.na(entry_stop), length(lines), entry_stop)) %>%
+  mutate(html = map2(entry_start, entry_stop, function(x, y) {
+    lines[x:y]
+  }))
+
+emo_full_df <- map_df(entries$html, extract_table)
+
+# modifier
+lines <- readLines(modifier_url)
+entries <- which(stri_detect_regex(
+  lines,
+  pattern = "<tr><td class='rchars'>\\d+</td>"
+))
+entries <- tibble(entry_start = entries,
+                  entry_stop = lead(entry_start) - 1) %>%
+  mutate(entry_stop = ifelse(is.na(entry_stop), length(lines), entry_stop)) %>%
+  mutate(html = map2(entry_start, entry_stop, function(x, y) {
+    lines[x:y]
+  }))
+
+modifier_df <- map_df(entries$html, extract_table)
+
+emojis <- bind_rows(emo_df, emo_full_df, modifier_df, emojis_emo) %>%
+  mutate(hex_runes = str_remove(hex_runes, "^U\\+")) %>%
+  distinct(emoji)
+
+# save data
+usethis::use_data(emojis, overwrite = TRUE)
