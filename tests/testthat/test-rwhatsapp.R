@@ -13,7 +13,7 @@ test_that("time is converted correctly", {
   expect_equal(
     rwa_read(x = c(
       "12.07.2017, 10:35:22 PM - Johannes Gruber: Was it good?",
-      "13.07.2017, 09:12:44 AM - R: Yes, it was"
+      "13.07.2017, 09:12:44 AM - R: Yes, it was 😅"
     ), tz = "GMT")$time,
     converted,
     tolerance = 5 # 5 seconds tolerance
