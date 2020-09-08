@@ -63,7 +63,7 @@ rwa_read <- function(x,
 
   proper_time <- stri_detect_regex(
     str = time,
-    pattern = "\\d{2,4}.\\d{2}.\\d{2,4}|\\d{1,2}:\\d{1,2} [APM]"
+    pattern = "\\d{1,4}.\\d{1,2}.\\d{2,4}|\\d{1,2}:\\d{1,2} [APM]"
   )
   time[!proper_time] <- NA
 

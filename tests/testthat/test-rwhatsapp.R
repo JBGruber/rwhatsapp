@@ -446,6 +446,15 @@ test_that("time is converted correctly", {
     converted,
     tolerance = 60
   )
+  ##### single digit month+days
+  expect_equal(
+    rwa_read(x = c(
+      "12.7.2017, 22:35 - Johannes Gruber: Was it good?",
+      "13.7.2017, 09:12 - R: Yes, it was"
+    ), tz = "GMT")$time,
+    converted,
+    tolerance = 60
+  )
   ##### weirdo format
   expect_equal(
     rwa_read(x = c(
