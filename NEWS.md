@@ -2,6 +2,7 @@
 
 * Updated emoji data to unicode Emoji List v13.0.
 * lookup_emoji is now an exported function.
+* Bug fixes for several time formats
 
 # rwhatsapp 0.2.2
 

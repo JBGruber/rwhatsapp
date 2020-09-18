@@ -41,7 +41,7 @@ lookup_emoji.character <- function(x, ...) {
 
   id <- seq_along(x)
   text <- stri_replace_all_charclass(x, "[[:punct:][:whitespace:]]", "")
-  l <- stri_split_boundaries(x, type = "character")
+  l <- stri_split_boundaries(text, type = "character")
 
   lookup <- tibble(id = rep(id, sapply(l, length)), emoji = unlist(l))
 
