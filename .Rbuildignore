@@ -12,3 +12,4 @@ imgur.key
 README_cache
 ^doc$
 ^Meta$
+^README\.Rmd$

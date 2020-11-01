@@ -23,7 +23,9 @@ capabilities. Furthermore, retrieving chat logs from the Android or iOS
 app is very straightforward: Simply choose `More` in the menu of a chat,
 then `Export chat` and export the history to a txt file.
 
-<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" /> <img src="https://i.imgur.com/OwUE6aE.jpg" width="250" /> <img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
+<img src="https://i.imgur.com/9pZjPFC.jpg" width="250" />
+<img src="https://i.imgur.com/OwUE6aE.jpg" width="250" />
+<img src="https://i.imgur.com/8lCJQfZ.jpg" width="250" />
 
 This package is intended to make the first step of analysing WhatsApp
 text data as easy as possible: reading your chat history into `R`. This
@@ -62,20 +64,19 @@ to a file to get started:
 library("rwhatsapp")
 chat <- rwa_read(history)
 chat
+#> # A tibble: 9 x 6
+#>   time                author   text             source          emoji emoji_name
+#>   <dttm>              <fct>    <chr>            <chr>           <lis> <list>    
+#> 1 2017-07-12 22:35:51 <NA>     "Messages to th… /home/johannes… <NUL… <NULL>    
+#> 2 2017-07-12 22:35:51 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
+#> 3 2017-07-12 22:35:51 Johanne… "<Media omitted… /home/johannes… <NUL… <NULL>    
+#> 4 2017-07-12 22:35:51 Johanne… "Fruit bread wi… /home/johannes… <chr… <chr [2]> 
+#> 5 2017-07-13 09:12:51 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
+#> 6 2017-07-13 09:16:51 Johanne… "Haha it sure i… /home/johannes… <chr… <chr [1]> 
+#> 7 2018-09-28 13:27:51 Johanne… "Did you know t… /home/johannes… <NUL… <NULL>    
+#> 8 2018-09-28 13:28:51 Johanne… "😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉… /home/johannes… <chr… <chr [242…
+#> 9 2018-09-28 13:30:51 Johanne… "🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍…     /home/johannes… <chr… <chr [87]>
 ```
-
-    ## # A tibble: 9 x 6
-    ##   time                author   text             source          emoji emoji_name
-    ##   <dttm>              <fct>    <chr>            <chr>           <lis> <list>    
-    ## 1 2017-07-12 22:35:00 <NA>     "Messages to th… /home/johannes… <NUL… <NULL>    
-    ## 2 2017-07-12 22:35:00 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
-    ## 3 2017-07-12 22:35:00 Johanne… "<Media omitted… /home/johannes… <NUL… <NULL>    
-    ## 4 2017-07-12 22:35:00 Johanne… "Fruit bread wi… /home/johannes… <chr… <chr [2]> 
-    ## 5 2017-07-13 09:12:00 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
-    ## 6 2017-07-13 09:16:00 Johanne… "Haha it sure i… /home/johannes… <chr… <chr [1]> 
-    ## 7 2018-09-28 13:27:00 Johanne… "Did you know t… /home/johannes… <NUL… <NULL>    
-    ## 8 2018-09-28 13:28:00 Johanne… "😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉… /home/johannes… <chr… <chr [242…
-    ## 9 2018-09-28 13:30:00 Johanne… "🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍…     /home/johannes… <chr… <chr [87]>
 
 Now, this isn’t very interesting so you will probably want to use your
 own data. For this demonstration, I use one of my own chat logs from a
@@ -86,22 +87,21 @@ library("dplyr")
 chat <- rwa_read("/home/johannes/WhatsApp Chat.txt") %>% 
   filter(!is.na(author)) # remove messages without author
 chat
+#> # A tibble: 16,814 x 6
+#>    time                author   text                source      emoji emoji_name
+#>    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
+#>  1 2015-12-10 19:57:52 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
+#>  2 2015-12-10 22:31:52 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
+#>  3 2015-12-11 02:13:52 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
+#>  4 2015-12-11 02:23:52 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
+#>  5 2015-12-11 02:24:52 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
+#>  6 2015-12-11 03:51:52 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
+#>  7 2015-12-12 07:49:52 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
+#>  8 2015-12-12 07:53:52 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
+#>  9 2015-12-12 07:55:52 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
+#> 10 2015-12-12 07:55:52 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
+#> # … with 16,804 more rows
 ```
-
-    ## # A tibble: 16,814 x 6
-    ##    time                author   text                source      emoji emoji_name
-    ##    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
-    ##  1 2015-12-10 19:57:03 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
-    ##  2 2015-12-10 22:31:03 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
-    ##  3 2015-12-11 02:13:03 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
-    ##  4 2015-12-11 02:23:03 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
-    ##  5 2015-12-11 02:24:03 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
-    ##  6 2015-12-11 03:51:03 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
-    ##  7 2015-12-12 07:49:03 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
-    ##  8 2015-12-12 07:53:03 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
-    ##  9 2015-12-12 07:55:03 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
-    ## 10 2015-12-12 07:55:03 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
-    ## # … with 16,804 more rows
 
 You can see from the size of the resulting `data.frame` that we write a
 lot in this group\! Let’s see over how much time we managed to
@@ -119,7 +119,7 @@ chat %>%
   ggtitle("Messages per day")
 ```
 
-<img src="https://i.imgur.com/u6PSDFJ.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-messages_over_time-1.png" width="100%" />
 
 The chat has been going on for a while and on some days there were more
 than a hundred messages. Who’s responsible for all of this?
@@ -135,7 +135,7 @@ chat %>%
   ggtitle("Number of messages")
 ```
 
-<img src="https://i.imgur.com/ddSIxdE.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-messages_per_author-1.png" width="100%" />
 
 Looks like we contributed more or less the same number of messages, with
 Erika slightly leading the field.
@@ -159,7 +159,7 @@ chat %>%
   ggtitle("Most often used emojis")
 ```
 
-<img src="https://i.imgur.com/O1pmHGw.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-emojis-1.png" width="100%" />
 
 On some operating systems, the default font in `ggplot2` does not
 support emojis. In this case you might want to move the emojis inside
@@ -169,7 +169,7 @@ queried:
 ``` r
 library("ggimage")
 emoji_data <- rwhatsapp::emojis %>% # data built into package
-  mutate(hex_runes1 = gsub("\\s[[:alnum:]]+", "", hex_runes)) %>% # ignore combined emojis
+  mutate(hex_runes1 = gsub("\\s.*", "", hex_runes)) %>% # ignore combined emojis
   mutate(emoji_url = paste0("https://abs.twimg.com/emoji/v2/72x72/", 
                             tolower(hex_runes1), ".png"))
 
@@ -191,7 +191,7 @@ chat %>%
         axis.ticks.y = element_blank())
 ```
 
-<img src="https://i.imgur.com/Y5jFpMu.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-emojis2-1.png" width="100%" />
 
 Looks like we have a clear winner: all of us like the :joy: (“face with
 tears of joy”) most. :sweat\_smile: (“grinning face with sweat”) is also
@@ -222,7 +222,7 @@ chat %>%
   ggtitle("Most often used words")
 ```
 
-<img src="https://i.imgur.com/MyyNDhc.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-often_used_words-1.png" width="100%" />
 
 This doesn’t make much sense. First of all, because we write in German
 which you might not understand :wink:. But it also looks weird that
@@ -266,7 +266,7 @@ chat %>%
   ggtitle("Most often used words")
 ```
 
-<img src="https://i.imgur.com/0ACDpLy.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-often_used_words_clean-1.png" width="100%" />
 
 Still not very informative, but hey, this is just a private
 conversation, what did you expect? It seems though that we agree with
@@ -305,7 +305,7 @@ chat %>%
   ggtitle("Important words using tf–idf by author")
 ```
 
-<img src="https://i.imgur.com/83bf7Uh.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-Important_words-1.png" width="100%" />
 
 Now the picture changes pretty much entirely. First, the top words of
 the different authors have very little overlap now compared to
@@ -346,7 +346,7 @@ chat %>%
   coord_flip()
 ```
 
-<img src="https://i.imgur.com/l6O6QUi.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-Lexical_Diversity-1.png" width="100%" />
 
 It appears that I use the most unique words, even though Erika wrote
 more messages overall. Is this because I use some amazing and unique
@@ -373,7 +373,7 @@ chat %>%
   ggtitle("Unique words of Johannes")
 ```
 
-<img src="https://i.imgur.com/8v1SiQn.png" style="display: block; margin: auto;" />
+<img src="man/figures/README-unique_johannes-1.png" width="100%" />
 
 Looking at the top words that are only used by me we see these are words
 I don’t use very often either. There are two technical terms here:

@@ -123,8 +123,6 @@ rwa_read <- function(x,
     source = source
   )
 
-  class(tbl) <- c("rwa_tbl", class(tbl))
-
   tbl <- lookup_emoji(tbl)
 
   if (verbose) {

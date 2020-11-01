@@ -6,6 +6,16 @@ converted <- structure(c(1499898922.226, 1499937164.226),
                        class = c("POSIXct",
                                  "POSIXt"))
 
+test_that("rwa_read structure", {
+  df <- rwa_read(x = c(
+    "12.07.2017, 10:35:22 PM - Johannes Gruber: Was it good?",
+    "13.07.2017, 09:12:44 AM - R: Yes, it was 😅"
+  ))
+  expect_s3_class(df, "tbl_df")
+  expect_equal(ncol(df), 6L)
+  expect_equal(nrow(df), 2L)
+})
+
 test_that("time is converted correctly", {
   skip_on_cran()
   # standard

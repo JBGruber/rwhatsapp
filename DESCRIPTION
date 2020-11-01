@@ -1,14 +1,14 @@
 Package: rwhatsapp
 Title: Import and Handling for 'WhatsApp' Chat Logs
 Version: 0.2.3.9000
-Date: 2020-09-19
+Date: 2020-11-01
 Authors@R: person("Johannes", "Gruber", email = "j.gruber.1@research.gla.ac.uk",
   role = c("aut", "cre"))
 Description: A straightforward, easy-to-use and robust parsing package which aims to
     digest history files from the popular messenger service 'WhatsApp' in all locales
     and from all devices.
 Depends:
-    R (>= 3.4.0)
+    R (>= 3.5.0)
 License: GPL-3
 Imports:
     stringi (>= 1.1.7),
@@ -23,6 +23,6 @@ URL: https://github.com/JBGruber/rwhatsapp
 Encoding: UTF-8
 BugReports: https://github.com/JBGruber/rwhatsapp/issues
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1
 VignetteBuilder: knitr
 Language: en-GB

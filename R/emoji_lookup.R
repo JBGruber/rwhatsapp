@@ -22,16 +22,13 @@ lookup_emoji <- function(x, ...) {
 lookup_emoji.data.frame <- function(x, text_field = "text", ...) {
 
   id <- seq_along(x[[text_field]])
-  x <- add_column(x, id = id)
   text <- x[[text_field]]
 
   emojis <- lookup_emoji(text)
   emojis$id <- NULL
   emojis$text <- NULL
 
-  x <- cbind(x, emojis)
-
-  return(x)
+  return(tibble::add_column(x, emojis))
 }
 
 

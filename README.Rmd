@@ -2,11 +2,13 @@
 output: github_document
 ---
 
-```{r global_options, echo = FALSE}
-library(knitr)
-opts_knit$set(upload.fun = function(file) {imgur_upload(file, key = readLines("imgur.key"))},
-              base.url = NULL) # upload all images to imgur.com
-opts_chunk$set(fig.width = 7, fig.height = 5, fig.align = "center", cache = TRUE)
+```{r global_options, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
 ```
 
 
@@ -59,7 +61,7 @@ history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
 
 The main function of the package, `rwa_read()` can handle `txt` (and `zip`) files directly, which means that you can simply provide the path to a file to get started:
 
-```{r}
+```{r read}
 library("rwhatsapp")
 chat <- rwa_read(history)
 chat
@@ -68,7 +70,7 @@ chat
 Now, this isn't very interesting so you will probably want to use your own data.
 For this demonstration, I use one of my own chat logs from a conversation with friends:^[I remove messages with author = `NA` as these are just info messages from WhatsApp like *"Messages to this group are now secured with end-to-end encryption. Tap for more info"*.]
 
-```{r}
+```{r read_chat, message=FALSE}
 library("dplyr")
 chat <- rwa_read("/home/johannes/WhatsApp Chat.txt") %>% 
   filter(!is.na(author)) # remove messages without author
@@ -138,7 +140,7 @@ I use emoji images from Twitter as they can be easily queried:
 ```{r emojis2}
 library("ggimage")
 emoji_data <- rwhatsapp::emojis %>% # data built into package
-  mutate(hex_runes1 = gsub("\\s[[:alnum:]]+", "", hex_runes)) %>% # ignore combined emojis
+  mutate(hex_runes1 = gsub("\\s.*", "", hex_runes)) %>% # ignore combined emojis
   mutate(emoji_url = paste0("https://abs.twimg.com/emoji/v2/72x72/", 
                             tolower(hex_runes1), ".png"))
 
@@ -269,7 +271,7 @@ I show that my favourite adjective is "super" and that I talked about a processo
 Another common text mining tool is to calculate lexical diversity.
 Basically, you just check how many unique words are used by an author.
 
-```{r Lexical_Diversity}
+```{r Lexical_Diversity, message=FALSE}
 chat %>%
   unnest_tokens(input = text,
                 output = word) %>%
