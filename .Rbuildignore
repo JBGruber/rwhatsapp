@@ -3,7 +3,6 @@
 ^\.Rproj\.user$
 Update package.R
 ^codecov\.yml$
-.travis.yml
 README.Rmd
 ^\.httr-oauth$
 imgur.key
@@ -13,3 +12,4 @@ README_cache
 ^doc$
 ^Meta$
 ^README\.Rmd$
+^\.github$

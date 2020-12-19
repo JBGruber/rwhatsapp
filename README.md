@@ -9,8 +9,7 @@ Status](https://codecov.io/gh/JBGruber/rwhatsapp/branch/master/graph/badge.svg)]
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rwhatsapp)
-[![Travis-CI Build
-Status](https://travis-ci.org/JBGruber/rwhatsapp.svg?branch=master)](https://travis-ci.org/JBGruber/rwhatsapp)
+[![R-CMD-check](https://github.com/JBGruber/rwhatsapp/workflows/R-CMD-check/badge.svg)](https://github.com/JBGruber/rwhatsapp/actions)
 
 ## Motivation
 
@@ -67,15 +66,15 @@ chat
 #> # A tibble: 9 x 6
 #>   time                author   text             source          emoji emoji_name
 #>   <dttm>              <fct>    <chr>            <chr>           <lis> <list>    
-#> 1 2017-07-12 22:35:51 <NA>     "Messages to th… /home/johannes… <NUL… <NULL>    
-#> 2 2017-07-12 22:35:51 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
-#> 3 2017-07-12 22:35:51 Johanne… "<Media omitted… /home/johannes… <NUL… <NULL>    
-#> 4 2017-07-12 22:35:51 Johanne… "Fruit bread wi… /home/johannes… <chr… <chr [2]> 
-#> 5 2017-07-13 09:12:51 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
-#> 6 2017-07-13 09:16:51 Johanne… "Haha it sure i… /home/johannes… <chr… <chr [1]> 
-#> 7 2018-09-28 13:27:51 Johanne… "Did you know t… /home/johannes… <NUL… <NULL>    
-#> 8 2018-09-28 13:28:51 Johanne… "😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉… /home/johannes… <chr… <chr [242…
-#> 9 2018-09-28 13:30:51 Johanne… "🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍…     /home/johannes… <chr… <chr [87]>
+#> 1 2017-07-12 22:35:20 <NA>     "Messages to th… /home/johannes… <NUL… <NULL>    
+#> 2 2017-07-12 22:35:20 <NA>     "You created gr… /home/johannes… <NUL… <NULL>    
+#> 3 2017-07-12 22:35:20 Johanne… "<Media omitted… /home/johannes… <NUL… <NULL>    
+#> 4 2017-07-12 22:35:20 Johanne… "Fruit bread wi… /home/johannes… <chr… <chr [2]> 
+#> 5 2017-07-13 09:12:20 Test     "It's fun doing… /home/johannes… <NUL… <NULL>    
+#> 6 2017-07-13 09:16:20 Johanne… "Haha it sure i… /home/johannes… <chr… <chr [1]> 
+#> 7 2018-09-28 13:27:20 Johanne… "Did you know t… /home/johannes… <NUL… <NULL>    
+#> 8 2018-09-28 13:28:20 Johanne… "😀😃😄😁😆😅😂🤣☺😊😇🙂🙃😉… /home/johannes… <chr… <chr [242…
+#> 9 2018-09-28 13:30:20 Johanne… "🤷‍♀🤷🏻‍♂🙎‍♀🙎‍♂🙍…     /home/johannes… <chr… <chr [87]>
 ```
 
 Now, this isn’t very interesting so you will probably want to use your
@@ -90,16 +89,16 @@ chat
 #> # A tibble: 16,814 x 6
 #>    time                author   text                source      emoji emoji_name
 #>    <dttm>              <fct>    <chr>               <chr>       <lis> <list>    
-#>  1 2015-12-10 19:57:52 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
-#>  2 2015-12-10 22:31:52 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
-#>  3 2015-12-11 02:13:52 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
-#>  4 2015-12-11 02:23:52 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
-#>  5 2015-12-11 02:24:52 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
-#>  6 2015-12-11 03:51:52 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
-#>  7 2015-12-12 07:49:52 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
-#>  8 2015-12-12 07:53:52 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
-#>  9 2015-12-12 07:55:52 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
-#> 10 2015-12-12 07:55:52 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
+#>  1 2015-12-10 19:57:20 Artur K… <Media omitted>     /home/joha… <NUL… <NULL>    
+#>  2 2015-12-10 22:31:20 Erika I… 😂😂😂😂😂😂        /home/joha… <chr… <chr [6]> 
+#>  3 2015-12-11 02:13:20 Alexand… 🙈                  /home/joha… <chr… <chr [1]> 
+#>  4 2015-12-11 02:23:20 Johanne… 😂                  /home/joha… <chr… <chr [1]> 
+#>  5 2015-12-11 02:24:20 Johanne… Die Petitionen Tru… /home/joha… <chr… <chr [1]> 
+#>  6 2015-12-11 03:51:20 Erika I… Läääuft             /home/joha… <NUL… <NULL>    
+#>  7 2015-12-12 07:49:20 Johanne… <Media omitted>     /home/joha… <NUL… <NULL>    
+#>  8 2015-12-12 07:53:20 Erika I… was macht ihr huet… /home/joha… <NUL… <NULL>    
+#>  9 2015-12-12 07:55:20 Johanne… Alex arbeitet weil… /home/joha… <NUL… <NULL>    
+#> 10 2015-12-12 07:55:20 Johanne… und ich spiele auf… /home/joha… <NUL… <NULL>    
 #> # … with 16,804 more rows
 ```
 
