@@ -1,6 +1,7 @@
 # rwhatsapp 0.2.4
 
 * Fixed vignette (#20) and class problem in lookup_emoji()
+* Fixed issue with some date formats that use "a. m."/"p. m." instead of "a.m."/"p.m."
 
 # rwhatsapp 0.2.3
 
