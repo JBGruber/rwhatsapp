@@ -220,7 +220,7 @@ rwa_parse_time <- function(time, format, tz) {
 
     time <- stri_replace_all_fixed(
       time,
-      c("a.m.", "p.m."),
+      c("a.m.", "p.m.", "a. m.", "p. m."),
       c("AM", "PM"),
       vectorize_all = FALSE
     )
