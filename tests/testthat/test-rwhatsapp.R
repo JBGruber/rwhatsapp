@@ -14,6 +14,8 @@ test_that("rwa_read structure", {
   expect_s3_class(df, "tbl_df")
   expect_equal(ncol(df), 6L)
   expect_equal(nrow(df), 2L)
+  # test if lookup_emoji changes the class
+  expect_s3_class(lookup_emoji(subset(df, select = text)), "tbl_df")
 })
 
 test_that("time is converted correctly", {
