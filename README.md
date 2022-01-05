@@ -1,13 +1,9 @@
 
 # rwhatsapp
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/rwhatsapp)](https://cran.r-project.org/package=rwhatsapp)
-[![Coverage
-Status](https://codecov.io/gh/JBGruber/rwhatsapp/branch/master/graph/badge.svg)](https://codecov.io/gh/JBGruber/rwhatsapp?branch=master)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![CRAN status](https://www.r-pkg.org/badges/version/rwhatsapp)](https://cran.r-project.org/package=rwhatsapp)
+[![Coverage Status](https://codecov.io/gh/JBGruber/rwhatsapp/branch/master/graph/badge.svg)](https://app.codecov.io/gh/JBGruber/rwhatsapp?branch=master)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rwhatsapp)
 [![R-CMD-check](https://github.com/JBGruber/rwhatsapp/workflows/R-CMD-check/badge.svg)](https://github.com/JBGruber/rwhatsapp/actions)
 

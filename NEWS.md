@@ -1,3 +1,7 @@
+# rwhatsapp 0.2.4
+
+* Fixed vignette (#20) and class problem in lookup_emoji()
+
 # rwhatsapp 0.2.3
 
 * Updated emoji data to unicode Emoji List v13.0.
