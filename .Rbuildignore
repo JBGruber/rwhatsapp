@@ -13,3 +13,4 @@ README_cache
 ^Meta$
 ^README\.Rmd$
 ^\.github$
+^CRAN-SUBMISSION$
