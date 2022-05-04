@@ -21,7 +21,6 @@ lookup_emoji <- function(x, ...) {
 #' @export
 lookup_emoji.data.frame <- function(x, text_field = "text", ...) {
 
-  id <- seq_along(x[[text_field]])
   text <- x[[text_field]]
 
   emojis <- lookup_emoji(text)
