@@ -51,19 +51,21 @@ rwa_read <- function(x,
     pattern = "^\\d{2,4}.\\d{2}.\\d{2,4} - \\d{2}:\\d{2}[^;]+;|^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -"
   )
   if (sum(is.na(time)) > (length(time) * 0.9)) {
-    time <- stri_extract_first_regex(str = chat_raw,
-                                     pattern = "[^]]+] ")
-  }
-  if (sum(is.na(time)) > (length(time) * 0.9)) {
     time <- stri_extract_first_regex(
       str = chat_raw,
-        pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}(\\sAM|\\sPM){0,1}"
+      pattern = "[^-]+ - "
     )
   }
   if (sum(is.na(time)) > (length(time) * 0.9)) {
     time <- stri_extract_first_regex(
       str = chat_raw,
-      pattern = "[^-]+ - "
+      pattern = "[^]]+] "
+    )
+  }
+  if (sum(is.na(time)) > (length(time) * 0.9)) {
+    time <- stri_extract_first_regex(
+      str = chat_raw,
+      pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}(\\sAM|\\sPM){0,1}"
     )
   }
 
@@ -346,11 +348,11 @@ f_exist_s <- function(x) {
              })
   ))
   files_exist <- isTRUE(any(
-      tryCatch(file.exists(x),
-               error = function(e) {
+    tryCatch(file.exists(x),
+             error = function(e) {
 
-               })
-    ))
+             })
+  ))
   url_exist || files_exist
 }
 
