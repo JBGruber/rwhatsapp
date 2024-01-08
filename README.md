@@ -6,6 +6,7 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 ![Downloads](https://cranlogs.r-pkg.org/badges/grand-total/rwhatsapp)
 [![R-CMD-check](https://github.com/JBGruber/rwhatsapp/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/JBGruber/rwhatsapp/actions/workflows/R-CMD-check.yaml)
+[![say-thanks](https://img.shields.io/badge/Say%20Thanks-!-1EAEDB.svg)](https://saythanks.io/to/JBGruber)
 
 ## Motivation
 
