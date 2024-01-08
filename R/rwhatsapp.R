@@ -46,28 +46,20 @@ rwa_read <- function(x,
   chat_raw <- rwa_read_lines(x, verbose, start_time, encoding, ...)
 
   chat_raw <- chat_raw[!chat_raw == ""]
-  time <- stri_extract_first_regex(
-    str = chat_raw,
-    pattern = "^\\d{2,4}.\\d{2}.\\d{2,4} - \\d{2}:\\d{2}[^;]+;|^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -"
+  formats <- c(
+    "^\\d{2,4}.\\d{2}.\\d{2,4} - \\d{2}:\\d{2}[^;]+;|^\\d{2,4}-\\d{2}-\\d{2,4}[^-]+ -",
+    "[^-]+ - ",
+    "[^]]+] ",
+    "^[^A-z]*\\d{1,2}:\\d{1,2}(\\sAM|\\sPM){0,1}"
   )
-  if (sum(is.na(time)) > (length(time) * 0.9)) {
-    time <- stri_extract_first_regex(
+  time <- lapply(formats, function(f) {
+    stri_extract_first_regex(
       str = chat_raw,
-      pattern = "[^-]+ - "
+      pattern = f
     )
-  }
-  if (sum(is.na(time)) > (length(time) * 0.9)) {
-    time <- stri_extract_first_regex(
-      str = chat_raw,
-      pattern = "[^]]+] "
-    )
-  }
-  if (sum(is.na(time)) > (length(time) * 0.9)) {
-    time <- stri_extract_first_regex(
-      str = chat_raw,
-      pattern = "^[^A-z]*\\d{1,2}:\\d{1,2}(\\sAM|\\sPM){0,1}"
-    )
-  }
+  })
+  nnas <- vapply(time, function(t) sum(is.na(t)), FUN.VALUE = integer(1))
+  time <- time[[which.min(nnas)]]
 
   proper_time <- stri_detect_regex(
     str = time,
