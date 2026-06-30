@@ -76,7 +76,7 @@ In the following example we will show you how to use the main features of the pa
 
 ### Load sample data and read into R
 ```{r}
-chat <- rwa_read("Examplechat.txt")
+chat <- rwa_read("ExampleChat.txt")
 chat
 ```
 
