@@ -29,16 +29,20 @@
 #' @examples
 #' history <- system.file("extdata", "sample.txt", package = "rwhatsapp")
 #' df <- rwa_read(history)
-rwa_read <- function(x,
-                     tz = NULL,
-                     format = NULL,
-                     verbose = FALSE,
-                     encoding = "UTF-8",
-                     ...) {
-
+rwa_read <- function(
+  x,
+  tz = NULL,
+  format = NULL,
+  verbose = FALSE,
+  encoding = "UTF-8",
+  ...
+) {
   if (verbose) {
-    start_time <- status("Reading chat history from",
-                         appendLF = FALSE, ppfix = "")
+    start_time <- status(
+      "Reading chat history from",
+      appendLF = FALSE,
+      ppfix = ""
+    )
   } else {
     start_time <- NULL
   }
@@ -68,18 +72,21 @@ rwa_read <- function(x,
   time[!proper_time] <- NA
 
   for (l in rev(which(is.na(time)))) {
-    chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l],
-                                  sep = "\n")
+    chat_raw[l - 1] <- stri_paste(chat_raw[l - 1], chat_raw[l], sep = "\n")
   }
 
   chat_raw <- chat_raw[!is.na(time)]
   time <- time[!is.na(time)]
-  if (verbose) status("timestamps extracted")
+  if (verbose) {
+    status("timestamps extracted")
+  }
 
   source <- names(chat_raw)
-  chat_raw <- stri_replace_first_fixed(str = chat_raw,
-                                       pattern = time,
-                                       replacement = "")
+  chat_raw <- stri_replace_first_fixed(
+    str = chat_raw,
+    pattern = time,
+    replacement = ""
+  )
 
   time <- stri_replace_all_regex(
     str = time,
@@ -90,31 +97,40 @@ rwa_read <- function(x,
 
   time <- rwa_parse_time(time, format, tz)
 
-  if (verbose) status("timestamps converted")
-
-  if (sum(is.na(time)) > (length(time) / 10)) {
-    warning("Time conversion did not work correctly. Provide a custom format",
-            " or add an issue at www.github.com/JBGruber/rwhatsapp.")
+  if (verbose) {
+    status("timestamps converted")
   }
 
-  author <- stri_extract_first_regex(str = chat_raw,
-                                     pattern = "[^:]+: ")
+  if (sum(is.na(time)) > (length(time) / 10)) {
+    warning(
+      "Time conversion did not work correctly. Provide a custom format",
+      " or add an issue at www.github.com/JBGruber/rwhatsapp."
+    )
+  }
+
+  author <- stri_extract_first_regex(str = chat_raw, pattern = "[^:]+: ")
   chat_raw[!is.na(author)] <- stri_replace_first_fixed(
     str = chat_raw[!is.na(author)],
     pattern = author[!is.na(author)],
     replacement = ""
   )
-  author <- stri_replace_last_fixed(str = author,
-                                    pattern = ": ",
-                                    replacement = "")
+  author <- stri_replace_last_fixed(
+    str = author,
+    pattern = ": ",
+    replacement = ""
+  )
 
   if (isTRUE(any(stri_detect_regex(head(author, 10), "^ - ")))) {
-    author <- stri_replace_first_regex(str = author,
-                                       pattern = "^ - ",
-                                       replacement = "")
+    author <- stri_replace_first_regex(
+      str = author,
+      pattern = "^ - ",
+      replacement = ""
+    )
   }
 
-  if (verbose) status("author extracted")
+  if (verbose) {
+    status("author extracted")
+  }
 
   tbl <- tibble::tibble(
     time = time,
@@ -127,12 +143,15 @@ rwa_read <- function(x,
 
   if (verbose) {
     status("emoji extracted")
-    status(nrow(tbl),
-           " messages from ",
-           length(unique(tbl$author)),
-           " authors extracted. ",
-           "Elapsed time:",
-           ppfix = "", indent = "")
+    status(
+      nrow(tbl),
+      " messages from ",
+      length(unique(tbl$author)),
+      " authors extracted. ",
+      "Elapsed time:",
+      ppfix = "",
+      indent = ""
+    )
   }
 
   return(tbl)
@@ -187,9 +206,11 @@ rwa_read_lines <- function(x, verbose, start_time = NULL, encoding, ...) {
       status("object loaded ")
     }
   } else {
-    stop("Provide either a path to one or multiple txt or zip files of a ",
-         "WhatsApp history or the history itself as character object ",
-         "(length > 1).")
+    stop(
+      "Provide either a path to one or multiple txt or zip files of a ",
+      "WhatsApp history or the history itself as character object ",
+      "(length > 1)."
+    )
   }
   if (length(zps) > 0) {
     names(chat_raw) <- stri_replace_last_fixed(names(chat_raw), x[zps], src)
@@ -233,8 +254,10 @@ rwa_parse_time <- function(time, format, tz) {
     )
 
     if (any(stri_detect_fixed(time, "."))) {
-      if (sum(stri_detect_regex(time, "\\d+.\\d+.\\d{1,2}")) >
-          (length(time) * 0.9)) {
+      if (
+        sum(stri_detect_regex(time, "\\d+.\\d+.\\d{1,2}")) >
+          (length(time) * 0.9)
+      ) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
@@ -247,15 +270,19 @@ rwa_parse_time <- function(time, format, tz) {
         ".",
         "/"
       )
-      if (sum(stri_detect_regex(time, "\\b\\d{1,2}/\\d{1,2}/\\d{2}")) >
-          (length(time) * 0.9)) {
+      if (
+        sum(stri_detect_regex(time, "\\b\\d{1,2}/\\d{1,2}/\\d{2}")) >
+          (length(time) * 0.9)
+      ) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
         )
-      } else if (sum(stri_detect_regex(time, "\\b\\d{4}/\\d+/\\d{1,2}")) >
-                 (length(time) * 0.9)) {
+      } else if (
+        sum(stri_detect_regex(time, "\\b\\d{4}/\\d+/\\d{1,2}")) >
+          (length(time) * 0.9)
+      ) {
         formats <- stri_replace_all_fixed(
           formats,
           "dd/MM/yyyy",
@@ -269,15 +296,19 @@ rwa_parse_time <- function(time, format, tz) {
         ".",
         "-"
       )
-      if (sum(stri_detect_regex(time, "\\b\\d{1,2}-\\d{1,2}-\\d+")) >
-          (length(time) * 0.9)) {
+      if (
+        sum(stri_detect_regex(time, "\\b\\d{1,2}-\\d{1,2}-\\d+")) >
+          (length(time) * 0.9)
+      ) {
         formats <- stri_replace_all_fixed(
           formats,
           "yyyy",
           "yy"
         )
-      } else if (sum(stri_detect_regex(time, "\\b\\d{4}-\\d+-\\d{1,2}")) >
-                 (length(time) * 0.9)) {
+      } else if (
+        sum(stri_detect_regex(time, "\\b\\d{4}-\\d+-\\d{1,2}")) >
+          (length(time) * 0.9)
+      ) {
         formats <- stri_replace_all_fixed(
           formats,
           "dd-MM-yyyy",
@@ -291,34 +322,37 @@ rwa_parse_time <- function(time, format, tz) {
       )
     }
     test <- sapply(formats, function(f) {
-      test <- stri_datetime_parse(str = head(time, n = 1000),
-                                  format = f,
-                                  lenient = FALSE,
-                                  tz = tz)
+      test <- stri_datetime_parse(
+        str = head(time, n = 1000),
+        format = f,
+        lenient = FALSE,
+        tz = tz
+      )
       sum(is.na(test))
     })
     format <- names(which.min(test))
   }
 
-  time <- stri_datetime_parse(str = time,
-                              format = format,
-                              tz = tz)
+  time <- stri_datetime_parse(str = time, format = format, tz = tz)
 
   return(time)
 }
 
 # creates status message and exports start_time if not in parent environment yet
-status <- function(...,
-                   sep = "",
-                   appendLF = TRUE,
-                   ppfix = "...",
-                   indent = "\t") {
-
+status <- function(
+  ...,
+  sep = "",
+  appendLF = TRUE,
+  ppfix = "...",
+  indent = "\t"
+) {
   if (exists("start_time", envir = parent.frame())) {
     start_time <- mget("start_time", envir = parent.frame())[[1]]
     diff <- format((Sys.time() - start_time), digits = 2, nsmall = 2)
-    message(paste(indent, ppfix, ..., " [", diff, "]", sep = sep),
-            appendLF = appendLF)
+    message(
+      paste(indent, ppfix, ..., " [", diff, "]", sep = sep),
+      appendLF = appendLF
+    )
   } else {
     export <- Sys.time()
     start_time <- export
@@ -334,16 +368,10 @@ status <- function(...,
 # safely test if files exist
 f_exist_s <- function(x) {
   url_exist <- isTRUE(any(
-    tryCatch(sapply(x, url),
-             error = function(e) {
-
-             })
+    tryCatch(sapply(x, url), error = function(e) {})
   ))
   files_exist <- isTRUE(any(
-    tryCatch(file.exists(x),
-             error = function(e) {
-
-             })
+    tryCatch(file.exists(x), error = function(e) {})
   ))
   url_exist || files_exist
 }

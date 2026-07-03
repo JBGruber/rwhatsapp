@@ -10,8 +10,7 @@
 #' @param ... not currently used.
 #'
 #' @importFrom tibble tibble add_column
-#' @importFrom stringi stri_replace_all_regex stri_replace_all_charclass
-#'   stri_split_boundaries
+#' @importFrom stringi stri_replace_all_regex stri_replace_all_charclass stri_split_boundaries
 #' @export
 lookup_emoji <- function(x, ...) {
   UseMethod("lookup_emoji")
@@ -20,7 +19,6 @@ lookup_emoji <- function(x, ...) {
 #' @rdname lookup_emoji
 #' @export
 lookup_emoji.data.frame <- function(x, text_field = "text", ...) {
-
   text <- x[[text_field]]
 
   emojis <- lookup_emoji(text)
@@ -34,24 +32,26 @@ lookup_emoji.data.frame <- function(x, text_field = "text", ...) {
 #' @rdname lookup_emoji
 #' @export
 lookup_emoji.character <- function(x, ...) {
-
   id <- seq_along(x)
   text <- stri_replace_all_charclass(x, "[[:punct:][:whitespace:]]", "")
   l <- stri_split_boundaries(text, type = "character")
 
   lookup <- tibble(id = rep(id, sapply(l, length)), emoji = unlist(l))
 
-  lookup <- add_column(lookup,
-                       emoji_name = rwhatsapp::emojis$name[
-                         match(lookup$emoji,
-                               rwhatsapp::emojis$emoji)
-                       ])
+  lookup <- add_column(
+    lookup,
+    emoji_name = rwhatsapp::emojis$name[
+      match(lookup$emoji, rwhatsapp::emojis$emoji)
+    ]
+  )
 
   lookup <- lookup[!is.na(lookup$emoji_name), ]
 
-  lookup <- tibble(id = unique(lookup$id),
-                   emoji = unname(split(lookup$emoji, lookup$id)),
-                   emoji_name = unname(split(lookup$emoji_name, lookup$id)))
+  lookup <- tibble(
+    id = unique(lookup$id),
+    emoji = unname(split(lookup$emoji, lookup$id)),
+    emoji_name = unname(split(lookup$emoji_name, lookup$id))
+  )
 
   out <- tibble(
     id = id,
