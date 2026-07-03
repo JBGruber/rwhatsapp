@@ -14,3 +14,10 @@ README_cache
 ^README\.Rmd$
 ^\.github$
 ^CRAN-SUBMISSION$
+^CITATION.cff$
+^ExampleChat.txt$
+^_quarto.yml$
+^.quarto$
+^binder$
+^methodshub.qmd$
+^LICENSE\.md$
