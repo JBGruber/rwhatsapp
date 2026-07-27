@@ -96,9 +96,9 @@ We are now able to extract i.E. how many messages were sent per day or on a spec
 ```{r}
 theme_set(theme_minimal())
 
-chat |>
-  mutate(day = date(time)) |>
-  count(day) |>
+chat %>%
+  mutate(day = date(time)) %>%
+  count(day) %>%
   ggplot(aes(day, n)) +
   geom_col() +
   labs(
@@ -112,8 +112,8 @@ chat |>
 ### Messages per author
 If we want to split the message count, we can use the following feature to check how many messages were sent by each author:
 ```{r}
-chat |>
-  count(author) |>
+chat %>%
+  count(author) %>%
   ggplot(aes(x = reorder(author, n), y = n)) +
   geom_col() +
   coord_flip() +
@@ -128,28 +128,28 @@ chat |>
 ### Emoji exploration
 Sometimes it is of interest, which and how often emojis are used in a given chat. By using the following code chunk we can examine this further:
 ```{r}
-chat |>
-  unnest(emoji) |>
-  count(author, emoji, sort = TRUE) |>
+chat %>%
+  unnest(emoji) %>%
+  count(author, emoji, sort = TRUE) %>%
   rename(
     Author = author,
     Emoji = emoji,
     Frequency = n
-  ) |>
+  ) %>%
   knitr::kable()
 ```
 
 ### Token-based exploration
 We may also try to see how often a given author used a specific word/wording. By using the following code chunk we can examine this further:
 ```{r}
-chat |>
-  tidytext::unnest_tokens(input = text, output = word) |>
-  count(author, word, sort = TRUE) |>
+chat %>%
+  tidytext::unnest_tokens(input = text, output = word) %>%
+  count(author, word, sort = TRUE) %>%
   rename(
     Author = author,
     Word = word,
     Frequency = n
-  ) |>
+  ) %>%
   select(Author, Word, Frequency)
 ```
 This is not very useful at this point, because the analysis is "polluted" with words like "the", "a" or "omitted". How to remove those words in order to make the analysis more fruitful will be shown in the next chapter. 
